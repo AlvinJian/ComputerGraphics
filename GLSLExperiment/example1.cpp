@@ -16,7 +16,7 @@ void shaderSetup( void );
 void display( void );
 void keyboard( unsigned char key, int x, int y );
 
-typedef vec2 point2;
+typedef Angel::vec2 point2;
 
 using namespace std;
 
@@ -52,7 +52,7 @@ void initGPUBuffers( void )
 void shaderSetup( void )
 {
 	// Load shaders and use the resulting shader program
-    program = InitShader( "vshader1.glsl", "fshader1.glsl" );
+    program = Angel::InitShader( "vshader1.glsl", "fshader1.glsl" );
     glUseProgram( program );
 
     // Initialize the vertex position attribute from the vertex shader
@@ -84,7 +84,7 @@ void keyboard( unsigned char key, int x, int y )
     }
 }
 
-
+#if 0
 int main( int argc, char **argv )
 {
 	// main function: program starts here
@@ -112,3 +112,4 @@ int main( int argc, char **argv )
     glutMainLoop();
     return 0;
 }
+#endif

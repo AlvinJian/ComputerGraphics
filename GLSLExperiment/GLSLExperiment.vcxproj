@@ -86,12 +86,15 @@
   <ItemGroup>
     <ClCompile Include="example1.cpp" />
     <ClCompile Include="InitShader.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="SierpinskiGasket.cpp" />
     <ClCompile Include="textfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="mat.h" />
+    <ClInclude Include="SierpinskiGasket.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="vec.h" />
   </ItemGroup>

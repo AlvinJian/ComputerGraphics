@@ -24,6 +24,12 @@
     <ClCompile Include="example1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SierpinskiGasket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="textfile.h">
@@ -39,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CheckError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SierpinskiGasket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
