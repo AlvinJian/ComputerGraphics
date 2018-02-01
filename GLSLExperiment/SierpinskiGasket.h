@@ -6,6 +6,8 @@ namespace assignment1 {
 	class SierpinskiGasket
 	{
 	public:
+		static void Draw();
+
 		explicit SierpinskiGasket();
 		~SierpinskiGasket();
 
