@@ -89,14 +89,24 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SierpinskiGasket.cpp" />
     <ClCompile Include="textfile.cpp" />
+    <ClCompile Include="GRS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
     <ClInclude Include="CheckError.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="SierpinskiGasket.h" />
     <ClInclude Include="textfile.h" />
+    <ClInclude Include="GRS.h" />
     <ClInclude Include="vec.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dragon.dat" />
+    <None Include="fshader1.glsl" />
+    <None Include="usa.dat" />
+    <None Include="vinci.dat" />
+    <None Include="vshader1.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
