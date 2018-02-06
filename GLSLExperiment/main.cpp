@@ -13,10 +13,8 @@ int main(int argc, char* argv[]) {
 
 	glewInit();
 
-	//assignment1::SierpinskiGasket::Draw();
-	//std::string f = "dragon.dat";
-	//assignment1::GRSData::Draw(f);
-	assignment1::KochSnowflake::Draw(4);
+	assignment1::KochSnowflake::Draw(DEFAULT_KOCH_ITER);
 
+	glutMainLoop();
 	return 0;
 }

@@ -86,6 +86,7 @@
   <ItemGroup>
     <ClCompile Include="example1.cpp" />
     <ClCompile Include="InitShader.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="KochSnowflake.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SierpinskiGasket.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="Angel.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="KochSnowflake.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="SierpinskiGasket.h" />

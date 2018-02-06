@@ -1,8 +1,9 @@
-#include "KochSnowflake.h"
-#include "Config.h"
 #include <cmath>
 #include <vector>
 #include <iterator>
+#include "KochSnowflake.h"
+#include "Config.h"
+#include "Input.h"
 
 using namespace assignment1;
 
@@ -71,6 +72,10 @@ Angel::vec2 KochSnowflake::rotByMinus60Degree(const Angel::vec2& inVec)
 
 void KochSnowflake::Draw(int iteration)
 {
+	if (iteration < 1)
+	{
+		return;
+	}
 	KochSnowflake snowFlake(Angel::vec2(0.0, INI_LEN),
 		Angel::vec2(-INI_LEN, -INI_LEN), Angel::vec2(INI_LEN, -INI_LEN));
 	while (snowFlake.iterLevel() < iteration)
@@ -106,28 +111,33 @@ void KochSnowflake::Draw(int iteration)
 	glClearColor(1.0, 1.0, 1.0, 1.0);        // sets white as color used to clear screen
 
 
-	static int numOfPts = points.size();
+	static size_t numOfPts = 0;
+	numOfPts = points.size();
 	auto display = [](void) {
+		std::cout << __FUNCTION__ << "numOfPts=" << numOfPts << std::endl;
 		// All drawing happens in display function
 		glClear(GL_COLOR_BUFFER_BIT);                // clear window
 		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		glDrawArrays(GL_LINE_LOOP, 0, numOfPts);    // draw the points
-		glFlush();										// force output to graphics hardware
+		auto err = glGetError();
+		std::cout << __FUNCTION__ << "err=" << err << std::endl;
+		glFlush();	// force output to graphics hardware
 		return;
 	};
 
-	auto keyboard = [](unsigned char key, int x, int y) {
+	/* auto keyboard = [](unsigned char key, int x, int y) {
+		std::cout << "key=" << key << std::endl;
 		// keyboard handler
 		switch (key) {
 		case 033:			// 033 is Escape key octal value
 			exit(1);		// quit program
 			break;
 		}
-	};
+	}; */
 
 	glutDisplayFunc(display); // Register display callback function
-	glutKeyboardFunc(keyboard); // Register keyboard callback function
+	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
 
 								// enter the drawing loop
-	glutMainLoop();
+	// glutMainLoop();
 }

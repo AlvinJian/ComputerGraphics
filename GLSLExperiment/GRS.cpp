@@ -1,9 +1,10 @@
-#include "GRS.h"
 #include <fstream>
 #include <sstream>
 #include <memory>
 #include <numeric>
+#include "GRS.h"
 #include "Config.h"
+#include "Input.h"
 
 using namespace assignment1;
 
@@ -21,6 +22,7 @@ GRSData::GRSData()
 
 GRSData::~GRSData()
 {
+	std::cout << __FUNCTION__ << std::endl;
 }
 
 GRSData* GRSParser::parse(const std::string& path)
@@ -138,8 +140,9 @@ float GRSData::getHeight() const
 void GRSData::Draw(std::string& filePath)
 {
 	GRSParser parser;
-	std::unique_ptr<GRSData> pdata(parser.parse(filePath));
-	GRSData& data = *(pdata.get());
+	static std::unique_ptr<GRSData> dataPtr(nullptr);
+	dataPtr = std::unique_ptr<GRSData>(parser.parse(filePath));
+	GRSData& data = *(dataPtr.get());
 
 	// init GPU buffer
 	// Create a vertex array object
@@ -171,8 +174,6 @@ void GRSData::Draw(std::string& filePath)
 
 	glBindVertexArray(0);
 
-	static const GRSData* dataPtr = nullptr;
-	dataPtr = pdata.get();
 	auto display = [](void) {
 		std::cout << "display" << std::endl;
 		// All drawing happens in display function
@@ -184,7 +185,6 @@ void GRSData::Draw(std::string& filePath)
 		int y = (0 - h) / 2;
 		glViewport(x, y, w, h);
 		glBindVertexArray(vao);
-#if 1
 		const std::vector<int>& polySegment = dataPtr->getPolySegmentSize();
 		std::vector<GLint> offsets(polySegment.size());
 		int offset = 0;
@@ -195,29 +195,24 @@ void GRSData::Draw(std::string& filePath)
 		}
 		glMultiDrawArrays(GL_LINE_STRIP, offsets.data(), polySegment.data(), polySegment.size());
 		auto err = glGetError();
-		std::cout << "err=" << err << std::endl;
+		std::cout << __FUNCTION__ << "err=" << err << std::endl;
 		glFlush();
-#endif
-#if 0
-		glDrawArrays(GL_LINE_STRIP, 0, dataPtr->size());
-		glFlush();
-#endif
 		glBindVertexArray(0);
 		return;
 	};
 
-	auto keyboard = [](unsigned char key, int x, int y) {
+	/* auto keyboard = [](unsigned char key, int x, int y) {
 		// keyboard handler
 		switch (key) {
 		case 033:			// 033 is Escape key octal value
 			exit(1);		// quit program
 			break;
 		}
-	};
+	}; */
 
 	glutDisplayFunc(display); // Register display callback function
-	glutKeyboardFunc(keyboard); // Register keyboard callback function
+	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
 
 								// enter the drawing loop
-	glutMainLoop();
+	// glutMainLoop();
 }

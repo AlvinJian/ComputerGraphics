@@ -1,4 +1,6 @@
 #include "SierpinskiGasket.h"
+#include "Config.h"
+#include "Input.h"
 
 using namespace assignment1;
 
@@ -111,23 +113,26 @@ void SierpinskiGasket::Draw()
 	auto display = [](void) {
 		// All drawing happens in display function
 		glClear(GL_COLOR_BUFFER_BIT);                // clear window
+		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		glDrawArrays(GL_TRIANGLES, 0, numOfPts);    // draw the points
-		glFlush();										// force output to graphics hardware
+		auto err = glGetError();
+		std::cout << __FUNCTION__ << "err=" << err << std::endl;
+		glFlush();	// force output to graphics hardware
 		return;
 	};
 
-	auto keyboard = [](unsigned char key, int x, int y) {
+	/* auto keyboard = [](unsigned char key, int x, int y) {
 		// keyboard handler
 		switch (key) {
 		case 033:			// 033 is Escape key octal value
 			exit(1);		// quit program
 			break;
 		}
-	};
+	}; */
 
 	glutDisplayFunc(display); // Register display callback function
-	glutKeyboardFunc(keyboard); // Register keyboard callback function
+	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
 
 	// enter the drawing loop
-	glutMainLoop();
+	// glutMainLoop();
 }

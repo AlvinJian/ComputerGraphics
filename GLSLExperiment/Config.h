@@ -5,3 +5,5 @@
 
 #define WINDOW_POS_X 150
 #define WINDOW_POS_Y 150
+
+#define DEFAULT_KOCH_ITER 3
