@@ -2,6 +2,7 @@
 #include "SierpinskiGasket.h"
 #include "GRS.h"
 #include "Config.h"
+#include "KochSnowflake.h"
 
 int main(int argc, char* argv[]) {
 	glutInit(&argc, argv);
@@ -13,8 +14,9 @@ int main(int argc, char* argv[]) {
 	glewInit();
 
 	//assignment1::SierpinskiGasket::Draw();
-	std::string f = "dragon.dat";
-	assignment1::GRSData::Draw(f);
+	//std::string f = "dragon.dat";
+	//assignment1::GRSData::Draw(f);
+	assignment1::KochSnowflake::Draw(4);
 
 	return 0;
 }
