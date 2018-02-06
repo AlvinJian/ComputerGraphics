@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <memory>
+#include <numeric>
 #include "Config.h"
 
 using namespace assignment1;
@@ -34,7 +35,7 @@ GRSData* GRSParser::parse(const std::string& path)
 	const unsigned char POLY_PT = 3;
 
 	unsigned char state = COMMENT;
-	size_t ptNum = 0;
+	int ptNum = 0;
 	while (std::getline(f, buffer))
 	{
 		switch (state)
@@ -95,6 +96,9 @@ GRSData* GRSParser::parse(const std::string& path)
 			break;
 		}
 	}
+
+	//int t = std::accumulate(data->polySegment.begin(), data->polySegment.end(), 0);
+
 	if (data->numOfPolySegment != data->polySegment.size())
 	{
 		std::cerr << "Err: data->numOfPolySegment != data->polySegment.size()" << std::endl;
@@ -116,7 +120,7 @@ size_t GRSData::size() const
 	return polylines.size();
 }
 
-const std::vector<size_t>& GRSData::getPolySegmentSize() const
+const std::vector<int>& GRSData::getPolySegmentSize() const
 {
 	return polySegment;
 }
@@ -139,12 +143,12 @@ void GRSData::Draw(std::string& filePath)
 
 	// init GPU buffer
 	// Create a vertex array object
-	GLuint vao;
+	static GLuint vao = 0;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	// Create and initialize a buffer object
-	GLuint buffer;
+	static GLuint buffer = 0;
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Angel::vec2) * data.size(),
@@ -152,19 +156,25 @@ void GRSData::Draw(std::string& filePath)
 
 	// setup shader
 	// Load shaders and use the resulting shader program
-	auto program = Angel::InitShader("vshader1.glsl", "fshader1.glsl");
+	static GLuint program = 0;
+	program = Angel::InitShader("vshader1.glsl", "fshader1.glsl");
 	glUseProgram(program);
 
 	// Initialize the vertex position attribute from the vertex shader
-	GLuint loc = glGetAttribLocation(program, "vPosition");
+	static GLuint loc = 0;
+	loc = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(loc);
 	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	std::cout << "loc=" << loc << std::endl;
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);        // sets white as color used to clear screen
+
+	glBindVertexArray(0);
 
 	static const GRSData* dataPtr = nullptr;
 	dataPtr = pdata.get();
 	auto display = [](void) {
+		std::cout << "display" << std::endl;
 		// All drawing happens in display function
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		float hWratio = dataPtr->getHeight() / dataPtr->getWidth();
@@ -173,23 +183,26 @@ void GRSData::Draw(std::string& filePath)
 		int x = (0 - w) / 2;
 		int y = (0 - h) / 2;
 		glViewport(x, y, w, h);
-#if 0
-		const std::vector<size_t>& polySegment = dataPtr->getPolySegmentSize();
+		glBindVertexArray(vao);
+#if 1
+		const std::vector<int>& polySegment = dataPtr->getPolySegmentSize();
+		std::vector<GLint> offsets(polySegment.size());
+		int offset = 0;
 		for (auto i = 0; i < polySegment.size(); ++i)
 		{
-			size_t offset = 0;
-			if (i > 0)
-			{
-				offset = polySegment[i - 1];
-			}
-			glDrawArrays(GL_LINE_LOOP, offset, polySegment[i]);
-			glFlush();
+			offset = (i > 0)? offset+polySegment[i - 1]: 0;
+			offsets[i] = offset;
 		}
+		glMultiDrawArrays(GL_LINE_STRIP, offsets.data(), polySegment.data(), polySegment.size());
+		auto err = glGetError();
+		std::cout << "err=" << err << std::endl;
+		glFlush();
 #endif
-#if 1
+#if 0
 		glDrawArrays(GL_LINE_STRIP, 0, dataPtr->size());
 		glFlush();
 #endif
+		glBindVertexArray(0);
 		return;
 	};
 

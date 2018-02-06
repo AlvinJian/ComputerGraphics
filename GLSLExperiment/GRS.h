@@ -21,7 +21,7 @@ namespace assignment1 {
 
 		~GRSData();
 		size_t size() const;
-		const std::vector<size_t>& getPolySegmentSize() const;
+		const std::vector<int>& getPolySegmentSize() const;
 		const Angel::vec2& operator [] (int i) const;
 		float getWidth() const;
 		float getHeight() const;
@@ -33,7 +33,7 @@ namespace assignment1 {
 		float marginRight;
 		float marginBottom;
 		size_t numOfPolySegment;
-		std::vector<size_t> polySegment;
+		std::vector<int> polySegment;
 		std::vector<Angel::vec2> polylines;
 	};
 }
