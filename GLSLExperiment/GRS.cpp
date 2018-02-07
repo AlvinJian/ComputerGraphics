@@ -239,7 +239,5 @@ void GRSData::Draw(std::string& filePath)
 	};
 
 	glutReshapeFunc(reshape);
-
 	glutDisplayFunc(display); // Register display callback function
-	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
 }

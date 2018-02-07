@@ -2,6 +2,7 @@
 #include "SierpinskiGasket.h"
 #include "GRS.h"
 #include "Config.h"
+#include "Input.h"
 #include "KochSnowflake.h"
 
 int main(int argc, char* argv[]) {
@@ -14,6 +15,7 @@ int main(int argc, char* argv[]) {
 	glewInit();
 
 	assignment1::ViewportConfig::Init();
+	glutKeyboardFunc(assignment1::Input::KbEventHandler);
 	assignment1::KochSnowflake::Draw(DEFAULT_KOCH_ITER);
 
 	glutMainLoop();

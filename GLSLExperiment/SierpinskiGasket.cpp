@@ -130,7 +130,5 @@ void SierpinskiGasket::Draw()
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 
 	glutReshapeFunc(reshape);
-
 	glutDisplayFunc(display); // Register display callback function
-	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
 }
