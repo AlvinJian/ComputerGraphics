@@ -115,13 +115,12 @@ void SierpinskiGasket::Draw()
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);        // sets white as color used to clear screen
 
-	static int width = std::min(WINDOW_WIDTH, WINDOW_HEIGHT);
-	static int height = std::min(WINDOW_WIDTH, WINDOW_HEIGHT);
-
 	static int numOfPts = points.size();
 	auto display = [](void) {
 		// All drawing happens in display function
-		glClear(GL_COLOR_BUFFER_BIT);                // clear window
+		glClear(GL_COLOR_BUFFER_BIT); // clear window
+		int width = ViewportConfig::GetWidth();
+		int height = ViewportConfig::GetHeight();
 		glViewport(0, 0, width, height);
 		glDrawArrays(GL_TRIANGLES, 0, numOfPts);    // draw the points
 		auto err = glGetError();
@@ -131,11 +130,12 @@ void SierpinskiGasket::Draw()
 	};
 
 	auto reshape = [](int w, int h) {
-		width = std::min(w, h);
-		height = std::min(w, h);
+		int width = std::min(w, h);
+		int height = std::min(w, h);
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
-		glViewport(0, 0, width, height);
+		ViewportConfig::SetSize(width, height);
 	};
+	reshape(ViewportConfig::GetWidth(), ViewportConfig::GetHeight());
 
 	glutReshapeFunc(reshape);
 

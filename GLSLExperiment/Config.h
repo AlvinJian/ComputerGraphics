@@ -11,19 +11,19 @@
 #define TILING_NUM 4
 
 namespace assignment1 {
-	// TODO
-	class WindowState
+	class ViewportConfig
 	{
 	public:
+		static void Init();
 		static void SetSize(int w, int h);
 		static int GetWidth();
 		static int GetHeight();
-		~WindowState()
+		~ViewportConfig()
 		{
 		}
 
 	private:
-		WindowState():
+		ViewportConfig():
 			width(WINDOW_WIDTH),
 			height(WINDOW_HEIGHT)
 		{

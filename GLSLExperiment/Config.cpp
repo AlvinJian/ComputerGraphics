@@ -1,17 +1,35 @@
 #include "Config.h"
+#include <iostream>
 
 using namespace assignment1;
 
-void WindowState::SetSize(int w, int h)
+static ViewportConfig* instance = nullptr;
+
+void ViewportConfig::Init()
 {
+	if (instance == nullptr)
+	{
+		instance = new ViewportConfig();
+	}
 }
 
-int WindowState::GetWidth()
+void ViewportConfig::SetSize(int w, int h)
 {
-	return -1;
+	if (instance == nullptr) return;
+	instance->width = w;
+	instance->height = h;
+	std::cout << __FUNCTION__ << " w=" << w << std::endl;
+	std::cout << __FUNCTION__ << " h=" << h<< std::endl;
 }
 
-int WindowState::GetHeight()
+int ViewportConfig::GetWidth()
 {
-	return -1;
+	if (instance == nullptr) return -1;
+	return instance->width;
+}
+
+int ViewportConfig::GetHeight()
+{
+	if (instance == nullptr) return -1;
+	return instance->height;
 }

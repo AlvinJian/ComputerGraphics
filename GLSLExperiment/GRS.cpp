@@ -181,11 +181,11 @@ void GRSData::Draw(std::string& filePath)
 
 	glBindVertexArray(0);
 
-	static int width = -1;
-	static int height = -1;
 	auto reshape = [](int w, int h) {
-		width = w; // std::min(w, h);
-		height = h; // std::min(w, h);
+		std::cout << __FUNCTION__ << std::endl;
+		std::cout << "w=" << w << ", h=" << h << std::endl;
+		int width = w;
+		int height = h;
 		if (dataPtr.get() != nullptr) {
 			float imgRatio = dataPtr->getWidth() / dataPtr->getHeight();
 			float winRatio = ((float)w) / ((float)h);
@@ -202,13 +202,11 @@ void GRSData::Draw(std::string& filePath)
 				height = w * r; // w * H/W
 			}
 		}
-		glClear(GL_COLOR_BUFFER_BIT); // clear window
-		glViewport(0, 0, width, height);
+		ViewportConfig::SetSize(width, height);
 	};
-	reshape(WINDOW_WIDTH, WINDOW_HEIGHT);
+	reshape(ViewportConfig::GetWidth(), ViewportConfig::GetHeight());
 
 	auto display = [](void) {
-		std::cout << "display" << std::endl;
 		// All drawing happens in display function
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		glBindVertexArray(vao);
@@ -220,8 +218,10 @@ void GRSData::Draw(std::string& filePath)
 			offset = (i > 0)? offset+polySegment[i - 1]: 0;
 			offsets[i] = offset;
 		}
-		int w = width / TILING_NUM;
-		int h = height / TILING_NUM;
+		int w = ViewportConfig::GetWidth() / TILING_NUM;
+		int h = ViewportConfig::GetHeight() / TILING_NUM;
+		std::cout << "w=" << w << ", ";
+		std::cout << "h=" << h << std::endl;
 		for (int i = 0; i < TILING_NUM; ++i)
 		{
 			for (int j = 0; j < TILING_NUM; ++j)

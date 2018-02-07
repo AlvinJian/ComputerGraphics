@@ -13,6 +13,7 @@ int main(int argc, char* argv[]) {
 
 	glewInit();
 
+	assignment1::ViewportConfig::Init();
 	assignment1::KochSnowflake::Draw(DEFAULT_KOCH_ITER);
 
 	glutMainLoop();

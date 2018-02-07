@@ -118,15 +118,14 @@ void KochSnowflake::Draw(int iteration)
 	glClearColor(1.0, 1.0, 1.0, 1.0);        // sets white as color used to clear screen
 
 
-	static int width = std::min(WINDOW_WIDTH, WINDOW_HEIGHT);
-	static int height = std::min(WINDOW_WIDTH, WINDOW_HEIGHT);
-
 	static size_t numOfPts = 0;
 	numOfPts = points.size();
 	auto display = [](void) {
 		std::cout << __FUNCTION__ << "numOfPts=" << numOfPts << std::endl;
 		// All drawing happens in display function
-		glClear(GL_COLOR_BUFFER_BIT);                // clear window
+		glClear(GL_COLOR_BUFFER_BIT); // clear window
+		int width = ViewportConfig::GetWidth();
+		int height = ViewportConfig::GetHeight();
 		glViewport(0, 0, width, height);
 		glDrawArrays(GL_LINE_LOOP, 0, numOfPts);    // draw the points
 		auto err = glGetError();
@@ -136,11 +135,12 @@ void KochSnowflake::Draw(int iteration)
 	};
 
 	auto reshape = [](int w, int h) {
-		width = std::min(w, h);
-		height = std::min(w, h);
+		int width = std::min(w, h);
+		int height = std::min(w, h);
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
-		glViewport(0, 0, width, height);
+		ViewportConfig::SetSize(width, height);
 	};
+	reshape(ViewportConfig::GetWidth(), ViewportConfig::GetHeight());
 
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display); // Register display callback function
