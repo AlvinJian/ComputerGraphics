@@ -140,7 +140,7 @@ void KochSnowflake::Draw(int iteration)
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		ViewportConfig::SetSize(width, height);
 	};
-	reshape(ViewportConfig::GetWidth(), ViewportConfig::GetHeight());
+	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display); // Register display callback function

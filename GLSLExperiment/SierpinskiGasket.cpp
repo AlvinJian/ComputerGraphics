@@ -52,16 +52,8 @@ void SierpinskiGasket::divideTriangle(SierpinskiGasket::Triangle& tri)
 
 }
 
-const std::vector<Angel::vec2>& SierpinskiGasket::getVertexData() const
+const std::vector<Angel::vec2>& SierpinskiGasket::getVertices() const
 {
-	/* if (allVertices.size() > 0)
-	{
-		return allVertices.data();
-	}
-	else
-	{
-		return nullptr;
-	} */
 	return allVertices;
 }
 
@@ -82,7 +74,7 @@ void SierpinskiGasket::Draw()
 {
 	SierpinskiGasket gasket;
 	gasket.generateTriangles(0.08f);
-	auto points = gasket.getVertexData();
+	auto points = gasket.getVertices();
 
 	// init GPU buffer
 	// Create a vertex array object
@@ -135,7 +127,7 @@ void SierpinskiGasket::Draw()
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		ViewportConfig::SetSize(width, height);
 	};
-	reshape(ViewportConfig::GetWidth(), ViewportConfig::GetHeight());
+	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 
 	glutReshapeFunc(reshape);
 

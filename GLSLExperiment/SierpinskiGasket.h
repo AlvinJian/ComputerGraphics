@@ -12,7 +12,7 @@ namespace assignment1 {
 		~SierpinskiGasket();
 
 		void generateTriangles(float min);
-		const std::vector<Angel::vec2>& getVertexData() const;
+		const std::vector<Angel::vec2>& getVertices() const;
 
 	private:
 		float minLen;

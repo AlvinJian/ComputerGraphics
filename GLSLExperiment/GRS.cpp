@@ -204,7 +204,7 @@ void GRSData::Draw(std::string& filePath)
 		}
 		ViewportConfig::SetSize(width, height);
 	};
-	reshape(ViewportConfig::GetWidth(), ViewportConfig::GetHeight());
+	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 
 	auto display = [](void) {
 		// All drawing happens in display function
