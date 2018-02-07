@@ -2,6 +2,7 @@
 #include <sstream>
 #include <memory>
 #include <numeric>
+#include <algorithm>
 #include "GRS.h"
 #include "Config.h"
 #include "Input.h"
@@ -168,22 +169,49 @@ void GRSData::Draw(std::string& filePath)
 	loc = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(loc);
 	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	std::cout << "loc=" << loc << std::endl;
+	
+	// setup transformation
+	auto ortho = Angel::Ortho2D(data.marginsLeft, data.marginRight,
+		data.marginBottom, data.marginsTop);
+	static GLuint ProjLoc = 0; 
+	ProjLoc = glGetUniformLocation(program, "Proj");
+	glUniformMatrix4fv(ProjLoc, 1, GL_TRUE, ortho);
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);        // sets white as color used to clear screen
 
 	glBindVertexArray(0);
 
+	static int width = -1;
+	static int height = -1;
+	auto reshape = [](int w, int h) {
+		width = w; // std::min(w, h);
+		height = h; // std::min(w, h);
+		if (dataPtr.get() != nullptr) {
+			float imgRatio = dataPtr->getWidth() / dataPtr->getHeight();
+			float winRatio = ((float)w) / ((float)h);
+			if (winRatio > imgRatio)
+			{
+				// remain height
+				float r = dataPtr->getWidth() / dataPtr->getHeight();
+				width = h * r;// h * W/H
+			}
+			else
+			{
+				// remain width
+				float r = dataPtr->getHeight() / dataPtr->getWidth();
+				height = w * r; // w * H/W
+			}
+		}
+		glClear(GL_COLOR_BUFFER_BIT); // clear window
+		glViewport(0, 0, width, height);
+	};
+	reshape(WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	auto display = [](void) {
 		std::cout << "display" << std::endl;
 		// All drawing happens in display function
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
-		float hWratio = dataPtr->getHeight() / dataPtr->getWidth();
-		int w = WINDOW_WIDTH;
-		int h = static_cast<int>(WINDOW_WIDTH*hWratio);
-		int x = (0 - w) / 2;
-		int y = (0 - h) / 2;
-		glViewport(x, y, w, h);
+		glViewport(0, 0, width, height);
 		glBindVertexArray(vao);
 		const std::vector<int>& polySegment = dataPtr->getPolySegmentSize();
 		std::vector<GLint> offsets(polySegment.size());
@@ -201,14 +229,7 @@ void GRSData::Draw(std::string& filePath)
 		return;
 	};
 
-	/* auto keyboard = [](unsigned char key, int x, int y) {
-		// keyboard handler
-		switch (key) {
-		case 033:			// 033 is Escape key octal value
-			exit(1);		// quit program
-			break;
-		}
-	}; */
+	glutReshapeFunc(reshape);
 
 	glutDisplayFunc(display); // Register display callback function
 	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function

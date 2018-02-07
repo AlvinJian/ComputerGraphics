@@ -1,6 +1,7 @@
 #include <cmath>
 #include <vector>
 #include <iterator>
+#include <algorithm>
 #include "KochSnowflake.h"
 #include "Config.h"
 #include "Input.h"
@@ -108,8 +109,17 @@ void KochSnowflake::Draw(int iteration)
 	glEnableVertexAttribArray(loc);
 	glVertexAttribPointer(loc, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
+	// setup transformation
+	auto ortho = Angel::Ortho2D(-1.0f, 1.0f, -1.0f, 1.0f);
+	static GLuint ProjLoc = 0;
+	ProjLoc = glGetUniformLocation(program, "Proj");
+	glUniformMatrix4fv(ProjLoc, 1, GL_TRUE, ortho);
+
 	glClearColor(1.0, 1.0, 1.0, 1.0);        // sets white as color used to clear screen
 
+
+	static int width = std::min(WINDOW_WIDTH, WINDOW_HEIGHT);
+	static int height = std::min(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	static size_t numOfPts = 0;
 	numOfPts = points.size();
@@ -117,7 +127,7 @@ void KochSnowflake::Draw(int iteration)
 		std::cout << __FUNCTION__ << "numOfPts=" << numOfPts << std::endl;
 		// All drawing happens in display function
 		glClear(GL_COLOR_BUFFER_BIT);                // clear window
-		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		glViewport(0, 0, width, height);
 		glDrawArrays(GL_LINE_LOOP, 0, numOfPts);    // draw the points
 		auto err = glGetError();
 		std::cout << __FUNCTION__ << "err=" << err << std::endl;
@@ -125,16 +135,14 @@ void KochSnowflake::Draw(int iteration)
 		return;
 	};
 
-	/* auto keyboard = [](unsigned char key, int x, int y) {
-		std::cout << "key=" << key << std::endl;
-		// keyboard handler
-		switch (key) {
-		case 033:			// 033 is Escape key octal value
-			exit(1);		// quit program
-			break;
-		}
-	}; */
+	auto reshape = [](int w, int h) {
+		width = std::min(w, h);
+		height = std::min(w, h);
+		glClear(GL_COLOR_BUFFER_BIT); // clear window
+		glViewport(0, 0, width, height);
+	};
 
+	glutReshapeFunc(reshape);
 	glutDisplayFunc(display); // Register display callback function
 	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
 
