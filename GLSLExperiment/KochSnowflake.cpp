@@ -11,7 +11,7 @@ using namespace assignment1;
 
 KochSnowflake::KochSnowflake(Angel::vec2& pt1, 
 	Angel::vec2& pt2, Angel::vec2& pt3):
-	currentIter(1)
+	currentIter(BASE_KOCH_ITER)
 {
 	vertices.push_back(pt1);
 	vertices.push_back(pt2);
@@ -74,7 +74,7 @@ Angel::vec2 KochSnowflake::rotByMinus60Degree(const Angel::vec2& inVec)
 
 void KochSnowflake::Draw(int iteration)
 {
-	if (iteration < 1)
+	if (iteration < BASE_KOCH_ITER)
 	{
 		return;
 	}

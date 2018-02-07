@@ -30,9 +30,9 @@ void Input::KbEventHandler(unsigned char key, int x, int y)
 	case 'I':
 	{
 		++kochIter;
-		if (kochIter >= 6)
+		if (kochIter >= MAX_KOCH_ITER)
 		{
-			kochIter = 6;
+			kochIter = MAX_KOCH_ITER;
 		}
 		KochSnowflake::Draw(kochIter);
 	}
@@ -42,9 +42,9 @@ void Input::KbEventHandler(unsigned char key, int x, int y)
 	case 'R':
 	{
 		--kochIter;
-		if (kochIter < 1)
+		if (kochIter <= BASE_KOCH_ITER)
 		{
-			kochIter = 1;
+			kochIter = BASE_KOCH_ITER;
 		}
 		KochSnowflake::Draw(kochIter);
 	}

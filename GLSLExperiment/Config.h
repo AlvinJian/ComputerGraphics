@@ -7,6 +7,8 @@
 #define WINDOW_POS_Y 150
 
 #define DEFAULT_KOCH_ITER 3
+#define BASE_KOCH_ITER 0
+#define MAX_KOCH_ITER 6
 
 #define TILING_NUM 4
 
