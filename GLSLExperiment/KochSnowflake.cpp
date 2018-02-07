@@ -145,7 +145,4 @@ void KochSnowflake::Draw(int iteration)
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(display); // Register display callback function
 	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
-
-								// enter the drawing loop
-	// glutMainLoop();
 }

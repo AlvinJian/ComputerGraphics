@@ -8,6 +8,8 @@
 
 #define DEFAULT_KOCH_ITER 3
 
+#define TILING_NUM 4
+
 namespace assignment1 {
 	// TODO
 	class WindowState

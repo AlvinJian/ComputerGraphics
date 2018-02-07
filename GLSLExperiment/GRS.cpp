@@ -211,7 +211,6 @@ void GRSData::Draw(std::string& filePath)
 		std::cout << "display" << std::endl;
 		// All drawing happens in display function
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
-		glViewport(0, 0, width, height);
 		glBindVertexArray(vao);
 		const std::vector<int>& polySegment = dataPtr->getPolySegmentSize();
 		std::vector<GLint> offsets(polySegment.size());
@@ -221,7 +220,17 @@ void GRSData::Draw(std::string& filePath)
 			offset = (i > 0)? offset+polySegment[i - 1]: 0;
 			offsets[i] = offset;
 		}
-		glMultiDrawArrays(GL_LINE_STRIP, offsets.data(), polySegment.data(), polySegment.size());
+		int w = width / TILING_NUM;
+		int h = height / TILING_NUM;
+		for (int i = 0; i < TILING_NUM; ++i)
+		{
+			for (int j = 0; j < TILING_NUM; ++j)
+			{
+				glViewport(j*w, i*h, w, h);
+				glMultiDrawArrays(GL_LINE_STRIP, 
+					offsets.data(), polySegment.data(), polySegment.size());
+			}
+		}
 		auto err = glGetError();
 		std::cout << __FUNCTION__ << "err=" << err << std::endl;
 		glFlush();
@@ -233,7 +242,4 @@ void GRSData::Draw(std::string& filePath)
 
 	glutDisplayFunc(display); // Register display callback function
 	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
-
-								// enter the drawing loop
-	// glutMainLoop();
 }

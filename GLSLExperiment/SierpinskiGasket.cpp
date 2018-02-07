@@ -141,7 +141,4 @@ void SierpinskiGasket::Draw()
 
 	glutDisplayFunc(display); // Register display callback function
 	glutKeyboardFunc(Input::KbEventHandler); // Register keyboard callback function
-
-	// enter the drawing loop
-	// glutMainLoop();
 }
