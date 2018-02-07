@@ -16,8 +16,11 @@ namespace assignment1 {
 	public:
 		static void Init();
 		static void SetSize(int w, int h);
+		static void SetPos(int x, int y);
 		static int GetWidth();
 		static int GetHeight();
+		static int GetPosX();
+		static int GetPosY();
 		~ViewportConfig()
 		{
 		}
@@ -25,11 +28,13 @@ namespace assignment1 {
 	private:
 		ViewportConfig():
 			width(WINDOW_WIDTH),
-			height(WINDOW_HEIGHT)
+			height(WINDOW_HEIGHT),
+			x(0), y(0)
 		{
 		}
 
 		int width;
 		int height;
+		int x, y;
 	};
 }

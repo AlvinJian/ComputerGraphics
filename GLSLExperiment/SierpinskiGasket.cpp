@@ -5,7 +5,7 @@
 
 using namespace assignment1;
 
-#define INI_LEN 0.9
+#define INI_LEN 1.5
 
 SierpinskiGasket::SierpinskiGasket()
 {
@@ -19,8 +19,9 @@ SierpinskiGasket::~SierpinskiGasket()
 void SierpinskiGasket::generateTriangles(float min)
 {
 	minLen = min;
-	Triangle tri{Angel::vec2(0.0, INI_LEN) ,
-		Angel::vec2(-INI_LEN, -INI_LEN) , Angel::vec2(INI_LEN, -INI_LEN) };
+	Triangle tri{ Angel::vec2(0.0, INI_LEN / std::sqrtf(3.0f) - 0.2f),
+		Angel::vec2(-0.5f*INI_LEN, -0.5f*INI_LEN / std::sqrtf(3.0f) - 0.2f),
+		Angel::vec2(0.5f*INI_LEN, -0.5f*INI_LEN / std::sqrtf(3.0f) - 0.2f) };
 	divideTriangle(tri);
 }
 
@@ -113,7 +114,8 @@ void SierpinskiGasket::Draw()
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		int width = ViewportConfig::GetWidth();
 		int height = ViewportConfig::GetHeight();
-		glViewport(0, 0, width, height);
+		glViewport(ViewportConfig::GetPosX(), ViewportConfig::GetPosY(), 
+			width, height);
 		glDrawArrays(GL_TRIANGLES, 0, numOfPts);    // draw the points
 		auto err = glGetError();
 		std::cout << __FUNCTION__ << "err=" << err << std::endl;
@@ -126,6 +128,7 @@ void SierpinskiGasket::Draw()
 		int height = std::min(w, h);
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		ViewportConfig::SetSize(width, height);
+		ViewportConfig::SetPos((w - width) / 2, (h - height) / 2);
 	};
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 

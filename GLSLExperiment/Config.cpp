@@ -25,11 +25,33 @@ void ViewportConfig::SetSize(int w, int h)
 int ViewportConfig::GetWidth()
 {
 	if (instance == nullptr) return -1;
-	return instance->width;
+	else return instance->width;
 }
 
 int ViewportConfig::GetHeight()
 {
 	if (instance == nullptr) return -1;
-	return instance->height;
+	else return instance->height;
+}
+
+void ViewportConfig::SetPos(int x, int y)
+{
+	if (instance == nullptr) return;
+	else
+	{
+		instance->x = x;
+		instance->y = y;
+	}
+}
+
+int ViewportConfig::GetPosX()
+{
+	if (instance == nullptr) return -1;
+	else return instance->x;
+}
+
+int ViewportConfig::GetPosY()
+{
+	if (instance == nullptr) return -1;
+	else return instance->y;
 }

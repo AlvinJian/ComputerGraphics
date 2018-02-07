@@ -2,6 +2,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <cmath>
 #include "KochSnowflake.h"
 #include "Config.h"
 #include "Input.h"
@@ -69,7 +70,7 @@ Angel::vec2 KochSnowflake::rotByMinus60Degree(const Angel::vec2& inVec)
 	return rotMat * inVec;
 }
 
-#define INI_LEN 0.55f
+#define INI_LEN 1.5f
 
 void KochSnowflake::Draw(int iteration)
 {
@@ -77,8 +78,9 @@ void KochSnowflake::Draw(int iteration)
 	{
 		return;
 	}
-	KochSnowflake snowFlake(Angel::vec2(0.0, INI_LEN),
-		Angel::vec2(-INI_LEN, -INI_LEN), Angel::vec2(INI_LEN, -INI_LEN));
+	KochSnowflake snowFlake(Angel::vec2(0.0, INI_LEN / std::sqrtf(3.0f)),
+		Angel::vec2(-0.5f*INI_LEN, -0.5f*INI_LEN / std::sqrtf(3.0f)),
+		Angel::vec2(0.5f*INI_LEN, -0.5f*INI_LEN / std::sqrtf(3.0f)));
 	while (snowFlake.iterLevel() < iteration)
 	{
 		snowFlake.iterate();
@@ -126,7 +128,8 @@ void KochSnowflake::Draw(int iteration)
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		int width = ViewportConfig::GetWidth();
 		int height = ViewportConfig::GetHeight();
-		glViewport(0, 0, width, height);
+		glViewport(ViewportConfig::GetPosX(), ViewportConfig::GetPosY(), 
+			width, height);
 		glDrawArrays(GL_LINE_LOOP, 0, numOfPts);    // draw the points
 		auto err = glGetError();
 		std::cout << __FUNCTION__ << "err=" << err << std::endl;
@@ -139,6 +142,7 @@ void KochSnowflake::Draw(int iteration)
 		int height = std::min(w, h);
 		glClear(GL_COLOR_BUFFER_BIT); // clear window
 		ViewportConfig::SetSize(width, height);
+		ViewportConfig::SetPos((w - width) / 2, (h - height) / 2);
 	};
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 

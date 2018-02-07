@@ -203,6 +203,7 @@ void GRSData::Draw(std::string& filePath)
 			}
 		}
 		ViewportConfig::SetSize(width, height);
+		ViewportConfig::SetPos((w - width) / 2, (h - height) / 2);
 	};
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 
@@ -220,13 +221,15 @@ void GRSData::Draw(std::string& filePath)
 		}
 		int w = ViewportConfig::GetWidth() / TILING_NUM;
 		int h = ViewportConfig::GetHeight() / TILING_NUM;
+		int offsetX = ViewportConfig::GetPosX();
+		int offsetY = ViewportConfig::GetPosY();
 		std::cout << "w=" << w << ", ";
 		std::cout << "h=" << h << std::endl;
 		for (int i = 0; i < TILING_NUM; ++i)
 		{
 			for (int j = 0; j < TILING_NUM; ++j)
 			{
-				glViewport(j*w, i*h, w, h);
+				glViewport(offsetX+j*w, offsetY+i*h, w, h);
 				glMultiDrawArrays(GL_LINE_STRIP, 
 					offsets.data(), polySegment.data(), polySegment.size());
 			}
