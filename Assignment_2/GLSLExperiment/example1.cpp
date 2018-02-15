@@ -195,35 +195,37 @@ void keyboard( unsigned char key, int x, int y )
     }
 }
 
+#if 0
 //----------------------------------------------------------------------------
 // entry point
-int main( int argc, char **argv )
+int main(int argc, char **argv)
 {
 	// init glut
-    glutInit( &argc, argv );
-    glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
-    glutInitWindowSize( 512, 512 );
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitWindowSize(512, 512);
 	width = 512;
 	height = 512;
 
 	// create window
 	// opengl can be incorperated into other packages like wxwidgets, fltoolkit, etc.
-    glutCreateWindow( "Color Cube" );
+	glutCreateWindow("Color Cube");
 
 	// init glew
-    glewInit();
+	glewInit();
 
-    generateGeometry();
+	generateGeometry();
 
 	// assign handlers
-    glutDisplayFunc( display );
-    glutKeyboardFunc( keyboard );
+	glutDisplayFunc(display);
+	glutKeyboardFunc(keyboard);
 	// should add menus
 	// add mouse handler
 	// add resize window functionality (should probably try to preserve aspect ratio)
 
 	// enter the drawing loop
 	// frame rate can be controlled with 
-    glutMainLoop();
-    return 0;
+	glutMainLoop();
+	return 0;
 }
+#endif // 0
