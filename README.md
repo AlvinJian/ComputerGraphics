@@ -9,7 +9,8 @@ A simple program displaying a series of images. Use following keys to change ima
 * **key D** : Clear window and draw a 4x4 tiling of the dragon polyline
 * **key V** : Clear window and draw a 4x4 tiling of the Vinci polyline
 
-DEMO :
+DEMO
+
 | Koch snowflake | Sierpinski Gasket | Tiling US Map |
 |:---:|:---:|:---:|
 | ![Koch snowflake](Assignment_1/KochFlake.PNG) | ![SierpinskiGasket](Assignment_1/SierpinskiGasket.PNG) | ![USMap](Assignment_1/USMap.PNG) |
