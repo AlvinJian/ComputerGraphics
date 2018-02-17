@@ -11,6 +11,7 @@ namespace config {
 	{
 	public:
 		static void Init();
+		static const ViewportConfig * getInstance();
 		static void SetSize(int w, int h);
 		static void SetPos(int x, int y);
 		static int GetWidth();
@@ -22,6 +23,8 @@ namespace config {
 		}
 
 	private:
+		static ViewportConfig * Instance();
+
 		ViewportConfig():
 			width(WINDOW_WIDTH),
 			height(WINDOW_HEIGHT),

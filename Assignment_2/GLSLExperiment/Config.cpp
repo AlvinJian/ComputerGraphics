@@ -3,19 +3,25 @@
 
 using namespace config;
 
-static ViewportConfig* instance = nullptr;
+ViewportConfig * ViewportConfig::Instance()
+{
+	static ViewportConfig* instance = new ViewportConfig;
+	return instance;
+}
+
+const ViewportConfig * ViewportConfig::getInstance()
+{
+	return Instance();
+}
 
 void ViewportConfig::Init()
 {
-	if (instance == nullptr)
-	{
-		instance = new ViewportConfig();
-	}
+	Instance();
 }
 
 void ViewportConfig::SetSize(int w, int h)
 {
-	if (instance == nullptr) return;
+	auto instance = Instance();
 	instance->width = w;
 	instance->height = h;
 	std::cout << __FUNCTION__ << " w=" << w << std::endl;
@@ -24,34 +30,31 @@ void ViewportConfig::SetSize(int w, int h)
 
 int ViewportConfig::GetWidth()
 {
-	if (instance == nullptr) return -1;
-	else return instance->width;
+	auto instance = Instance();
+	return instance->width;
 }
 
 int ViewportConfig::GetHeight()
 {
-	if (instance == nullptr) return -1;
-	else return instance->height;
+	auto instance = Instance();
+	return instance->height;
 }
 
 void ViewportConfig::SetPos(int x, int y)
 {
-	if (instance == nullptr) return;
-	else
-	{
-		instance->x = x;
-		instance->y = y;
-	}
+	auto instance = Instance();
+	instance->x = x;
+	instance->y = y;
 }
 
 int ViewportConfig::GetPosX()
 {
-	if (instance == nullptr) return -1;
-	else return instance->x;
+	auto instance = Instance();
+	return instance->x;
 }
 
 int ViewportConfig::GetPosY()
 {
-	if (instance == nullptr) return -1;
-	else return instance->y;
+	auto instance = Instance();
+	return instance->y;
 }
