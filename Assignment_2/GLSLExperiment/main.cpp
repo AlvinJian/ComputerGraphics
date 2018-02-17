@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 	std::srand(std::time(nullptr));
 	config::ViewportConfig::Init();
 
-	std::string airplane("ply_files/apple.ply");
+	std::string airplane("ply_files/f16.ply");
 	assignment2::Ply * plyModel = assignment2::Ply::Load(airplane);
 	std::vector<assignment2::color4> palette{
 		assignment2::color4(1.0, 0.0, 0.0, 1.0),  // red

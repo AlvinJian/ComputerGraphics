@@ -66,7 +66,7 @@ void MeshPainter::drawCallback()
 void MeshPainter::reshape(int w, int h)
 {
 #if defined(SQUARE)
-	int side = std::min(w, h);
+	int side = std::max(w, h);
 	config::ViewportConfig::SetSize(side, side);
 	config::ViewportConfig::SetPos((w - side) / 2, (h - side) / 2);
 #elif defined(AS_IS)
@@ -190,7 +190,7 @@ void MeshPainter::calcMatrices()
 	const point3& c = m.getCenter();
 	std::vector<GLfloat> len{ m.getWidth(), m.getHeight(), m.getDepth() };
 	GLfloat maxLen = *std::max_element(len.begin(), len.end());
-	maxLen *= 1.1f;
+	maxLen *= 1.2f;
 	GLfloat left = c.x - 0.5f * maxLen;
 	GLfloat right = c.x + 0.5f * maxLen;
 	GLfloat bottom = c.y - 0.5f * maxLen;
