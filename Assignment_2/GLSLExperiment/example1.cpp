@@ -94,7 +94,7 @@ void generateGeometry( void )
 
 
 	// Load shaders and use the resulting shader program
-    program = InitShader( "vshader1.glsl", "fshader1.glsl" );
+    program = Angel::InitShader( "vshader1.glsl", "fshader1.glsl" );
     glUseProgram( program );
      // set up vertex arrays
     GLuint vPosition = glGetAttribLocation( program, "vPosition" );

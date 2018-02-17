@@ -6,7 +6,7 @@
 #define WINDOW_POS_X 150
 #define WINDOW_POS_Y 150
 
-namespace common {
+namespace config {
 	class ViewportConfig
 	{
 	public:

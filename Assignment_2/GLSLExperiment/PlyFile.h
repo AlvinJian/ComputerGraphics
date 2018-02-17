@@ -13,21 +13,26 @@ namespace assignment2 {
 	public:
 		static Ply * Load(const std::string & path);
 		~Ply();
-		/* const std::vector<point4>& getVertices() const;
-		const point4& vertexAt(int i) const;
-		const std::vector<std::vector<int>>& getFaces() const;
-		const std::vector<int>& faceAt(int i) const;
-		std::vector<int> getFlattenFaces() const;
+		const std::vector<point4>& getVertices() const;
+		const std::vector<std::vector<GLuint>>& getFaces() const;
+		const std::vector<GLuint>& getFlattenIndexesOfFaces() const;
 		float getWidth() const;
 		float getHeight() const;
-		point3 getFrontBottomLeftPoint() const; */
+		float getDepth() const;
+		const point3& getCenter() const;
 
 	private:
 		explicit Ply();
+		void calcGeoProperties();
 		std::vector<point4> vertices;
-		std::vector<std::vector<int>> faces;
+		std::vector<std::vector<GLuint>> faces;
+		std::vector<GLuint> flattenIndexesOfFaces;
 
-		int vertexNum;
-		int faceNum;
+		size_t vertexNum;
+		size_t faceNum;
+		GLfloat width;
+		GLfloat height;
+		GLfloat depth;
+		point3 center;
 	};
 }

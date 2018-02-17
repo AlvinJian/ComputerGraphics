@@ -8,6 +8,7 @@
 #include "Input.h"
 
 using namespace assignment1;
+using common::ViewportConfig;
 
 GRSParser::GRSParser()
 {

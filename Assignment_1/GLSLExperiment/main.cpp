@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
 
 	glewInit();
 
-	assignment1::ViewportConfig::Init();
+	common::ViewportConfig::Init();
 	glutKeyboardFunc(assignment1::Input::KbEventHandler);
 	assignment1::KochSnowflake::Draw(DEFAULT_KOCH_ITER);
 

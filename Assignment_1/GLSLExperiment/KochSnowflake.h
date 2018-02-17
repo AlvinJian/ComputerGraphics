@@ -2,6 +2,10 @@
 #include "Angel.h"
 #include <list>
 
+#define BASE_KOCH_ITER 0
+#define MAX_KOCH_ITER 6
+#define DEFAULT_KOCH_ITER 3
+
 namespace assignment1 {
 	class KochSnowflake
 	{

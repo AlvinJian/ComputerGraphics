@@ -8,6 +8,7 @@
 #include "Input.h"
 
 using namespace assignment1;
+using common::ViewportConfig;
 
 KochSnowflake::KochSnowflake(Angel::vec2& pt1, 
 	Angel::vec2& pt2, Angel::vec2& pt3):

@@ -1,7 +1,7 @@
 #include "Config.h"
 #include <iostream>
 
-using namespace common;
+using namespace config;
 
 static ViewportConfig* instance = nullptr;
 

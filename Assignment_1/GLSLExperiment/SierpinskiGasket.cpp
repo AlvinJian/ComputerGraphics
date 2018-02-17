@@ -4,6 +4,7 @@
 #include "Input.h"
 
 using namespace assignment1;
+using common::ViewportConfig;
 
 #define INI_LEN 1.5
 

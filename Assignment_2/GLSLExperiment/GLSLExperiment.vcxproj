@@ -84,21 +84,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="example1.cpp" />
     <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MeshPainter.cpp" />
     <ClCompile Include="PlyFile.cpp" />
     <ClCompile Include="textfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
     <ClInclude Include="CheckError.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="mat.h" />
+    <ClInclude Include="MeshPainter.h" />
     <ClInclude Include="PlyFile.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="fshader1.glsl" />
     <None Include="ply_files\airplane.ply" />
     <None Include="ply_files\ant.ply" />
     <None Include="ply_files\apple.ply" />
@@ -142,6 +147,7 @@
     <None Include="ply_files\urn2.ply" />
     <None Include="ply_files\walkman.ply" />
     <None Include="ply_files\weathervane.ply" />
+    <None Include="vshader1.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

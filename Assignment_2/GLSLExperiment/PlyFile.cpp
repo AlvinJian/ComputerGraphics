@@ -5,14 +5,10 @@
 
 using namespace assignment2;
 
-#define PLY_HEADER "ply"
-#define HEADER_END "end_header"
-#define ELEMENT_STR "element"
-#define VERTEX_STR "vertex"
-#define FACE_STR "face"
-
 Ply::Ply():
-	vertexNum(0), faceNum(0)
+	vertexNum(0), faceNum(0),
+	width(0.0f), height(0.0f), 
+	depth(0.0f), center(0.0f, 0.0f,0.0f)
 {
 }
 
@@ -22,6 +18,13 @@ Ply::~Ply()
 
 Ply* Ply::Load(const std::string & path)
 {
+
+#define PLY_HEADER "ply"
+#define HEADER_END "end_header"
+#define ELEMENT_STR "element"
+#define VERTEX_STR "vertex"
+#define FACE_STR "face"
+
 	Ply * data = nullptr;
 	std::ifstream f(path);
 	std::string buffer;
@@ -32,14 +35,14 @@ Ply* Ply::Load(const std::string & path)
 	char state = HEADER;
 	{
 		// whether the first line is "ply"
-		std::string magic(PLY_HEADER);
+		const std::string magic(PLY_HEADER);
 		std::getline(f, buffer);
 		std::istringstream s(buffer);
 		std::string line;
 		s >> line;
 		if (line != magic)
 		{
-			// if not, then return
+			// if not, return
 			return data;
 		}
 		else
@@ -108,10 +111,11 @@ Ply* Ply::Load(const std::string & path)
 			std::istringstream stream(buffer);
 			int num = 0;
 			stream >> num;
-			std::vector<int> face(num);
+			std::vector<GLuint> face(num);
 			for (int i = 0; i < num; ++i)
 			{
 				stream >> face[i];
+				data->flattenIndexesOfFaces.push_back(face[i]);
 			}
 			data->faces.push_back(face);
 			if (data->faces.size() >= data->faceNum)
@@ -126,6 +130,78 @@ Ply* Ply::Load(const std::string & path)
 			break;
 		}
 	}
-
+	data->calcGeoProperties();
 	return data;
+}
+
+const std::vector<point4>& Ply::getVertices() const
+{
+	return vertices;
+}
+
+const std::vector<std::vector<GLuint>>& Ply::getFaces() const
+{
+	return faces;
+}
+
+void Ply::calcGeoProperties()
+{
+	auto cmpX = [](auto elem1, auto elem2)
+	{
+		return elem1.x < elem2.x;
+	};
+	auto xmax_it = std::max_element(vertices.begin(), vertices.end(), cmpX);
+	auto xmin_it = std::min_element(vertices.begin(), vertices.end(), cmpX);
+	GLfloat xmax = xmax_it->x;
+	GLfloat xmin = xmin_it->x;
+	width = xmax - xmin;
+
+	auto cmpY = [](auto elem1, auto elem2)
+	{
+		return elem1.y < elem2.y;
+	};
+	auto ymax_it = std::max_element(vertices.begin(), vertices.end(), cmpY);
+	auto ymin_it = std::min_element(vertices.begin(), vertices.end(), cmpY);
+	GLfloat ymax = ymax_it->y;
+	GLfloat ymin = ymin_it->y;
+	height = ymax - ymin;
+
+	auto cmpZ = [](auto elem1, auto elem2)
+	{
+		return elem1.z < elem2.z;
+	};
+	auto zmax_it = std::max_element(vertices.begin(), vertices.end(), cmpZ);
+	auto zmin_it = std::min_element(vertices.begin(), vertices.end(), cmpZ);
+	GLfloat zmax = zmax_it->y;
+	GLfloat zmin = zmin_it->y;
+	depth = zmax - zmin;
+
+	center.x = 0.5f * (xmax + xmin);
+	center.y = 0.5f * (ymax + ymin);
+	center.z = 0.5f * (zmax + zmin);
+}
+
+const std::vector<GLuint>& Ply::getFlattenIndexesOfFaces() const
+{
+	return flattenIndexesOfFaces;
+}
+
+float Ply::getWidth() const
+{
+	return width;
+}
+
+float Ply::getHeight() const
+{
+	return height;
+}
+
+float Ply::getDepth() const
+{
+	return depth;
+}
+
+const point3& Ply::getCenter() const
+{
+	return center;
 }

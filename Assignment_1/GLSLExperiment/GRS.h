@@ -3,6 +3,8 @@
 #include <vector>
 #include "Angel.h"
 
+#define TILING_NUM 4
+
 namespace assignment1 {
 	class GRSData;
 	class GRSParser
