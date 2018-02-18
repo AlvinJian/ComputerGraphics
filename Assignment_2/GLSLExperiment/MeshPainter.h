@@ -2,18 +2,23 @@
 #include <vector>
 #include "Angel.h"
 #include "PlyFile.h"
+#include "RigidBodyMov.h"
 
 namespace assignment2 {
 	using color4 = Angel::vec4;
 	class MeshPainter
 	{
 	public:
+		static MeshPainter * CurrentDrawingInstance();
+
 		MeshPainter(std::vector<color4> & palette);
 		~MeshPainter();
 
 		void draw(Ply & plyModel);
 		void setPalette(const std::vector<color4> & newPalette);
 
+		// well, this is ugly
+		RigidBodyMov rigid;
 	private:
 		static void calcMatrices();
 		static void drawCallback();

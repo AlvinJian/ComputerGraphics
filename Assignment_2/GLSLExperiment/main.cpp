@@ -3,6 +3,7 @@
 #include <ctime>
 #include "PlyFile.h"
 #include "MeshPainter.h"
+#include "Input.h"
 #include "Config.h"
 
 #if 1
@@ -17,6 +18,7 @@ int main(int argc, char* argv[])
 	glewInit();
 	std::srand(std::time(nullptr));
 	config::ViewportConfig::Init();
+	assignment2::Input::InitKbFuncs();
 
 	std::string airplane("ply_files/f16.ply");
 	assignment2::Ply * plyModel = assignment2::Ply::Load(airplane);
@@ -32,6 +34,7 @@ int main(int argc, char* argv[])
 	};
 	assignment2::MeshPainter painter(palette);
 	painter.draw(*plyModel);
+	glutKeyboardFunc(assignment2::Input::KbEventHandler);
 	glutPostRedisplay();
 	glutMainLoop();
 	return 0;

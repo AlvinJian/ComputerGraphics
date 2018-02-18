@@ -9,6 +9,11 @@ using namespace assignment2;
 
 static  MeshPainter* currentInstance = nullptr;
 
+MeshPainter * MeshPainter::CurrentDrawingInstance()
+{
+	return currentInstance;
+}
+
 MeshPainter::MeshPainter(std::vector<color4> & palette) :
 	palette(palette), model(nullptr)
 {
@@ -44,6 +49,7 @@ void MeshPainter::setPalette(const std::vector<color4> & newPalette)
 
 void MeshPainter::drawCallback()
 {
+	MeshPainter::calcMatrices();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	int x = config::ViewportConfig::GetPosX();
 	int y = config::ViewportConfig::GetPosY();
@@ -92,7 +98,6 @@ void MeshPainter::reshape(int w, int h)
 #else
 	config::ViewportConfig::SetSize(w, h);
 #endif
-	MeshPainter::calcMatrices();
 };
 
 void MeshPainter::draw(Ply & plyModel)
@@ -172,8 +177,8 @@ void MeshPainter::calcMatrices()
 	Angel::mat4 twist = Angel::identity();
 	Angel::mat4 shear = Angel::identity();
 	Angel::mat4 modelMat = Angel::identity();
-	modelMat = modelMat * Angel::Translate(0.0f, 0.0f, -1.0f) * Angel::RotateY(0.0f) * 
-		Angel::RotateX(0.0f) * Angel::RotateZ(0.0f) * twist * shear;
+	modelMat = modelMat * 
+		instance.rigid.getTranslateMatrix() * instance.rigid.getRotateMatrix();
 	
 	float modelMatrixf[16];
 	modelMatrixf[0] = modelMat[0][0]; modelMatrixf[4] = modelMat[0][1];

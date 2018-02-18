@@ -87,18 +87,22 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="example1.cpp" />
     <ClCompile Include="InitShader.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshPainter.cpp" />
     <ClCompile Include="PlyFile.cpp" />
+    <ClCompile Include="RigidBodyMov.cpp" />
     <ClCompile Include="textfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="MeshPainter.h" />
     <ClInclude Include="PlyFile.h" />
+    <ClInclude Include="RigidBodyMov.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="vec.h" />
   </ItemGroup>

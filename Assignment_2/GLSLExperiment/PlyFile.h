@@ -6,7 +6,6 @@
 namespace assignment2 {
 	using point4 = Angel::vec4;
 	using point3 = Angel::vec3;
-	using color4 = Angel::vec4;
 
 	class Ply;
 	class Ply {
