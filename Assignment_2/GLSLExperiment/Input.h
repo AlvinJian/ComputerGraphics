@@ -17,6 +17,7 @@ namespace assignment2 {
 		static std::map<char, KbFunc> kbFuncsMapper;
 
 		static void DoTranslation();
+		static void DoShear();
 	};
 }
 

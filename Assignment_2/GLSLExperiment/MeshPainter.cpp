@@ -177,8 +177,8 @@ void MeshPainter::calcMatrices()
 	Angel::mat4 twist = Angel::identity();
 	Angel::mat4 shear = Angel::identity();
 	Angel::mat4 modelMat = Angel::identity();
-	modelMat = modelMat * 
-		instance.rigid.getTranslateMatrix() * instance.rigid.getRotateMatrix();
+	modelMat = modelMat * instance.rigid.getTranslateMatrix() *
+		 instance.rigid.getRotateMatrix() * instance.deform.getShearMatrix() ;
 	
 	float modelMatrixf[16];
 	modelMatrixf[0] = modelMat[0][0]; modelMatrixf[4] = modelMat[0][1];

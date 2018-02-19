@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Deform.cpp" />
     <ClCompile Include="example1.cpp" />
     <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Angel.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="Deform.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="MeshPainter.h" />

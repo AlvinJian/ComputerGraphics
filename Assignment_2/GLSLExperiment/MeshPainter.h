@@ -3,6 +3,7 @@
 #include "Angel.h"
 #include "PlyFile.h"
 #include "RigidBodyMov.h"
+#include "Deform.h"
 
 namespace assignment2 {
 	using color4 = Angel::vec4;
@@ -19,6 +20,8 @@ namespace assignment2 {
 
 		// well, this is ugly
 		RigidBodyMov rigid;
+		Deform deform;
+
 	private:
 		static void calcMatrices();
 		static void drawCallback();

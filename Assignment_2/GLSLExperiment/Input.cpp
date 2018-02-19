@@ -37,6 +37,7 @@ void Input::InitKbFuncs()
 		if (pPainter != nullptr)
 		{
 			pPainter->rigid = RigidBodyMov();
+			pPainter->deform = Deform();
 			glutPostRedisplay();
 			glutIdleFunc(DoNothingFunc);
 		}
@@ -44,6 +45,8 @@ void Input::InitKbFuncs()
 
 	kbFuncsMapper['X'] = Input::DoTranslation;
 	kbFuncsMapper['x'] = Input::DoTranslation;
+	kbFuncsMapper['H'] = Input::DoShear;
+	kbFuncsMapper['h'] = Input::DoShear;
 
 	Input::prevKey = '\0';
 	Input::currentKey = '\0';
@@ -51,10 +54,11 @@ void Input::InitKbFuncs()
 
 void Input::DoTranslation()
 {
-#define MOV_INCR 0.0002f
-#define STILL 0
-#define FORWARD 1
-#define BACKWARD -1
+	const float MOV_INCR = 0.0003f;
+	const int STILL = 0;
+	const int FORWARD = 1;
+	const int BACKWARD = -1;
+
 	static float mov = 0.0f;
 	static int state = STILL;
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
@@ -69,13 +73,13 @@ void Input::DoTranslation()
 		}
 		else if (Input::currentKey == 'X')
 		{
-			mov = MOV_INCR;
 			state = FORWARD;
+			mov = (float)state * MOV_INCR;
 		}
 		else if (Input::currentKey == 'x')
 		{
-			mov = -MOV_INCR;
 			state = BACKWARD;
+			mov = (float)state * MOV_INCR;
 		}
 		else return;
 
@@ -89,6 +93,44 @@ void Input::DoTranslation()
 		};
 		glutIdleFunc(idleMov);
 		pPainter->rigid.translate(mov, 0.0f, 0.0f);
+		glutPostRedisplay();
+	}
+}
+
+void Input::DoShear()
+{
+	const float SHEAR = 0.02f;
+	const int STILL = 0;
+	const int INCR = 1;
+	const int DECR = -1;
+
+	float val = 0.0f;
+	static int state = STILL;
+	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
+	if (pPainter != nullptr)
+	{
+		if (Input::prevKey == Input::currentKey &&
+			state != STILL)
+		{
+			val = 0.0f;
+			state = STILL;
+		}
+		else if (Input::currentKey == 'h')
+		{
+			state = INCR;
+		}
+		else if (Input::currentKey == 'H')
+		{
+			state = DECR;
+		}
+		else return;
+
+		val = (float)state * SHEAR;
+
+		Deform::ShearVal shear;
+		shear.first = Deform::X_AXIS;
+		shear.second = val;
+		pPainter->deform.addShear(shear);
 		glutPostRedisplay();
 	}
 }
