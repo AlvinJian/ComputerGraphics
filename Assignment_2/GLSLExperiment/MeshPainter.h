@@ -12,10 +12,11 @@ namespace assignment2 {
 	public:
 		static MeshPainter * CurrentDrawingInstance();
 
-		MeshPainter(std::vector<color4> & palette);
+		MeshPainter(const std::vector<color4> & palette);
 		~MeshPainter();
 
 		void draw(Ply & plyModel);
+		void updateDraw();
 		void setPalette(const std::vector<color4> & newPalette);
 
 		// well, this is ugly

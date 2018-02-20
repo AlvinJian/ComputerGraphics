@@ -14,7 +14,7 @@ MeshPainter * MeshPainter::CurrentDrawingInstance()
 	return currentInstance;
 }
 
-MeshPainter::MeshPainter(std::vector<color4> & palette) :
+MeshPainter::MeshPainter(const std::vector<color4> & palette) :
 	palette(palette), model(nullptr)
 {
 }
@@ -152,6 +152,20 @@ void MeshPainter::draw(Ply & plyModel)
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(drawCallback);
+}
+
+void MeshPainter::updateDraw()
+{
+	if (currentInstance != this) return;
+	// only update color for now
+	const std::vector<color4> colors = genColors(*model);
+	const std::vector<point4>& points = model->getVertices();
+	glUseProgram(program);
+	glBindVertexArray(vao);
+	size_t pointsByteSize = sizeof(point4) * points.size();
+	size_t colorsByteSize = sizeof(color4) * colors.size();
+	glBufferSubData(GL_ARRAY_BUFFER, pointsByteSize, colorsByteSize,
+		colors.data());
 }
 
 void MeshPainter::calcMatrices()

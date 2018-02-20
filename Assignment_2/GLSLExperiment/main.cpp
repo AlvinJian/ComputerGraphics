@@ -8,6 +8,7 @@
 #include "Gallery.h"
 
 #if 1
+using namespace assignment2;
 int main(int argc, char* argv[])
 {
 	glutInit(&argc, argv);
@@ -21,17 +22,10 @@ int main(int argc, char* argv[])
 	config::ViewportConfig::Init();
 	assignment2::Input::InitKbFuncs();
 
-	std::vector<assignment2::color4> palette{
-		assignment2::color4(1.0, 0.0, 0.0, 1.0),  // red
-		assignment2::color4(0.0, 0.0, 0.0, 1.0),  // black
-		assignment2::color4(1.0, 1.0, 0.0, 1.0),  // yellow
-		assignment2::color4(0.0, 1.0, 0.0, 1.0),  // green
-		assignment2::color4(0.0, 0.0, 1.0, 1.0),  // blue
-		assignment2::color4(1.0, 0.0, 1.0, 1.0),  // magenta
-		assignment2::color4(1.0, 1.0, 1.0, 1.0),  // white
-		assignment2::color4(0.0, 1.0, 1.0, 1.0)   // cyan
+	std::vector<color4> RedPalette{
+		color4(1.0, 0.0, 0.0, 1.0),  // red
 	};
-	assignment2::MeshPainter painter(palette);
+	assignment2::MeshPainter painter(RedPalette);
 	assignment2::Gallery gallery;
 	assignment2::Input::SetGallery(&gallery);
 	painter.draw(gallery.current());

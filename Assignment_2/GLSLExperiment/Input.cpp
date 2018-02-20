@@ -64,6 +64,7 @@ void Input::InitKbFuncs()
 	kbFuncsMapper['t'] = Input::DoTwist;
 	kbFuncsMapper['N'] = Input::IteratePly;
 	kbFuncsMapper['P'] = Input::IteratePly;
+	kbFuncsMapper['c'] = Input::TogglePalette;
 
 	Input::prevKey = '\0';
 	Input::currentKey = '\0';
@@ -193,4 +194,38 @@ void Input::IteratePly()
 		glutPostRedisplay();
 	}
 	else return;
+}
+
+void Input::TogglePalette()
+{
+	// ugly stuff
+	const int RED_PALLETE = 0;
+	const std::vector<color4> ColorPalette{
+		color4(1.0, 0.0, 0.0, 1.0),  // red
+		color4(0.0, 0.0, 0.0, 1.0),  // black
+		color4(1.0, 1.0, 0.0, 1.0),  // yellow
+		color4(0.0, 1.0, 0.0, 1.0),  // green
+		color4(0.0, 0.0, 1.0, 1.0),  // blue
+		color4(1.0, 0.0, 1.0, 1.0),  // magenta
+		color4(1.0, 1.0, 1.0, 1.0),  // white
+		color4(0.0, 1.0, 1.0, 1.0)   // cyan
+	};
+	const int COLOR_PALETTE = 1;
+	const std::vector<color4> RedPalette{
+		color4(1.0, 0.0, 0.0, 1.0),  // red
+	};
+	static int PaletteState = RED_PALLETE;
+	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
+	if (PaletteState == RED_PALLETE)
+	{
+		PaletteState = COLOR_PALETTE;
+		pPainter->setPalette(ColorPalette);
+	}
+	else if (PaletteState == COLOR_PALETTE)
+	{
+		PaletteState = RED_PALLETE;
+		pPainter->setPalette(RedPalette);
+	}
+	pPainter->updateDraw();
+	glutPostRedisplay();
 }

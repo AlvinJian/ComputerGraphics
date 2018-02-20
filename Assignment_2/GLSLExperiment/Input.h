@@ -23,6 +23,7 @@ namespace assignment2 {
 		static void DoShear();
 		static void DoTwist();
 		static void IteratePly();
+		static void TogglePalette();
 	};
 }
 
