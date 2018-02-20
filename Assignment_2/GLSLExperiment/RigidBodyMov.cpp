@@ -3,7 +3,7 @@
 using namespace assignment2;
 
 RigidBodyMov::RigidBodyMov():
-	transState(0.0f, 0.0f, -1.0f),
+	transState(0.0f, 0.0f, -1.55f),
 	rotState(0.0f, 0.0f, 0.0f)
 {
 }

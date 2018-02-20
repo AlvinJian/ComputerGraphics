@@ -3,7 +3,13 @@
 
 using namespace assignment2;
 
-static auto DoNothingFunc = []() {};
+static void DoNothingFunc()
+{
+	/* std::cout << __FUNCTION__ << std::endl;
+	auto* pPainter = MeshPainter::CurrentDrawingInstance();
+	pPainter->rigid.rotate(0.0f, 0.05f, 0.0f);
+	glutPostRedisplay(); */
+}
 
 char Input::prevKey = '\0';
 char Input::currentKey = '\0';
@@ -62,27 +68,27 @@ void Input::DoTranslation()
 	const int FORWARD = 1;
 	const int BACKWARD = -1;
 
-	static float mov = 0.0f;
+	static Angel::vec3 mov;
 	static int state = STILL;
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 	if (pPainter != nullptr)
 	{
+		mov = Angel::vec3(0.0f, 0.0f, 0.0f);
 		if (Input::prevKey == Input::currentKey &&
 			state != STILL)
 		{
-			mov = 0.0f;
 			glutIdleFunc(DoNothingFunc);
 			state = STILL;
 		}
 		else if (Input::currentKey == 'X')
 		{
 			state = FORWARD;
-			mov = (float)state * MOV_INCR;
+			mov.x += (float)state * MOV_INCR;
 		}
 		else if (Input::currentKey == 'x')
 		{
 			state = BACKWARD;
-			mov = (float)state * MOV_INCR;
+			mov.x += (float)state * MOV_INCR;
 		}
 		else return;
 
@@ -90,12 +96,12 @@ void Input::DoTranslation()
 			MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 			if (pPainter != nullptr)
 			{
-				pPainter->rigid.translate(mov, 0.0f, 0.0f);
+				pPainter->rigid.translate(mov.x, mov.y, mov.z);
 				glutPostRedisplay();
 			}
 		};
 		glutIdleFunc(idleMov);
-		pPainter->rigid.translate(mov, 0.0f, 0.0f);
+		pPainter->rigid.translate(mov.x, mov.y, mov.z);
 		glutPostRedisplay();
 	}
 }

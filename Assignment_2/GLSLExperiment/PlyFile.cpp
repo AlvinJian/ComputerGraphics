@@ -130,6 +130,7 @@ Ply* Ply::Load(const std::string & path)
 			break;
 		}
 	}
+	AdjustGeoCenterToOrigin(*data);
 	data->calcGeoProperties();
 	return data;
 }
@@ -204,4 +205,20 @@ float Ply::getDepth() const
 const point3& Ply::getCenter() const
 {
 	return center;
+}
+
+void Ply::AdjustGeoCenterToOrigin(Ply & ply)
+{
+	point3 gc;
+	for (int i = 0; i < ply.vertexNum; ++i)
+	{
+		point3 p(ply.vertices[i].x, ply.vertices[i].y, ply.vertices[i].z);
+		gc += p;
+	}
+	gc /= (float)ply.vertexNum;
+	point4 gc4(gc, 0.0);
+	for (int i = 0; i < ply.vertexNum; ++i)
+	{
+		ply.vertices[i] -= gc4;
+	}
 }

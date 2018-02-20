@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	config::ViewportConfig::Init();
 	assignment2::Input::InitKbFuncs();
 
-	std::string airplane("ply_files/f16.ply");
+	std::string airplane("ply_files/apple.ply");
 	assignment2::Ply * plyModel = assignment2::Ply::Load(airplane);
 	std::vector<assignment2::color4> palette{
 		assignment2::color4(1.0, 0.0, 0.0, 1.0),  // red
