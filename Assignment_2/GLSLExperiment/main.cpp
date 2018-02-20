@@ -5,6 +5,7 @@
 #include "MeshPainter.h"
 #include "Input.h"
 #include "Config.h"
+#include "Gallery.h"
 
 #if 1
 int main(int argc, char* argv[])
@@ -20,8 +21,6 @@ int main(int argc, char* argv[])
 	config::ViewportConfig::Init();
 	assignment2::Input::InitKbFuncs();
 
-	std::string airplane("ply_files/apple.ply");
-	assignment2::Ply * plyModel = assignment2::Ply::Load(airplane);
 	std::vector<assignment2::color4> palette{
 		assignment2::color4(1.0, 0.0, 0.0, 1.0),  // red
 		assignment2::color4(0.0, 0.0, 0.0, 1.0),  // black
@@ -33,7 +32,9 @@ int main(int argc, char* argv[])
 		assignment2::color4(0.0, 1.0, 1.0, 1.0)   // cyan
 	};
 	assignment2::MeshPainter painter(palette);
-	painter.draw(*plyModel);
+	assignment2::Gallery gallery;
+	assignment2::Input::SetGallery(&gallery);
+	painter.draw(gallery.current());
 	glutKeyboardFunc(assignment2::Input::KbEventHandler);
 	glutPostRedisplay();
 	glutMainLoop();

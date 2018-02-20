@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Input.h"
+#include "Gallery.h"
 
 using namespace assignment2;
 
@@ -14,6 +15,12 @@ static void DoNothingFunc()
 char Input::prevKey = '\0';
 char Input::currentKey = '\0';
 std::map<char, Input::KbFunc> Input::kbFuncsMapper = std::map<char, KbFunc>();
+Gallery * Input::gallery = nullptr;
+
+void Input::SetGallery(Gallery * g)
+{
+	gallery = g;
+}
 
 void Input::KbEventHandler(unsigned char key, int x, int y)
 {
@@ -55,6 +62,8 @@ void Input::InitKbFuncs()
 	kbFuncsMapper['h'] = Input::DoShear;
 	kbFuncsMapper['T'] = Input::DoTwist;
 	kbFuncsMapper['t'] = Input::DoTwist;
+	kbFuncsMapper['N'] = Input::IteratePly;
+	kbFuncsMapper['P'] = Input::IteratePly;
 
 	Input::prevKey = '\0';
 	Input::currentKey = '\0';
@@ -164,4 +173,24 @@ void Input::DoTwist()
 		pPainter->deform.addYTwist(val);
 		glutPostRedisplay();
 	}
+}
+
+void Input::IteratePly()
+{
+	MeshPainter * instance = MeshPainter::CurrentDrawingInstance();
+	if (gallery == nullptr || instance == nullptr) 
+		return;
+	if (Input::currentKey == 'N')
+	{
+		Ply & p = gallery->next();
+		instance->draw(p);
+		glutPostRedisplay();
+	}
+	else if (Input::currentKey == 'P')
+	{
+		Ply & p = gallery->prev();
+		instance->draw(p);
+		glutPostRedisplay();
+	}
+	else return;
 }
