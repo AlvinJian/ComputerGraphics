@@ -18,6 +18,7 @@ namespace assignment2 {
 
 		static void DoTranslation();
 		static void DoShear();
+		static void DoTwist();
 	};
 }
 

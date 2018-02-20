@@ -47,6 +47,8 @@ void Input::InitKbFuncs()
 	kbFuncsMapper['x'] = Input::DoTranslation;
 	kbFuncsMapper['H'] = Input::DoShear;
 	kbFuncsMapper['h'] = Input::DoShear;
+	kbFuncsMapper['T'] = Input::DoTwist;
+	kbFuncsMapper['t'] = Input::DoTwist;
 
 	Input::prevKey = '\0';
 	Input::currentKey = '\0';
@@ -54,6 +56,7 @@ void Input::InitKbFuncs()
 
 void Input::DoTranslation()
 {
+	// TODO make it 3D translation
 	const float MOV_INCR = 0.0003f;
 	const int STILL = 0;
 	const int FORWARD = 1;
@@ -109,13 +112,7 @@ void Input::DoShear()
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 	if (pPainter != nullptr)
 	{
-		if (Input::prevKey == Input::currentKey &&
-			state != STILL)
-		{
-			val = 0.0f;
-			state = STILL;
-		}
-		else if (Input::currentKey == 'h')
+		if (Input::currentKey == 'h')
 		{
 			state = INCR;
 		}
@@ -131,6 +128,34 @@ void Input::DoShear()
 		shear.first = Deform::X_AXIS;
 		shear.second = val;
 		pPainter->deform.addShear(shear);
+		glutPostRedisplay();
+	}
+}
+
+void Input::DoTwist()
+{
+	const float TWIST = 30.0f;
+	const int STILL = 0;
+	const int INCR = 1;
+	const int DECR = -1;
+
+	float val = 0.0f;
+	static int state = STILL;
+	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
+	if (pPainter != nullptr)
+	{
+		if (Input::currentKey == 't')
+		{
+			state = INCR;
+		}
+		else if (Input::currentKey == 'T')
+		{
+			state = DECR;
+		}
+		else return;
+
+		val = (float)state * TWIST;
+		pPainter->deform.addYTwist(val);
 		glutPostRedisplay();
 	}
 }

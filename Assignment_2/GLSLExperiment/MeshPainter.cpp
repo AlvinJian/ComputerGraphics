@@ -173,9 +173,6 @@ void MeshPainter::calcMatrices()
 	projMatrixf[10] = perspectiveMat[2][2]; projMatrixf[14] = perspectiveMat[2][3];
 	projMatrixf[11] = perspectiveMat[3][2]; projMatrixf[15] = perspectiveMat[3][3];
 
-	// TODO rotate, translate, shear and twist in runtime.
-	Angel::mat4 twist = Angel::identity();
-	Angel::mat4 shear = Angel::identity();
 	Angel::mat4 modelMat = Angel::identity();
 	modelMat = modelMat * instance.rigid.getTranslateMatrix() *
 		 instance.rigid.getRotateMatrix() * instance.deform.getShearMatrix() ;
@@ -221,4 +218,7 @@ void MeshPainter::calcMatrices()
 	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf);
 	GLuint orthMatrixLoc = glGetUniformLocationARB(instance.program, "orth_matrix");
 	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf);
+
+	GLuint yTwistLoc = glGetUniformLocation(instance.program, "y_twist");
+	glUniform1f(yTwistLoc, instance.deform.getYTwist());
 }

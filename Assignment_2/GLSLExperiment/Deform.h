@@ -11,18 +11,19 @@ namespace assignment2 {
 			X_AXIS = 0, Y_AXIS, Z_AXIS
 		};
 		using ShearVal = std::pair<AXIS, float>;
-		using TwistVal = std::pair<AXIS, float>;
 
 		Deform();
 		~Deform();
 
 		Angel::mat4 getShearMatrix() const;
 		void addShear(const ShearVal& val);
-		// Angel::mat4 getTwistMatrix() const;
-		// void addTwist(const TwistVal& val);
+
+		// TODO do y-twist for now...
+		float getYTwist() const;
+		void addYTwist(float angle);
 	private:
 		float shearVal[3];
-		float twistVal[3];
+		float twistAngle[3];
 	};
 }
 
