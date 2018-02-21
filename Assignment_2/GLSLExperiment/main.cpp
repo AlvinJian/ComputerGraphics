@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	glewInit();
 	std::srand(std::time(nullptr));
 	config::ViewportConfig::Init();
-	assignment2::Manipulator::InitKbFuncs();
+	assignment2::Manipulator::Init();
 
 	std::vector<color4> RedPalette{
 		color4(1.0, 0.0, 0.0, 1.0),  // red

@@ -1,4 +1,5 @@
 #include "RigidBodyMov.h"
+#include <cmath>
 
 using namespace assignment2;
 
@@ -44,4 +45,7 @@ void RigidBodyMov::rotate(float dx, float dy, float dz)
 {
 	Angel::vec3 dtheta(dx, dy, dz);
 	rotState += dtheta;
+	rotState.x = std::fmodf(rotState.x, 360.0f);
+	rotState.y = std::fmodf(rotState.y, 360.0f);
+	rotState.z = std::fmodf(rotState.z, 360.0f);
 }

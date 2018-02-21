@@ -7,11 +7,15 @@ namespace assignment2 {
 	class Gallery;
 	class Manipulator
 	{
-		using KbFunc = std::function<void()>;
 	public:
-		static void InitKbFuncs();
+		using KbFunc = std::function<void()>;
+		using IdleFunc = std::function<void()>;
+
+		static void Init();
 		static void KbEventHandler(unsigned char key, int x, int y);
 		static void SetGallery(Gallery *);
+		static void RegisterIdleFunctions(size_t reg, IdleFunc f);
+		static void RunIdleFunctions();
 
 	private:
 		static Gallery * gallery;
@@ -23,19 +27,20 @@ namespace assignment2 {
 		static int TranslateState;
 		static void DoTranslation();
 
-		static int ShearState;
 		static void DoShear();
 
-		static int TwistState;
 		static void DoTwist();
 
 		static void IteratePly();
 
-		static int PaletteState;
 		static void TogglePalette();
 
 		static int SelfRotState;
 		static void DoSelfRotate();
+
+		static void Reset();
+
+		static std::vector<IdleFunc> funcs;
 	};
 }
 

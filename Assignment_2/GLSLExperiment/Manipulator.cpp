@@ -8,15 +8,34 @@ static void DoNothingFunc()
 {
 }
 
+static auto _DoNothing = []() {};
+#define REG_NUM 4
+#define TRANS_REG 0
+#define ROT_REG 1
+std::vector<Manipulator::IdleFunc> Manipulator::funcs = 
+	std::vector<Manipulator::IdleFunc>(REG_NUM, _DoNothing );
+void Manipulator::RegisterIdleFunctions(size_t reg, IdleFunc f)
+{
+	if (reg < REG_NUM)
+	{
+		funcs[reg] = f;
+	}
+}
+void Manipulator::RunIdleFunctions()
+{
+	for (size_t i = 0; i < REG_NUM; ++i)
+	{
+		auto f = funcs[i];
+		f();
+	}
+}
+
 char Manipulator::prevKey = '\0';
 char Manipulator::currentKey = '\0';
 std::map<char, Manipulator::KbFunc> Manipulator::kbFuncsMapper = std::map<char, KbFunc>();
 Gallery * Manipulator::gallery = nullptr;
 
 int Manipulator::TranslateState = 0;
-int Manipulator::ShearState = 0;
-int Manipulator::TwistState = 0;
-int Manipulator::PaletteState = 0;
 int Manipulator::SelfRotState = 0;
 
 void Manipulator::SetGallery(Gallery * g)
@@ -45,24 +64,26 @@ void Manipulator::KbEventHandler(unsigned char key, int x, int y)
 	if (key == 033) exit(EXIT_SUCCESS);
 }
 
-void Manipulator::InitKbFuncs()
+void Manipulator::Reset()
 {
-	kbFuncsMapper['W'] = []() {
-		MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
-		if (pPainter != nullptr)
+	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
+	if (pPainter != nullptr)
+	{
+		pPainter->rigid = RigidBodyMov();
+		pPainter->deform = Deform();
+		for (size_t i = 0; i < REG_NUM; ++i)
 		{
-			TranslateState = 0;
-			ShearState = 0;
-			TwistState = 0;
-			PaletteState = 0;
-			SelfRotState = 0;
-
-			pPainter->rigid = RigidBodyMov();
-			pPainter->deform = Deform();
-			glutPostRedisplay();
-			glutIdleFunc(DoNothingFunc);
+			Manipulator::RegisterIdleFunctions(i, _DoNothing);
 		}
-	};
+		TranslateState = 0;
+		SelfRotState = 0;
+		glutPostRedisplay();
+	}
+}
+
+void Manipulator::Init()
+{
+	kbFuncsMapper['W'] = Manipulator::Reset;
 
 	kbFuncsMapper['X'] = Manipulator::DoTranslation;
 	kbFuncsMapper['x'] = Manipulator::DoTranslation;
@@ -86,6 +107,8 @@ void Manipulator::InitKbFuncs()
 
 	Manipulator::prevKey = '\0';
 	Manipulator::currentKey = '\0';
+
+	glutIdleFunc(RunIdleFunctions);
 }
 
 void Manipulator::DoTranslation()
@@ -96,15 +119,15 @@ void Manipulator::DoTranslation()
 	const int FORWARD = 1;
 	const int BACKWARD = -1;
 
-	static Angel::vec3 mov;
+	// static int TranslateState = STILL;
+	Angel::vec3 mov(0.0f, 0.0f, 0.0f);
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 	if (pPainter != nullptr)
 	{
-		mov = Angel::vec3(0.0f, 0.0f, 0.0f);
 		if (Manipulator::prevKey == Manipulator::currentKey &&
 			TranslateState != STILL)
 		{
-			glutIdleFunc(DoNothingFunc);
+			Manipulator::RegisterIdleFunctions(TRANS_REG, _DoNothing);
 			TranslateState = STILL;
 		}
 		else if (Manipulator::currentKey == 'X')
@@ -139,7 +162,7 @@ void Manipulator::DoTranslation()
 		}
 		else return;
 
-		auto idleMov = []() {
+		auto idleMov = [mov]() {
 			MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 			if (pPainter != nullptr)
 			{
@@ -147,7 +170,8 @@ void Manipulator::DoTranslation()
 				glutPostRedisplay();
 			}
 		};
-		glutIdleFunc(idleMov);
+		
+		RegisterIdleFunctions(TRANS_REG, idleMov);
 		pPainter->rigid.translate(mov.x, mov.y, mov.z);
 		glutPostRedisplay();
 	}
@@ -159,6 +183,8 @@ void Manipulator::DoShear()
 	const int STILL = 0;
 	const int INCR = 1;
 	const int DECR = -1;
+
+	int ShearState = STILL;
 
 	float val = 0.0f;
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
@@ -190,7 +216,7 @@ void Manipulator::DoTwist()
 	const int STILL = 0;
 	const int INCR = 1;
 	const int DECR = -1;
-
+	int TwistState = STILL;
 	float val = 0.0f;
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 	if (pPainter != nullptr)
@@ -251,6 +277,7 @@ void Manipulator::TogglePalette()
 	const std::vector<color4> RedPalette{
 		color4(1.0, 0.0, 0.0, 1.0),  // red
 	};
+	static int PaletteState = RED_PALLETE;
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 	if (PaletteState == RED_PALLETE)
 	{
@@ -274,17 +301,18 @@ void Manipulator::DoSelfRotate()
 	static const int STILL = 0;
 	static const int CLOCK = -1;
 	static const int CCLOCK = 1;
-
 	static const float DEG_INC = 0.05f;
+
 	static float degree = 0.0f;
+	static float degCumulator = 0.0f;
 
 	auto idleFunc = []() {
 		auto* pPainter = MeshPainter::CurrentDrawingInstance();
 		if (pPainter == nullptr) return;
 		Angel::vec3& rot = pPainter->rigid.getRotate();
-		if (std::abs(rot.y) >= 360.0f)
+		if (std::abs(degCumulator) >= 360.0f)
 		{
-			rot.y = 0.0f;
+			degCumulator = 0.0f;
 			degree *= -1.0f;
 			Ply & p = gallery->next();
 			pPainter->draw(p);
@@ -300,15 +328,21 @@ void Manipulator::DoSelfRotate()
 			SelfRotState = CLOCK;
 		}
 		pPainter->rigid.rotate(0.0f, degree, 0.0f);
+		degCumulator += degree;
 		glutPostRedisplay();
 	};
 
-	if (Manipulator::currentKey != Manipulator::prevKey)
+	if (SelfRotState == STILL)
 	{
+		degCumulator = 0.0f;
 		SelfRotState = CLOCK;
 		degree = (float)SelfRotState * DEG_INC;
 		idleFunc();
-		glutIdleFunc(idleFunc);
-		glutPostRedisplay();
+		Manipulator::RegisterIdleFunctions(ROT_REG, idleFunc);
+	}
+	else
+	{
+		degree *= -1.0f;
+		degCumulator = 0.0f;
 	}
 }
