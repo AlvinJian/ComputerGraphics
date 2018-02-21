@@ -66,13 +66,22 @@ void Manipulator::InitKbFuncs()
 
 	kbFuncsMapper['X'] = Manipulator::DoTranslation;
 	kbFuncsMapper['x'] = Manipulator::DoTranslation;
+	kbFuncsMapper['Y'] = Manipulator::DoTranslation;
+	kbFuncsMapper['y'] = Manipulator::DoTranslation;
+	kbFuncsMapper['Z'] = Manipulator::DoTranslation;
+	kbFuncsMapper['z'] = Manipulator::DoTranslation;
+
 	kbFuncsMapper['H'] = Manipulator::DoShear;
 	kbFuncsMapper['h'] = Manipulator::DoShear;
+
 	kbFuncsMapper['T'] = Manipulator::DoTwist;
 	kbFuncsMapper['t'] = Manipulator::DoTwist;
+
 	kbFuncsMapper['N'] = Manipulator::IteratePly;
 	kbFuncsMapper['P'] = Manipulator::IteratePly;
+
 	kbFuncsMapper['c'] = Manipulator::TogglePalette;
+
 	kbFuncsMapper['R'] = Manipulator::DoSelfRotate;
 
 	Manipulator::prevKey = '\0';
@@ -107,6 +116,26 @@ void Manipulator::DoTranslation()
 		{
 			TranslateState = BACKWARD;
 			mov.x += (float)TranslateState * MOV_INCR;
+		}
+		else if (Manipulator::currentKey == 'Y')
+		{
+			TranslateState = FORWARD;
+			mov.y += (float)TranslateState * MOV_INCR;
+		}
+		else if (Manipulator::currentKey == 'y')
+		{
+			TranslateState = BACKWARD;
+			mov.y += (float)TranslateState * MOV_INCR;
+		}
+		else if (Manipulator::currentKey == 'Z')
+		{
+			TranslateState = FORWARD;
+			mov.z += (float)TranslateState * MOV_INCR;
+		}
+		else if (Manipulator::currentKey == 'z')
+		{
+			TranslateState = BACKWARD;
+			mov.z += (float)TranslateState * MOV_INCR;
 		}
 		else return;
 
@@ -184,19 +213,21 @@ void Manipulator::DoTwist()
 
 void Manipulator::IteratePly()
 {
-	MeshPainter * instance = MeshPainter::CurrentDrawingInstance();
-	if (gallery == nullptr || instance == nullptr) 
+	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
+	if (gallery == nullptr || pPainter == nullptr) 
 		return;
+	pPainter->rigid = RigidBodyMov();
+	pPainter->deform = Deform();
 	if (Manipulator::currentKey == 'N')
 	{
 		Ply & p = gallery->next();
-		instance->draw(p);
+		pPainter->draw(p);
 		glutPostRedisplay();
 	}
 	else if (Manipulator::currentKey == 'P')
 	{
 		Ply & p = gallery->prev();
-		instance->draw(p);
+		pPainter->draw(p);
 		glutPostRedisplay();
 	}
 	else return;
@@ -253,7 +284,6 @@ void Manipulator::DoSelfRotate()
 		Angel::vec3& rot = pPainter->rigid.getRotate();
 		if (std::abs(rot.y) >= 360.0f)
 		{
-			std::cout << "next model" << std::endl;
 			rot.y = 0.0f;
 			degree *= -1.0f;
 			Ply & p = gallery->next();
@@ -273,7 +303,7 @@ void Manipulator::DoSelfRotate()
 		glutPostRedisplay();
 	};
 
-	if (SelfRotState == STILL)
+	if (Manipulator::currentKey != Manipulator::prevKey)
 	{
 		SelfRotState = CLOCK;
 		degree = (float)SelfRotState * DEG_INC;
