@@ -300,46 +300,45 @@ void Manipulator::DoSelfRotate()
 	static const int CCLOCK = 1;
 	static const float DEG_INC = 0.05f;
 
-	static float degree = 0.0f;
 	static float degCumulator = 0.0f;
 
 	auto idleFunc = []() {
+		static float degree = 0.0f;
 		auto* pPainter = MeshPainter::CurrentDrawingInstance();
 		if (pPainter == nullptr) return;
 		Angel::vec3& rot = pPainter->rigid.getRotate();
-		if (std::abs(degCumulator) >= 360.0f)
+		if (degCumulator >= 358.0f)
 		{
+			rot.y = 0.0f;
 			degCumulator = 0.0f;
-			degree *= -1.0f;
+			SelfRotState *= -1;
+			rot.y = 0.0f;
+			std::cout << "SelfRotState=" << SelfRotState << std::endl;
 			Ply & p = gallery->next();
 			pPainter->draw(p);
 			glutPostRedisplay();
-			return;
 		}
-		if (degree > 0.0f)
+		else
 		{
-			SelfRotState = CCLOCK;
+			degree = SelfRotState * DEG_INC;
+			pPainter->rigid.rotate(0.0f, degree, 0.0f);
+			degCumulator += std::fabsf(degree);
+			glutPostRedisplay();
 		}
-		else if (degree < 0.0f)
-		{
-			SelfRotState = CLOCK;
-		}
-		pPainter->rigid.rotate(0.0f, degree, 0.0f);
-		degCumulator += degree;
-		glutPostRedisplay();
 	};
 
 	if (SelfRotState == STILL)
 	{
 		degCumulator = 0.0f;
-		SelfRotState = CLOCK;
-		degree = (float)SelfRotState * DEG_INC;
+		SelfRotState = CCLOCK;
 		idleFunc();
 		Manipulator::RegisterIdleFunctions(ROT_REG, idleFunc);
+		std::cout << "SelfRotState=" << SelfRotState << std::endl;
 	}
 	else
 	{
-		degree *= -1.0f;
 		degCumulator = 0.0f;
+		SelfRotState *= -1;
+		std::cout << "SelfRotState=" << SelfRotState << std::endl;
 	}
 }

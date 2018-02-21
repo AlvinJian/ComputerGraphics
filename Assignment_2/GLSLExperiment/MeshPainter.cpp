@@ -15,7 +15,7 @@ MeshPainter * MeshPainter::CurrentDrawingInstance()
 }
 
 MeshPainter::MeshPainter(const std::vector<color4> & palette) :
-	palette(palette), model(nullptr)
+	palette(palette), model(nullptr), cameraPos(0.0f, 0.0f, -1.5)
 {
 }
 
@@ -188,8 +188,15 @@ void MeshPainter::calcMatrices()
 	projMatrixf[10] = perspectiveMat[2][2]; projMatrixf[14] = perspectiveMat[2][3];
 	projMatrixf[11] = perspectiveMat[3][2]; projMatrixf[15] = perspectiveMat[3][3];
 
+	point4 _camPos(instance.cameraPos);
+	// point4 _at(instance.rigid.getTranslate());
+	point4 _at(point3(0.0f, 0.0f, 0.0f));
+	point4 _up(point3(0.0f, 1.0f, 0.0f));
+
+	Angel::mat4 viewMatrix = Angel::LookAt(_camPos, _at, _up);
+
 	Angel::mat4 modelMat = Angel::identity();
-	modelMat = modelMat * instance.rigid.getTranslateMatrix() *
+	modelMat = viewMatrix * modelMat * instance.rigid.getTranslateMatrix() *
 		 instance.rigid.getRotateMatrix() * instance.deform.getShearMatrix() ;
 	
 	float modelMatrixf[16];

@@ -38,5 +38,7 @@ namespace assignment2 {
 		GLuint ebo;
 		GLuint program;
 		Ply * model;
+
+		point3 cameraPos;
 	};
 }
