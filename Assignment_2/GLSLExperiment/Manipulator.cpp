@@ -4,10 +4,6 @@
 
 using namespace assignment2;
 
-static void DoNothingFunc()
-{
-}
-
 static auto _DoNothing = []() {};
 #define REG_NUM 4
 #define TRANS_REG 0
@@ -25,8 +21,7 @@ void Manipulator::RunIdleFunctions()
 {
 	for (size_t i = 0; i < REG_NUM; ++i)
 	{
-		auto f = funcs[i];
-		f();
+		funcs[i]();
 	}
 }
 
@@ -242,8 +237,10 @@ void Manipulator::IteratePly()
 	MeshPainter * pPainter = MeshPainter::CurrentDrawingInstance();
 	if (gallery == nullptr || pPainter == nullptr) 
 		return;
-	pPainter->rigid = RigidBodyMov();
-	pPainter->deform = Deform();
+	// pPainter->rigid = RigidBodyMov();
+	// pPainter->deform = Deform();
+	SelfRotState = 0;
+	Manipulator::RegisterIdleFunctions(ROT_REG, _DoNothing);
 	if (Manipulator::currentKey == 'N')
 	{
 		Ply & p = gallery->next();

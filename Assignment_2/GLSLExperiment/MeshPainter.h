@@ -27,6 +27,7 @@ namespace assignment2 {
 		static void calcMatrices();
 		static void drawCallback();
 		static void reshape(int w, int h);
+
 		std::vector<color4> genColors(Ply & plyModel);
 
 		std::vector<color4> palette;

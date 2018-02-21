@@ -36,6 +36,7 @@ Ply& Gallery::current()
 	{
 		load();
 	}
+	std::cout << "current file=" << allPlys[_i].first << std::endl;
 	return *allPlys[_i].second;
 }
 

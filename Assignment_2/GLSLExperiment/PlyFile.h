@@ -22,6 +22,7 @@ namespace assignment2 {
 
 	private:
 		static void AdjustGeoCenterToOrigin(Ply &);
+		static void AdjustCenterToOrigin(Ply &);
 		explicit Ply();
 		void calcGeoProperties();
 		std::vector<point4> vertices;

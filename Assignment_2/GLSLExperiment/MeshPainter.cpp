@@ -206,7 +206,7 @@ void MeshPainter::calcMatrices()
 	const point3& c = m.getCenter();
 	std::vector<GLfloat> len{ m.getWidth(), m.getHeight(), m.getDepth() };
 	GLfloat maxLen = *std::max_element(len.begin(), len.end());
-	maxLen *= 1.5f;
+	maxLen *= 1.33f;
 	GLfloat left = c.x - 0.5f * maxLen;
 	GLfloat right = c.x + 0.5f * maxLen;
 	GLfloat bottom = c.y - 0.5f * maxLen;

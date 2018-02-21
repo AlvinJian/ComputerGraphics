@@ -130,8 +130,9 @@ Ply* Ply::Load(const std::string & path)
 			break;
 		}
 	}
-	AdjustGeoCenterToOrigin(*data);
+	// AdjustGeoCenterToOrigin(*data);
 	data->calcGeoProperties();
+	AdjustCenterToOrigin(*data);
 	return data;
 }
 
@@ -173,8 +174,8 @@ void Ply::calcGeoProperties()
 	};
 	auto zmax_it = std::max_element(vertices.begin(), vertices.end(), cmpZ);
 	auto zmin_it = std::min_element(vertices.begin(), vertices.end(), cmpZ);
-	GLfloat zmax = zmax_it->y;
-	GLfloat zmin = zmin_it->y;
+	GLfloat zmax = zmax_it->z;
+	GLfloat zmin = zmin_it->z;
 	depth = zmax - zmin;
 
 	center.x = 0.5f * (xmax + xmin);
@@ -221,4 +222,14 @@ void Ply::AdjustGeoCenterToOrigin(Ply & ply)
 	{
 		ply.vertices[i] -= gc4;
 	}
+}
+
+void Ply::AdjustCenterToOrigin(Ply & ply)
+{
+	point4 center4(ply.center, 0.0f);
+	for (int i = 0; i < ply.vertexNum; ++i)
+	{
+		ply.vertices[i] -= center4;
+	}
+	ply.center = point3(0.0f, 0.0f, 0.0f);
 }
