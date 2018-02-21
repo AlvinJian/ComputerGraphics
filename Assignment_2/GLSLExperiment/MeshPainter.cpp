@@ -150,6 +150,7 @@ void MeshPainter::draw(Ply & plyModel)
 	elementNum = elements.size();
 
 	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+	glutSetWindowTitle(model->getName().c_str());
 	glutReshapeFunc(reshape);
 	glutDisplayFunc(drawCallback);
 }

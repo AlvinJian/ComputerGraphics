@@ -133,6 +133,7 @@ Ply* Ply::Load(const std::string & path)
 	// AdjustGeoCenterToOrigin(*data);
 	data->calcGeoProperties();
 	AdjustCenterToOrigin(*data);
+	data->name = std::string(path);
 	return data;
 }
 
@@ -232,4 +233,9 @@ void Ply::AdjustCenterToOrigin(Ply & ply)
 		ply.vertices[i] -= center4;
 	}
 	ply.center = point3(0.0f, 0.0f, 0.0f);
+}
+
+const std::string& Ply::getName() const
+{
+	return name;
 }

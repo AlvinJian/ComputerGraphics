@@ -19,6 +19,7 @@ namespace assignment2 {
 		float getHeight() const;
 		float getDepth() const;
 		const point3& getCenter() const;
+		const std::string& getName() const;
 
 	private:
 		static void AdjustGeoCenterToOrigin(Ply &);
@@ -35,5 +36,7 @@ namespace assignment2 {
 		GLfloat height;
 		GLfloat depth;
 		point3 center;
+
+		std::string name;
 	};
 }
