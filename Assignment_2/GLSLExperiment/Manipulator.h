@@ -5,7 +5,7 @@
 
 namespace assignment2 {
 	class Gallery;
-	class Input
+	class Manipulator
 	{
 		using KbFunc = std::function<void()>;
 	public:
@@ -14,16 +14,28 @@ namespace assignment2 {
 		static void SetGallery(Gallery *);
 
 	private:
+		static Gallery * gallery;
+
 		static char prevKey;
 		static char currentKey;
 		static std::map<char, KbFunc> kbFuncsMapper;
-		static Gallery * gallery;
 
+		static int TranslateState;
 		static void DoTranslation();
+
+		static int ShearState;
 		static void DoShear();
+
+		static int TwistState;
 		static void DoTwist();
+
 		static void IteratePly();
+
+		static int PaletteState;
 		static void TogglePalette();
+
+		static int SelfRotState;
+		static void DoSelfRotate();
 	};
 }
 

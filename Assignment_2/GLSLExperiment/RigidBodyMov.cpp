@@ -18,7 +18,7 @@ Angel::mat4 RigidBodyMov::getTranslateMatrix() const
 	return Angel::Translate(transState);
 }
 
-const Angel::vec3& RigidBodyMov::getTranslate() const
+Angel::vec3& RigidBodyMov::getTranslate()
 {
 	return transState;
 }
@@ -35,7 +35,7 @@ Angel::mat4 RigidBodyMov::getRotateMatrix() const
 		Angel::RotateZ(rotState.z);
 }
 
-const Angel::vec3& RigidBodyMov::getRotate() const
+Angel::vec3& RigidBodyMov::getRotate()
 {
 	return rotState;
 }

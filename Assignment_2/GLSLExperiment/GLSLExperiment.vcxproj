@@ -89,7 +89,7 @@
     <ClCompile Include="example1.cpp" />
     <ClCompile Include="Gallery.cpp" />
     <ClCompile Include="InitShader.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="manipulator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshPainter.cpp" />
     <ClCompile Include="PlyFile.cpp" />
@@ -102,7 +102,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Deform.h" />
     <ClInclude Include="Gallery.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="manipulator.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="MeshPainter.h" />
     <ClInclude Include="PlyFile.h" />

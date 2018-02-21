@@ -3,7 +3,7 @@
 #include <ctime>
 #include "PlyFile.h"
 #include "MeshPainter.h"
-#include "Input.h"
+#include "Manipulator.h"
 #include "Config.h"
 #include "Gallery.h"
 
@@ -20,16 +20,16 @@ int main(int argc, char* argv[])
 	glewInit();
 	std::srand(std::time(nullptr));
 	config::ViewportConfig::Init();
-	assignment2::Input::InitKbFuncs();
+	assignment2::Manipulator::InitKbFuncs();
 
 	std::vector<color4> RedPalette{
 		color4(1.0, 0.0, 0.0, 1.0),  // red
 	};
 	assignment2::MeshPainter painter(RedPalette);
 	assignment2::Gallery gallery;
-	assignment2::Input::SetGallery(&gallery);
+	assignment2::Manipulator::SetGallery(&gallery);
 	painter.draw(gallery.current());
-	glutKeyboardFunc(assignment2::Input::KbEventHandler);
+	glutKeyboardFunc(assignment2::Manipulator::KbEventHandler);
 	glutPostRedisplay();
 	glutMainLoop();
 	return 0;
