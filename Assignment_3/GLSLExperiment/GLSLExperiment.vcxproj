@@ -92,9 +92,13 @@
     <ClCompile Include="manipulator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeshPainter.cpp" />
+    <ClCompile Include="ModelNode.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="PlyFile.cpp" />
     <ClCompile Include="RigidBodyMov.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="textfile.cpp" />
+    <ClCompile Include="TransformNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
@@ -105,9 +109,13 @@
     <ClInclude Include="manipulator.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="MeshPainter.h" />
+    <ClInclude Include="ModelNode.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="PlyFile.h" />
     <ClInclude Include="RigidBodyMov.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="textfile.h" />
+    <ClInclude Include="TransformNode.h" />
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
