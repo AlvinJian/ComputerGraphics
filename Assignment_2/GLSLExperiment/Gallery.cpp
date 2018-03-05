@@ -54,6 +54,13 @@ Ply& Gallery::prev()
 
 Gallery::~Gallery()
 {
+	for (auto& p : allPlys)
+	{
+		if (p.second != nullptr)
+		{
+			delete p.second;
+		}
+	}
 }
 
 std::vector<std::string> 
@@ -68,7 +75,7 @@ Gallery::LoadFilesWin32(const std::string & dir)
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	DWORD dwError = 0;
 	StringCchCopy(szDir, MAX_PATH, dir.c_str());
-	StringCchCat(szDir, MAX_PATH, TEXT("\\*"));
+	StringCchCat(szDir, MAX_PATH, TEXT("\\*.ply"));
 
 	std::vector<std::string> filenames;
 
