@@ -73,6 +73,11 @@ int main(int argc, char* argv[])
 	
 	grpLv1Right.addChild(&rotAnim).addChild(&grpLv2LLeft).addChild(&grpLv2LRight);
 
+	auto reshape = [](int w, int h)
+	{
+		config::ViewportConfig::SetSize(w, h);
+	};
+	glutReshapeFunc(reshape);
 	glutDisplayFunc(Scene::Render);
 	glutIdleFunc(AnimationEngine::Playback);
 	glutPostRedisplay();

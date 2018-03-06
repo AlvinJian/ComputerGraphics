@@ -39,7 +39,10 @@ void Scene::render()
 		// sets the default color to clear screen
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f); // background
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		glViewport(0, 0, 
+			config::ViewportConfig::GetWidth(), 
+			config::ViewportConfig::GetHeight()
+		);
 		curModelMatrix = Angel::identity();
 		curModelMatrix *= Angel::Translate(rootPos);
 		pushModelMatrix();
