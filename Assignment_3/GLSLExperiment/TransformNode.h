@@ -12,12 +12,12 @@ namespace assignment3
 			LEFT = 0, RIGHT
 		};
 
-		TransformNode(Angel::mat4, Side side=LEFT);
+		TransformNode(Angel::mat4, Side side=RIGHT);
 		virtual ~TransformNode();
 
-		virtual void action(Scene & scene) override;
+		void action(Scene & scene) override;
 
-	private:
+	protected:
 		Side side;
 		Angel::mat4 transformMat;
 	};

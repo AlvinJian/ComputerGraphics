@@ -36,14 +36,16 @@ const std::vector<Node*> & GroupNode::getChilds() const
 
 void GroupNode::action(Scene & scene)
 {
+#if 0
 	std::cout << __FUNCTION__ << "===start===" << std::endl;
+#endif
 	scene.pushModelMatrix();
-	scene.pushColorStack();
 	for (auto i = 0; i < childs.size(); ++i)
 	{
 		childs[i]->action(scene);
 	}
 	scene.popModelMatrix();
-	scene.popColorStack();
+#if 0
 	std::cout << __FUNCTION__ << "===end===" << std::endl;
+#endif
 }

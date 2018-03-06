@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Deform.cpp" />
     <ClCompile Include="example1.cpp" />
@@ -96,12 +97,14 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PlyFile.cpp" />
     <ClCompile Include="RigidBodyMov.cpp" />
+    <ClCompile Include="AnimatorNode.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="textfile.cpp" />
     <ClCompile Include="TransformNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Deform.h" />
@@ -113,6 +116,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="PlyFile.h" />
     <ClInclude Include="RigidBodyMov.h" />
+    <ClInclude Include="AnimatorNode.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="TransformNode.h" />

@@ -8,6 +8,9 @@ namespace assignment3
 	class Scene
 	{
 	public:
+		static void Use(Scene *);
+		static void Render();
+
 		Scene();
 		~Scene();
 
@@ -16,15 +19,15 @@ namespace assignment3
 
 		void pushModelMatrix();
 		void popModelMatrix();
-		void pushColorStack();
-		void popColorStack();
 
 		void setRoot(Node * root, Angel::vec3 pos);
-		void startRender();
 
 	private:
+		static Scene * CurrentScene;
+
+		void render();
+
 		std::stack<Angel::mat4> matrixStack;
-		std::stack<Angel::vec4> colorStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
 	};
