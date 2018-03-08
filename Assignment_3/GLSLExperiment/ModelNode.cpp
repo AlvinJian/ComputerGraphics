@@ -101,9 +101,9 @@ void ModelNode::action(Scene & scene)
 	projMatrixf[11] = perspectiveMat[3][2]; projMatrixf[15] = perspectiveMat[3][3];
 
 	// view matrix
-	point4 _camPos(Angel::vec3(0.0f, -1.5f, 0.0f));
+	point4 _camPos(Angel::vec3(0.0f, 0.0f, -1.5f));
 	point4 _at(Angel::vec3(0.0f, 0.0f, 0.0f));
-	point4 _up(Angel::vec3(0.0f, 0.0f, 1.0f));
+	point4 _up(Angel::vec3(0.0f, 1.0f, 0.0f));
 	Angel::mat4 viewMatrix = Angel::LookAt(_camPos, _at, _up);
 
 	// model & view matrix

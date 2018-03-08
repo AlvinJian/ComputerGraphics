@@ -12,9 +12,8 @@ in vec3 vNormal;
 out vec4 interpolatedColor;
 
 // output values that will be interpretated per-fragment
-out  vec3 fN;
-out  vec3 fE;
-out  vec3 fL;
+out vec3 fNormal;
+out vec3 fPosition;
 
 // PROTIP #3
 // can extend to gl_Position = projection * camera * models * vertex
@@ -33,15 +32,6 @@ void main()
   interpolatedColor = vColor;
 
   vec4 normal4 = vec4(vNormal.xyz, 1.0);
-  fN = (model_matrix * normal4).xyz;
-  fE = -1.0 * (model_matrix * orthPos).xyz;
-  fL = (lightPosition - model_matrix * orthPos).xyz;
-  /* if (lightPosition.w != 0.0)
-  {
-    fL = (lightPosition - model_matrix * orthPos).xyz;
-  }
-  else
-  {
-    fL = lightPosition.xyz;
-  } */
+  fNormal = (model_matrix * normal4).xyz;
+  fPosition = (model_matrix * orthPos).xyz;
 }
