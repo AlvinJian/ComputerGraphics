@@ -7,6 +7,10 @@
 using namespace assignment3;
 using color4 = Angel::vec4;
 
+point4 ModelNode::LightPosition = point4(0.0f, 0.33f, 0.0f, 1.0f);
+Angel::vec3 ModelNode::LightDirection = Angel::vec3(0.0f, 0.0f, 1.0f);
+float ModelNode::LightAngle = 135.0f;
+
 ModelNode::ModelNode(Ply & model, const Angel::vec4 & color):
 	plyModel(model), vao(0), 
 	vbo(0), ebo(0), 
@@ -25,6 +29,7 @@ void ModelNode::setup()
 	const std::vector<Angel::vec4> colors(plyModel.getVertices().size(),
 		color);
 	const std::vector<point4>& points = plyModel.getVertices();
+	const std::vector<Angel::vec3>& normals = plyModel.getNormals();
 	const std::vector<GLuint>& elements = plyModel.getFlattenIndexesOfFaces();
 
 	// Create a vertex array object
@@ -34,14 +39,17 @@ void ModelNode::setup()
 	// Create vbo for points and colors
 	size_t pointsByteSize = sizeof(point4) * points.size();
 	size_t colorsByteSize = sizeof(color4) * colors.size();
+	size_t normalsByteSize = sizeof(Angel::vec3) * normals.size();
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, pointsByteSize + colorsByteSize,
+	glBufferData(GL_ARRAY_BUFFER, pointsByteSize + colorsByteSize + normalsByteSize,
 		NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, pointsByteSize,
 		points.data());
 	glBufferSubData(GL_ARRAY_BUFFER, pointsByteSize, colorsByteSize,
 		colors.data());
+	glBufferSubData(GL_ARRAY_BUFFER, pointsByteSize + colorsByteSize, normalsByteSize,
+		normals.data());
 
 	// Create ebo for faces
 	size_t elemByteSize = sizeof(int) * elements.size();
@@ -64,6 +72,11 @@ void ModelNode::setup()
 	glEnableVertexAttribArray(vColor);
 	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, 0,
 		BUFFER_OFFSET(pointsByteSize));
+
+	GLuint vNormal = glGetAttribLocation(program, "vNormal");
+	glEnableVertexAttribArray(vNormal);
+	glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, 0,
+		BUFFER_OFFSET(pointsByteSize + colorsByteSize));
 
 	// disable all buffer and shader program
 	glBindVertexArray(0);
@@ -146,10 +159,54 @@ void ModelNode::action(Scene & scene)
 	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orth_matrix");
 	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf);
 
+	// light attributes
+	Angel::vec4 lightPosView = viewMatrix * LightPosition;
+	float lightPos[4] = { lightPosView.x, lightPosView.y,
+		lightPosView.z, lightPosView.w };
+	GLuint lightPositionLoc = glGetUniformLocation(program, "lightPosition");
+	glUniform4fv(lightPositionLoc, 1, lightPos);
+
+	Angel::vec4 lightDirInView = viewMatrix * Angel::vec4(LightDirection, 1.0f);
+	float lightDir[3] = { lightDirInView.x, lightDirInView.y, lightDirInView.z };
+	GLuint lightDirectionLoc = glGetUniformLocation(program, "lightDirection");
+	glUniform3fv(lightDirectionLoc, 1, lightDir);
+
+	GLuint lightAngleLoc = glGetUniformLocation(program, "lightAngle");
+	glUniform1f(lightAngleLoc, LightAngle);
+
+	color4 light_ambient(0.2, 0.2, 0.2, 1.0);
+	color4 light_diffuse(1.0, 1.0, 1.0, 1.0);
+	color4 light_specular(1.0, 1.0, 1.0, 1.0);
+
+	color4 material_ambient = color; //(1.0, 0.0, 1.0, 1.0);
+	color4 material_diffuse = color;//(1.0, 0.8, 0.0, 1.0);
+	color4 material_specular = color;//(1.0, 0.0, 1.0, 1.0);
+	float  material_shininess = 5.0;
+
+	color4 ambient_product = light_ambient * material_ambient;
+	color4 diffuse_product = light_diffuse * material_diffuse;
+	color4 specular_product = light_specular * material_specular;
+
+	glUniform4fv(glGetUniformLocation(program, "AmbientProduct"),
+		1, ambient_product);
+	glUniform4fv(glGetUniformLocation(program, "DiffuseProduct"),
+		1, diffuse_product);
+	glUniform4fv(glGetUniformLocation(program, "SpecularProduct"),
+		1, specular_product);
+	glUniform1f(glGetUniformLocation(program, "Shininess"),
+		material_shininess);
+
+	// drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
 	glDrawElements(GL_TRIANGLES, elementNum, GL_UNSIGNED_INT, 0);
 	glDisable(GL_DEPTH_TEST);
 
 	glFlush();
+
+	// disable all buffer and shader program
+	glBindVertexArray(0);
+	// glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
 }

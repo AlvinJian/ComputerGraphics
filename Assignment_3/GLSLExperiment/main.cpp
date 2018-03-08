@@ -2,9 +2,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+
 #include "PlyFile.h"
-#include "MeshPainter.h"
-#include "Manipulator.h"
 #include "Config.h"
 #include "Gallery.h"
 
@@ -51,13 +50,13 @@ int main(int argc, char* argv[])
 
 	AnimationEngine animEngine;
 	AnimationEngine::Use(&animEngine);
-	RotateAnimatorNode rotAnim(60, RotateAnimatorNode::Y_AXIS);
-	RotateAnimatorNode rotAnimRever(90, RotateAnimatorNode::Y_AXIS);
+	RotateAnimatorNode rotAnim(300, RotateAnimatorNode::Y_AXIS);
+	RotateAnimatorNode rotAnimRever(450, RotateAnimatorNode::Y_AXIS);
 	rotAnimRever.reverse();
 	animEngine.registerAnimator(&rotAnim);
 	animEngine.registerAnimator(&rotAnimRever);
 
-	scn.setRoot(&root, Angel::vec3(0.0f, 0.8f, 0.0f));
+	scn.setRoot(&root, Angel::vec3(0.0f, 0.5f, 0.0f));
 	root.addChild(&dummy);
 
 	GroupNode grpLv1Left;

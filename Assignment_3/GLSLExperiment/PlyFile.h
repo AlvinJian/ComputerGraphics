@@ -13,6 +13,7 @@ namespace assignment3 {
 		static Ply * Load(const std::string & path);
 		~Ply();
 		const std::vector<point4>& getVertices() const;
+		const std::vector<Angel::vec3> getNormals() const;
 		const std::vector<std::vector<GLuint>>& getFaces() const;
 		const std::vector<GLuint>& getFlattenIndexesOfFaces() const;
 		float getWidth() const;
@@ -24,9 +25,12 @@ namespace assignment3 {
 	private:
 		static void AdjustGeoCenterToOrigin(Ply &);
 		static void AdjustCenterToOrigin(Ply &);
+
 		explicit Ply();
+		void calcVertexNormal();
 		void calcGeoProperties();
 		std::vector<point4> vertices;
+		std::vector<Angel::vec3> normals;
 		std::vector<std::vector<GLuint>> faces;
 		std::vector<GLuint> flattenIndexesOfFaces;
 

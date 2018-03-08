@@ -1,6 +1,8 @@
 #include <fstream>
 #include <sstream>
+#include <set>
 #include <algorithm>
+#include <functional>
 #include "PlyFile.h"
 
 using namespace assignment3;
@@ -10,6 +12,59 @@ Ply::Ply():
 	width(0.0f), height(0.0f), 
 	depth(0.0f), center(0.0f, 0.0f,0.0f)
 {
+}
+
+void Ply::calcVertexNormal()
+{
+	normals = std::vector<Angel::vec3>(vertexNum, Angel::vec3());
+
+	std::function<Angel::vec3(std::vector<Angel::vec3>&)> newellNormal = 
+		[](std::vector<Angel::vec3>& vs) {
+		Angel::vec3 normal;
+		size_t num = vs.size();
+		for (size_t i = 0; i < num; ++i)
+		{
+			size_t next_i = (i + 1) % num;
+			normal.x += (vs[i].y - vs[next_i].y) * (vs[i].z + vs[next_i].z);
+			normal.y += (vs[i].z - vs[next_i].z) * (vs[i].x + vs[next_i].x);
+			normal.z += (vs[i].x - vs[next_i].x) * (vs[i].y + vs[next_i].y);
+		}
+		// return Angel::normalize(normal);
+		return normal;
+	};
+#if 1
+	std::vector<std::vector<size_t>> idFaces(vertexNum);
+	for (size_t f=0; f<faces.size(); ++f)
+	{
+		for (auto id : faces[f])
+		{
+			idFaces[id].push_back(f);
+		}
+	}
+	// std::vector<Angel::vec3> dp(faceNum, Angel::vec3());
+	for (size_t i=0; i<idFaces.size(); ++i)
+	{
+		std::vector<size_t>& fidsPerVert = idFaces[i];
+		std::set<size_t> vids;
+		for (auto f : fidsPerVert)
+		{
+			for (auto vid : faces[f])
+			{
+				vids.insert(vid);
+			}
+		}
+		std::vector<Angel::vec3> vs;
+		for (auto id: vids)
+		{
+			Angel::vec3 v(vertices[id].x, vertices[id].y, vertices[id].z);
+			vs.push_back(v);
+		}
+		auto n = newellNormal(vs);
+		normals[i].x = n.x;
+		normals[i].y = n.y;
+		normals[i].z = n.z;
+	}
+#endif
 }
 
 Ply::~Ply()
@@ -133,6 +188,7 @@ Ply* Ply::Load(const std::string & path)
 	// AdjustGeoCenterToOrigin(*data);
 	data->calcGeoProperties();
 	AdjustCenterToOrigin(*data);
+	data->calcVertexNormal();
 	data->name = std::string(path);
 	return data;
 }
@@ -140,6 +196,11 @@ Ply* Ply::Load(const std::string & path)
 const std::vector<point4>& Ply::getVertices() const
 {
 	return vertices;
+}
+
+const std::vector<Angel::vec3> Ply::getNormals() const
+{
+	return normals;
 }
 
 const std::vector<std::vector<GLuint>>& Ply::getFaces() const

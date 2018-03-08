@@ -2,12 +2,19 @@
 
 uniform mat4 projection_matrix;
 uniform mat4 model_matrix;
-// uniform float y_twist;
 uniform mat4 orth_matrix;
+uniform vec4 lightPosition;
 
 in  vec4 vPosition;
 in  vec4 vColor;
+in vec3 vNormal;
+
 out vec4 interpolatedColor;
+
+// output values that will be interpretated per-fragment
+out  vec3 fN;
+out  vec3 fE;
+out  vec3 fL;
 
 // PROTIP #3
 // can extend to gl_Position = projection * camera * models * vertex
@@ -22,18 +29,19 @@ out vec4 interpolatedColor;
 void main() 
 {
   vec4 orthPos = orth_matrix * vPosition;
-  // float f = length(orthPos);
-  // float y_tw_rad = radians(f*y_twist);
-  // float c = cos(y_tw_rad);
-  // float s = sin(y_tw_rad);
-  // mat4 twist;
-  // twist[0] = vec4(c, 0.0, s, 0.0);
-  // twist[1] = vec4(0.0, 1.0, 0.0, 0.0);
-  // twist[2] = vec4(-1.0*s, 0.0, c, 0.0);
-  // twist[3] = vec4(0.0, 0.0, 0.0, 1.0);
-  // mat4 twist_t = transpose(twist);
-
-  // gl_Position = projection_matrix * model_matrix * twist_t * orthPos;
   gl_Position = projection_matrix * model_matrix * orthPos;
   interpolatedColor = vColor;
-} 
+
+  vec4 normal4 = vec4(vNormal.xyz, 1.0);
+  fN = (model_matrix * normal4).xyz;
+  fE = -1.0 * (model_matrix * orthPos).xyz;
+  fL = (lightPosition - model_matrix * orthPos).xyz;
+  /* if (lightPosition.w != 0.0)
+  {
+    fL = (lightPosition - model_matrix * orthPos).xyz;
+  }
+  else
+  {
+    fL = lightPosition.xyz;
+  } */
+}
