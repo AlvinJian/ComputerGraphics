@@ -27,11 +27,10 @@ void main()
     vec3 R = normalize(-1.0 * L + 2.0 * dot(L, N));
 
     vec3 F = normalize(lightDirection);
-    float prod = dot(-1.0 * L, F);
-    if (prod > cos(radians(lightAngle/2.0)))
+    vec4 ambient = AmbientProduct;
+    float halfAngle = radians(lightAngle/2.0);
+    if ( dot(-1.0 * L, F) > cos(halfAngle) )
     {
-        vec4 ambient = AmbientProduct;
-
         float Kd = max(dot(L, N), 0.0);
         vec4 diffuse = Kd*DiffuseProduct;
 
@@ -44,12 +43,10 @@ void main()
         }
         fColor = ambient + diffuse + specular; // + interpolatedColor * 0.2;
         fColor.a = 1.0;
-    } else
+    }
+    else
     {
-        vec4 ambient = AmbientProduct;
         fColor = ambient;
         fColor.a = 1.0;
     }
-
-    
 }

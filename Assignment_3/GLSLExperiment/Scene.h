@@ -1,6 +1,7 @@
 #pragma once
 #include "Angel.h"
 #include <stack>
+#include <utility>
 
 namespace assignment3
 {
@@ -10,6 +11,12 @@ namespace assignment3
 	public:
 		static void Use(Scene *);
 		static void Render();
+
+		// Light
+		static Angel::vec4 LightPosition;
+		static Angel::vec4 LightPositionEnd;
+		static float LightAngle;
+		static float Shininess;
 
 		Scene();
 		~Scene();
@@ -21,6 +28,8 @@ namespace assignment3
 		void popModelMatrix();
 
 		void setRoot(Node * root, Angel::vec3 pos);
+		std::pair<const Node *, const Angel::vec4 *>
+			getRoot() const;
 
 	private:
 		static Scene * CurrentScene;

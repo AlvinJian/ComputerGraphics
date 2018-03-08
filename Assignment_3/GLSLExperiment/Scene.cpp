@@ -6,6 +6,11 @@ using namespace assignment3;
 
 Scene * Scene::CurrentScene = nullptr;
 
+Angel::vec4 Scene::LightPosition = Angel::vec4(0.0f, 1.2f, 0.0f, 1.0f);
+Angel::vec4 Scene::LightPositionEnd = Angel::vec4(0.0f, -1.0f, 0.0f, 1.0f);
+float Scene::LightAngle = 30.0f;
+float Scene::Shininess = 7.5f;
+
 void Scene::Use(Scene * scn)
 {
 	CurrentScene = scn;
@@ -30,6 +35,11 @@ void Scene::setRoot(Node * root, Angel::vec3 pos)
 {
 	pRootNode = root;
 	rootPos = Angel::vec4(pos, 1.0f);
+}
+
+std::pair<const Node *, const Angel::vec4 *> Scene::getRoot() const
+{
+	return std::make_pair(pRootNode, &rootPos);
 }
 
 void Scene::render()

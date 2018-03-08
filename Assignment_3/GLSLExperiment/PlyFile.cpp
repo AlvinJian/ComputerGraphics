@@ -34,14 +34,37 @@ void Ply::calcVertexNormal()
 	};
 #if 1
 	std::vector<std::vector<size_t>> idFaces(vertexNum);
+	fnorm = std::vector<Angel::vec3>(faceNum, Angel::vec3());
 	for (size_t f=0; f<faces.size(); ++f)
 	{
+		std::vector<Angel::vec3> vs;
 		for (auto id : faces[f])
 		{
 			idFaces[id].push_back(f);
+			Angel::vec3 v(vertices[id].x, vertices[id].y, vertices[id].z);
+			vs.push_back(v);
 		}
+		auto n = newellNormal(vs);
+		auto nn = Angel::normalize(n);
+		fnorm[f].x = nn.x;
+		fnorm[f].y = nn.y;
+		fnorm[f].z = nn.z;
 	}
-	// std::vector<Angel::vec3> dp(faceNum, Angel::vec3());
+	
+	for (size_t i = 0; i < idFaces.size(); ++i)
+	{
+		std::vector<size_t>& fidsPerVert = idFaces[i];
+		Angel::vec3 avgNormal;
+		for (auto f : fidsPerVert)
+		{
+			avgNormal += fnorm[f];
+		}
+		avgNormal /= fidsPerVert.size();
+		normals[i].x = avgNormal.x;
+		normals[i].y = avgNormal.y;
+		normals[i].z = avgNormal.z;
+	}
+	/* std::vector<Angel::vec3> dp(faceNum, Angel::vec3());
 	for (size_t i=0; i<idFaces.size(); ++i)
 	{
 		std::vector<size_t>& fidsPerVert = idFaces[i];
@@ -63,7 +86,7 @@ void Ply::calcVertexNormal()
 		normals[i].x = n.x;
 		normals[i].y = n.y;
 		normals[i].z = n.z;
-	}
+	} */
 #endif
 }
 

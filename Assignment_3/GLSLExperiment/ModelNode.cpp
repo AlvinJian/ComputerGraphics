@@ -7,10 +7,6 @@
 using namespace assignment3;
 using color4 = Angel::vec4;
 
-point4 ModelNode::LightPosition = point4(0.0f, 0.33f, 0.0f, 1.0f);
-Angel::vec3 ModelNode::LightDirection = Angel::vec3(0.0f, 0.0f, 1.0f);
-float ModelNode::LightAngle = 135.0f;
-
 ModelNode::ModelNode(Ply & model, const Angel::vec4 & color):
 	plyModel(model), vao(0), 
 	vbo(0), ebo(0), 
@@ -105,9 +101,9 @@ void ModelNode::action(Scene & scene)
 	projMatrixf[11] = perspectiveMat[3][2]; projMatrixf[15] = perspectiveMat[3][3];
 
 	// view matrix
-	point4 _camPos(Angel::vec3(0.0f, 0.0f, -1.5));
+	point4 _camPos(Angel::vec3(0.0f, -1.5f, 0.0f));
 	point4 _at(Angel::vec3(0.0f, 0.0f, 0.0f));
-	point4 _up(Angel::vec3(0.0f, 1.0f, 0.0f));
+	point4 _up(Angel::vec3(0.0f, 0.0f, 1.0f));
 	Angel::mat4 viewMatrix = Angel::LookAt(_camPos, _at, _up);
 
 	// model & view matrix
@@ -128,7 +124,7 @@ void ModelNode::action(Scene & scene)
 	const point3& c = m.getCenter();
 	std::vector<GLfloat> len{ m.getWidth(), m.getHeight(), m.getDepth() };
 	GLfloat maxLen = *std::max_element(len.begin(), len.end());
-	maxLen *= 5.0f;
+	maxLen *= 6.0f;
 	GLfloat left = c.x - 0.5f * maxLen;
 	GLfloat right = c.x + 0.5f * maxLen;
 	GLfloat bottom = c.y - 0.5f * maxLen;
@@ -160,28 +156,29 @@ void ModelNode::action(Scene & scene)
 	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf);
 
 	// light attributes
-	Angel::vec4 lightPosView = viewMatrix * LightPosition;
+	Angel::vec4 lightPosView = viewMatrix * scene.LightPosition;
 	float lightPos[4] = { lightPosView.x, lightPosView.y,
 		lightPosView.z, lightPosView.w };
 	GLuint lightPositionLoc = glGetUniformLocation(program, "lightPosition");
 	glUniform4fv(lightPositionLoc, 1, lightPos);
 
-	Angel::vec4 lightDirInView = viewMatrix * Angel::vec4(LightDirection, 1.0f);
+	Angel::vec4 lightPosViewEnd = viewMatrix * scene.LightPositionEnd;
+	Angel::vec4 lightDirInView = lightPosViewEnd - lightPosView;
 	float lightDir[3] = { lightDirInView.x, lightDirInView.y, lightDirInView.z };
 	GLuint lightDirectionLoc = glGetUniformLocation(program, "lightDirection");
 	glUniform3fv(lightDirectionLoc, 1, lightDir);
 
 	GLuint lightAngleLoc = glGetUniformLocation(program, "lightAngle");
-	glUniform1f(lightAngleLoc, LightAngle);
+	glUniform1f(lightAngleLoc, scene.LightAngle);
 
 	color4 light_ambient(0.2, 0.2, 0.2, 1.0);
 	color4 light_diffuse(1.0, 1.0, 1.0, 1.0);
 	color4 light_specular(1.0, 1.0, 1.0, 1.0);
 
 	color4 material_ambient = color; //(1.0, 0.0, 1.0, 1.0);
-	color4 material_diffuse = color;//(1.0, 0.8, 0.0, 1.0);
-	color4 material_specular = color;//(1.0, 0.0, 1.0, 1.0);
-	float  material_shininess = 5.0;
+	color4 material_diffuse = color; //(1.0, 0.8, 0.0, 1.0);
+	color4 material_specular = color; //(1.0, 0.0, 1.0, 1.0);
+	float  material_shininess = scene.Shininess;
 
 	color4 ambient_product = light_ambient * material_ambient;
 	color4 diffuse_product = light_diffuse * material_diffuse;
@@ -195,6 +192,13 @@ void ModelNode::action(Scene & scene)
 		1, specular_product);
 	glUniform1f(glGetUniformLocation(program, "Shininess"),
 		material_shininess);
+
+#if 1
+	// debug
+	auto rootPair = scene.getRoot();
+	// Angel::vec4 r(rootPair.second);
+	auto mr = viewMatrix * *rootPair.second;
+#endif
 
 	// drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

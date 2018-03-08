@@ -7,10 +7,6 @@ namespace assignment3
 	class ModelNode: public Node
 	{
 	public:
-		static point4 LightPosition;
-		static Angel::vec3 LightDirection;
-		static float LightAngle;
-
 		ModelNode(Ply & model, const Angel::vec4 & color);
 		virtual ~ModelNode();
 

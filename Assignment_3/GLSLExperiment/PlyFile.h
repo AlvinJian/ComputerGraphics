@@ -31,6 +31,7 @@ namespace assignment3 {
 		void calcGeoProperties();
 		std::vector<point4> vertices;
 		std::vector<Angel::vec3> normals;
+		std::vector<Angel::vec3> fnorm;
 		std::vector<std::vector<GLuint>> faces;
 		std::vector<GLuint> flattenIndexesOfFaces;
 
