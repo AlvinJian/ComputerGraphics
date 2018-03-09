@@ -2,6 +2,7 @@
 #include <map>
 #include <chrono>
 #include <ctime>
+#include "SingleUsage.h"
 
 namespace assignment3
 {
@@ -16,21 +17,17 @@ namespace assignment3
 			unsigned int frmNum) = 0;
 	};
 
-	class AnimationEngine
+	class AnimationEngineImpl
 	{
 	public:
-		static void Playback();
-		static void Use(AnimationEngine *);
-
-		AnimationEngine(unsigned int fps = 30);
-		~AnimationEngine();
+		AnimationEngineImpl(unsigned int fps = 30);
+		~AnimationEngineImpl();
 
 		int registerAnimator(Animator * anim);
 		void deRegisterAnimator(int id);
+		void playback();
 		
-	private:
-		static AnimationEngine * InUse;
-
+	protected:
 		int nextId;
 		bool started;
 		TimePoint startTime;
@@ -39,5 +36,14 @@ namespace assignment3
 		unsigned int frameCount;
 		TimePoint prevTime;
 		std::map<int, Animator * > regAnimators;
+	};
+
+	class AnimationEngine : public common::SingleUsage<AnimationEngineImpl>
+	{
+	public:
+		static void Playback();
+
+		AnimationEngine(unsigned int fps = 30);
+		~AnimationEngine();
 	};
 }

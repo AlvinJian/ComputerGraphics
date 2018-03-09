@@ -3,26 +3,39 @@
 
 using namespace assignment3;
 
-AnimationEngine * AnimationEngine::InUse = nullptr;
-
-void AnimationEngine::Use(AnimationEngine * engine)
+AnimationEngineImpl::AnimationEngineImpl(unsigned int fps):
+	fps(fps), nextId(0),
+	started(false), frameCount(0)
 {
-	if (InUse != nullptr) InUse->started = false;
-	InUse = engine;
+	usPerFrame = 1000000 / fps;
 }
 
-void AnimationEngine::Playback()
+AnimationEngineImpl::~AnimationEngineImpl()
 {
-	if (InUse == nullptr) return;
+}
+
+int AnimationEngineImpl::registerAnimator(Animator * anim)
+{
+	regAnimators[nextId++] = anim;
+	return nextId - 1;
+}
+
+void AnimationEngineImpl::deRegisterAnimator(int id)
+{
+	regAnimators.erase(id);
+}
+
+void AnimationEngineImpl::playback()
+{
 	auto current = std::chrono::system_clock::now();
 	bool shouldPlay = false;
-	if (InUse->started)
+	if (started)
 	{
 		// calculate time
-		auto d = current - InUse->prevTime;
+		auto d = current - prevTime;
 		std::chrono::microseconds duration_ms =
 			std::chrono::duration_cast<std::chrono::microseconds>(d);
-		if (duration_ms.count() >= InUse->usPerFrame)
+		if (duration_ms.count() >= usPerFrame)
 		{
 			shouldPlay = true;
 		}
@@ -33,45 +46,36 @@ void AnimationEngine::Playback()
 	else
 	{
 		shouldPlay = true;
-		InUse->started = true;
-		InUse->startTime = current;
-		InUse->frameCount = 0;
+		started = true;
+		startTime = current;
+		frameCount = 0;
 	}
 
 	if (shouldPlay)
 	{
-		for (auto kv : InUse->regAnimators)
+		for (auto kv : regAnimators)
 		{
-			auto e = current - InUse->startTime;
-			std::chrono::microseconds elaspe_ms = 
+			auto e = current - startTime;
+			std::chrono::microseconds elaspe_ms =
 				std::chrono::duration_cast<std::chrono::microseconds>(e);
-			kv.second->play(elaspe_ms, InUse->frameCount);
+			kv.second->play(elaspe_ms, frameCount);
 		}
-		InUse->prevTime = current;
-		InUse->frameCount = (InUse->frameCount + 1 < 1000 * InUse->fps) ?
-			InUse->frameCount + 1 : 0;
+		prevTime = current;
+		frameCount = (frameCount + 1 < 1000 * fps) ? frameCount + 1 : 0;
 		glutPostRedisplay();
 	}
 }
 
+AnimationEngineImpl* AnimationEngine::current = nullptr;
+void AnimationEngine::Playback()
+{
+	auto inUse = GetCurrent();
+	inUse->playback();
+}
+
 AnimationEngine::AnimationEngine(unsigned int fps):
-	fps(fps), nextId(0),
-	started(false), frameCount(0)
-{
-	usPerFrame = 1000000 / fps;
-}
-
-AnimationEngine::~AnimationEngine()
+	AnimationEngineImpl(fps)
 {
 }
 
-int AnimationEngine::registerAnimator(Animator * anim)
-{
-	regAnimators[nextId++] = anim;
-	return nextId - 1;
-}
-
-void AnimationEngine::deRegisterAnimator(int id)
-{
-	regAnimators.erase(id);
-}
+AnimationEngine::~AnimationEngine(){}
