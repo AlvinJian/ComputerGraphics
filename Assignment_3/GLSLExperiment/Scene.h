@@ -1,7 +1,8 @@
 #pragma once
-#include "Angel.h"
 #include <stack>
 #include <utility>
+#include "Angel.h"
+#include "Camera.h"
 
 namespace assignment3
 {
@@ -23,6 +24,7 @@ namespace assignment3
 
 		Angel::mat4 curModelMatrix;
 		Angel::vec4 curColor;
+		Camera camera;
 
 		void pushModelMatrix();
 		void popModelMatrix();

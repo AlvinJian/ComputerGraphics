@@ -38,11 +38,8 @@ void ArmNode::action(Scene & scene)
 	projMatrixf[10] = perspectiveMat[2][2]; projMatrixf[14] = perspectiveMat[2][3];
 	projMatrixf[11] = perspectiveMat[3][2]; projMatrixf[15] = perspectiveMat[3][3];
 
-	// view matrix
-	Angel::vec4 _camPos(Angel::vec3(0.0f, 0.0f, -1.5f));
-	Angel::vec4 _at(Angel::vec3(0.0f, 0.0f, 0.0f));
-	Angel::vec4 _up(Angel::vec3(0.0f, 1.0f, 0.0f));
-	Angel::mat4 viewMatrix = Angel::LookAt(_camPos, _at, _up);
+	// create view matrix
+	Angel::mat4 viewMatrix = scene.camera.createViewMat();
 
 	// model & view matrix
 	Angel::mat4 mvMatrix = viewMatrix * modelMat;
