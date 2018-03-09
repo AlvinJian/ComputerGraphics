@@ -46,8 +46,8 @@ int main(int argc, char* argv[])
 	ModelNode dummy4(gallery.next(), Angel::vec4(1.0, 0.0, 1.0, 1.0));
 	dummy4.setup();
 
-	ArmNode toLeft(Angel::vec3(-0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
-	ArmNode toRight(Angel::vec3(0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
+	ArmNode toRight(Angel::vec3(-0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
+	ArmNode leftEnd(Angel::vec3(0.66f, 0.0f, 0.0f));
 
 	AnimationEngine animEngine;
 	AnimationEngine::Use(&animEngine);
@@ -60,18 +60,16 @@ int main(int argc, char* argv[])
 	scn.setRoot(&root, Angel::vec3(0.0f, 0.65f, 0.0f));
 	root.addChild(&dummy);
 
-	GroupNode grpLv1Left;
-	GroupNode grpLv1Right;
-	grpLv1Left.addChild(&toLeft).addChild(&dummy1);
-	grpLv1Right.addChild(&toRight).addChild(&dummy2);
-	root.addChild(&rotAnimRever).addChild(&grpLv1Left).addChild(&grpLv1Right);
+	GroupNode grpLv1;
+	grpLv1.addChild(&rotAnimRever);
+	root.addChild(&grpLv1);
+	grpLv1.addChild(&toRight).addChild(&dummy1);
+	grpLv1.addChild(&leftEnd).addChild(&dummy2);
 
-	GroupNode grpLv2LLeft;
-	GroupNode grpLv2LRight;
-	grpLv2LLeft.addChild(&toLeft).addChild(&dummy3);
-	grpLv2LRight.addChild(&toRight).addChild(&dummy4);
-	
-	grpLv1Right.addChild(&rotAnim).addChild(&grpLv2LLeft).addChild(&grpLv2LRight);
+	GroupNode grpLv2; grpLv2.addChild(&rotAnim);
+	grpLv1.addChild(&grpLv2);
+	grpLv2.addChild(&toRight).addChild(&dummy3);
+	grpLv2.addChild(&leftEnd).addChild(&dummy4);
 
 	auto reshape = [](int w, int h)
 	{
