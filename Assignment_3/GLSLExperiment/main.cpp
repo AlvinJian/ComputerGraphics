@@ -13,6 +13,7 @@
 #include "Animation.h"
 #include "ModelNode.h"
 #include "ArmNode.h"
+#include "Manipulator.h"
 
 using namespace assignment3;
 
@@ -98,6 +99,11 @@ int main(int argc, char* argv[])
 	glutDisplayFunc(Scene::Render);
 	glutIdleFunc(AnimationEngine::Playback);
 	glutPostRedisplay();
+
+	Manipulator manip;
+	Manipulator::Use(&manip);
+	glutKeyboardFunc(Manipulator::KbEventCallback);
+
 	glutMainLoop();
 	return 0;
 }

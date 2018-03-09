@@ -21,6 +21,11 @@ void Scene::Render()
 	CurrentScene->render();
 }
 
+Scene * Scene::GetCurrent()
+{
+	return CurrentScene;
+}
+
 Scene::Scene():
 	pRootNode(nullptr), curModelMatrix(Angel::identity())
 {

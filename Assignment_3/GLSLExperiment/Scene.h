@@ -12,6 +12,7 @@ namespace assignment3
 	public:
 		static void Use(Scene *);
 		static void Render();
+		static Scene * GetCurrent();
 
 		// Light
 		static Angel::vec4 LightPosition;

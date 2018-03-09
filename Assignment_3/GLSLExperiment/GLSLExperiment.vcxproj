@@ -91,11 +91,13 @@
     <ClCompile Include="Gallery.cpp" />
     <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Manipulator.cpp" />
     <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PlyFile.cpp" />
     <ClCompile Include="AnimatorNode.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SingleUsage.cpp" />
     <ClCompile Include="textfile.cpp" />
     <ClCompile Include="TransformNode.cpp" />
   </ItemGroup>
@@ -107,12 +109,14 @@
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Gallery.h" />
+    <ClInclude Include="Manipulator.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PlyFile.h" />
     <ClInclude Include="AnimatorNode.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SingleUsage.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="TransformNode.h" />
     <ClInclude Include="vec.h" />
