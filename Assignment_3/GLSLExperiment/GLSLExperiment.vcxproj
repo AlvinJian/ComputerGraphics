@@ -86,17 +86,12 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Config.cpp" />
-    <ClCompile Include="Deform.cpp" />
-    <ClCompile Include="example1.cpp" />
     <ClCompile Include="Gallery.cpp" />
     <ClCompile Include="InitShader.cpp" />
-    <ClCompile Include="manipulator.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MeshPainter.cpp" />
     <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PlyFile.cpp" />
-    <ClCompile Include="RigidBodyMov.cpp" />
     <ClCompile Include="AnimatorNode.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="textfile.cpp" />
@@ -107,15 +102,11 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
-    <ClInclude Include="Deform.h" />
     <ClInclude Include="Gallery.h" />
-    <ClInclude Include="manipulator.h" />
     <ClInclude Include="mat.h" />
-    <ClInclude Include="MeshPainter.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PlyFile.h" />
-    <ClInclude Include="RigidBodyMov.h" />
     <ClInclude Include="AnimatorNode.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="textfile.h" />
