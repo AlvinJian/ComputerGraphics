@@ -1,7 +1,7 @@
 #version 150
 
 uniform mat4 projection_matrix;
-uniform mat4 model_matrix;
+uniform mat4 modelViewMatrix;
 uniform mat4 orth_matrix;
 
 uniform int shadingMode;
@@ -36,14 +36,14 @@ out vec3 fPosition;
 void main() 
 {
   vec4 orthPos = orth_matrix * vPosition;
-  gl_Position = projection_matrix * model_matrix * orthPos;
+  gl_Position = projection_matrix * modelViewMatrix * orthPos;
 
   if (shadingMode == 0)
   {
     // flat shading
             // Normalize the input lighting vectors
         vec3 norm = normalize(vNormal);
-        vec3 vPos = (model_matrix * orthPos).xyz;
+        vec3 vPos = (modelViewMatrix * orthPos).xyz;
         vec3 spotToEye = normalize(-1.0 * vPos);
         vec3 spotToLight = normalize(lightPosition.xyz - vPos);
         vec3 reflect = normalize(-1.0 * spotToLight + 2.0 * dot(spotToLight, norm));
@@ -76,7 +76,7 @@ void main()
   else
   {
     vec4 normal4 = vec4(vNormal.xyz, 1.0);
-    fNormal = (model_matrix * normal4).xyz;
-    fPosition = (model_matrix * orthPos).xyz;
+    fNormal = (modelViewMatrix * normal4).xyz;
+    fPosition = (modelViewMatrix * orthPos).xyz;
   }
 }

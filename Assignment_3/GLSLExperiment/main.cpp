@@ -12,6 +12,7 @@
 #include "AnimatorNode.h"
 #include "Animation.h"
 #include "ModelNode.h"
+#include "ArmNode.h"
 
 using namespace assignment3;
 
@@ -45,8 +46,8 @@ int main(int argc, char* argv[])
 	ModelNode dummy4(gallery.next(), Angel::vec4(1.0, 0.0, 1.0, 1.0));
 	dummy4.setup();
 
-	TransformNode toLeft(Angel::Translate(-0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
-	TransformNode toRight(Angel::Translate(0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
+	ArmNode toLeft(Angel::vec3(-0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
+	ArmNode toRight(Angel::vec3(0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
 
 	AnimationEngine animEngine;
 	AnimationEngine::Use(&animEngine);

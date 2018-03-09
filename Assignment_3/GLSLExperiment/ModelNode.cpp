@@ -150,7 +150,7 @@ void ModelNode::action(Scene & scene)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glUseProgram(program);
 
-	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "model_matrix");
+	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "modelViewMatrix");
 	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf);
 	GLuint projMatrixLoc = glGetUniformLocationARB(program, "projection_matrix");
 	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf);

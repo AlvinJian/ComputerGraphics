@@ -57,6 +57,9 @@
     <ClCompile Include="AnimatorNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArmNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="textfile.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AnimatorNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -236,6 +242,12 @@
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="vshader1.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="armfshader.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="armvshader.glsl">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
