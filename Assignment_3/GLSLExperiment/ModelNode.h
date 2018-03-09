@@ -7,6 +7,13 @@ namespace assignment3
 	class ModelNode: public Node
 	{
 	public:
+		enum SHADING_MODE
+		{
+			FLAT = 0, PER_PIXEL = 1
+		};
+
+		static int ShadingMode; // flat
+
 		ModelNode(Ply & model, const Angel::vec4 & color);
 		virtual ~ModelNode();
 

@@ -6,9 +6,9 @@ using namespace assignment3;
 
 Scene * Scene::CurrentScene = nullptr;
 
-Angel::vec4 Scene::LightPosition = Angel::vec4(0.0f, 1.2f, 0.0f, 1.0f);
+Angel::vec4 Scene::LightPosition = Angel::vec4(0.0f, 0.5f, 0.0f, 1.0f);
 Angel::vec4 Scene::LightPositionEnd = Angel::vec4(0.0f, -1.0f, 0.0f, 1.0f);
-float Scene::LightAngle = 90.0f;
+float Scene::LightAngle = 120.0f;
 float Scene::Shininess = 7.5f;
 
 void Scene::Use(Scene * scn)

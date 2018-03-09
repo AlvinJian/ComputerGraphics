@@ -7,6 +7,8 @@
 using namespace assignment3;
 using color4 = Angel::vec4;
 
+int ModelNode::ShadingMode = ModelNode::PER_PIXEL;
+
 ModelNode::ModelNode(Ply & model, const Angel::vec4 & color):
 	plyModel(model), vao(0), 
 	vbo(0), ebo(0), 
@@ -192,6 +194,8 @@ void ModelNode::action(Scene & scene)
 		1, specular_product);
 	glUniform1f(glGetUniformLocation(program, "Shininess"),
 		material_shininess);
+	glUniform1i(glGetUniformLocation(program, "shadingMode"), 
+		ModelNode::ShadingMode);
 
 #if 1
 	// debug
