@@ -2,16 +2,16 @@
 #include <vector>
 #include <stack>
 #include "Angel.h"
+#include "Scene.h"
 
 namespace assignment3
 {
-	class Scene;
 	class Node
 	{
 	public:
 		Node();
 		virtual ~Node();
-		virtual void action(Scene & scene) = 0;
+		virtual void action(SceneGraph & scene) = 0;
 	};
 
 	class GroupNode : public Node
@@ -22,7 +22,7 @@ namespace assignment3
 
 		GroupNode& addChild(Node* c);
 		const std::vector<Node*> & getChilds() const;
-		virtual void action(Scene & scene) override;
+		virtual void action(SceneGraph & scene) override;
 
 	private:
 		std::vector<Node*> childs;

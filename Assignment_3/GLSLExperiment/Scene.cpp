@@ -3,51 +3,35 @@
 #include "Config.h"
 
 using namespace assignment3;
+using namespace common;
 
-Scene * Scene::CurrentScene = nullptr;
+Angel::vec4 SceneGraph::LightPosition = Angel::vec4(-0.6f, 1.2f, 0.0f, 1.0f);
+Angel::vec4 SceneGraph::LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+float SceneGraph::LightAngle = 135.0f;
+float SceneGraph::Shininess = 6.0f;
 
-Angel::vec4 Scene::LightPosition = Angel::vec4(-0.6f, 1.2f, 0.0f, 1.0f);
-Angel::vec4 Scene::LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-float Scene::LightAngle = 135.0f;
-float Scene::Shininess = 6.0f;
-
-void Scene::Use(Scene * scn)
-{
-	CurrentScene = scn;
-}
-
-void Scene::Render()
-{
-	CurrentScene->render();
-}
-
-Scene * Scene::GetCurrent()
-{
-	return CurrentScene;
-}
-
-Scene::Scene():
+SceneGraph::SceneGraph():
 	pRootNode(nullptr), curModelMatrix(Angel::identity())
 {
 }
 
 
-Scene::~Scene()
+SceneGraph::~SceneGraph()
 {
 }
 
-void Scene::setRoot(Node * root, Angel::vec3 pos)
+void SceneGraph::setRoot(Node * root, Angel::vec3 pos)
 {
 	pRootNode = root;
 	rootPos = Angel::vec4(pos, 1.0f);
 }
 
-std::pair<const Node *, const Angel::vec4 *> Scene::getRoot() const
+std::pair<const Node *, const Angel::vec4 *> SceneGraph::getRoot() const
 {
 	return std::make_pair(pRootNode, &rootPos);
 }
 
-void Scene::render()
+void SceneGraph::render()
 {
 	if (pRootNode != nullptr)
 	{
@@ -67,13 +51,32 @@ void Scene::render()
 	}
 }
 
-void Scene::pushModelMatrix()
+void SceneGraph::pushModelMatrix()
 {
 	matrixStack.push(curModelMatrix);
 }
 
-void Scene::popModelMatrix()
+void SceneGraph::popModelMatrix()
 {
 	curModelMatrix = Angel::mat4( matrixStack.top() );
 	matrixStack.pop();
+}
+
+SceneGraph * Scene::current = nullptr;
+
+void Scene::Render()
+{
+	if (current != nullptr)
+	{
+		current->render();
+	}
+}
+
+Scene::Scene():
+	SceneGraph()
+{
+}
+
+Scene::~Scene()
+{
 }

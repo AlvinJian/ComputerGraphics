@@ -28,7 +28,7 @@ namespace assignment3
 
 		void play(std::chrono::microseconds ms, 
 			unsigned int frmNum) override;
-		void action(Scene & scene) override;
+		void action(SceneGraph & scene) override;
 
 		void updateMat();
 		void reverse();

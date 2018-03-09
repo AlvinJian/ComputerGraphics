@@ -15,7 +15,7 @@ namespace assignment3
 		TransformNode(Angel::mat4, Side side=RIGHT);
 		virtual ~TransformNode();
 
-		void action(Scene & scene) override;
+		void action(SceneGraph & scene) override;
 
 	protected:
 		Side side;

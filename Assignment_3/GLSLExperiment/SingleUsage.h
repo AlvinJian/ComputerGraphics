@@ -2,7 +2,7 @@
 namespace common
 {
 	template <class T>
-	class SingleUsage: public virtual  T
+	class SingleUsage: virtual public T
 	{
 	public:
 		static inline void Use(T * ptr)

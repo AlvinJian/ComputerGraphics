@@ -3,44 +3,47 @@
 #include <utility>
 #include "Angel.h"
 #include "Camera.h"
+#include "SingleUsage.h"
 
 namespace assignment3
 {
 	class Node;
-	class Scene
+	class SceneGraph
 	{
 	public:
-		static void Use(Scene *);
-		static void Render();
-		static Scene * GetCurrent();
-
 		// Light
 		static Angel::vec4 LightPosition;
 		static Angel::vec4 LightPositionEnd;
 		static float LightAngle;
 		static float Shininess;
 
-		Scene();
-		~Scene();
+		SceneGraph();
+		~SceneGraph();
 
 		Angel::mat4 curModelMatrix;
 		Angel::vec4 curColor;
 		Camera camera;
 
+		void render();
 		void pushModelMatrix();
 		void popModelMatrix();
 
-		void setRoot(Node * root, Angel::vec3 pos);
+		virtual void setRoot(Node * root, Angel::vec3 pos);
 		std::pair<const Node *, const Angel::vec4 *>
 			getRoot() const;
 
-	private:
-		static Scene * CurrentScene;
-
-		void render();
-
+	protected:
 		std::stack<Angel::mat4> matrixStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
+	};
+
+	class Scene : public common::SingleUsage<SceneGraph>
+	{
+	public:
+		static void Render();
+
+		Scene();
+		~Scene();
 	};
 }

@@ -11,7 +11,7 @@ namespace assignment3
 			TransformNode::Side s = TransformNode::RIGHT);
 		virtual ~ArmNode();
 
-		void action(Scene & scene) override;
+		void action(SceneGraph & scene) override;
 	
 	protected:
 		size_t setupArms();

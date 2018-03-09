@@ -17,7 +17,7 @@ namespace assignment3
 		ModelNode(Ply & model, const Angel::vec4 & color);
 		virtual ~ModelNode();
 
-		virtual void action(Scene & scene) override;
+		virtual void action(SceneGraph & scene) override;
 		void setup();
 		const Ply & getPlyModel() const
 		{

@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	std::cout.precision(3);
 	std::cout << std::fixed;
 
-	assignment3::Gallery gallery;
+	Gallery gallery;
 	Scene scn;
 	Scene::Use(&scn);
 

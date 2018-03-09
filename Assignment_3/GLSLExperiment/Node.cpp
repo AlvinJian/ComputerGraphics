@@ -1,5 +1,4 @@
 #include "Node.h"
-#include "Scene.h"
 #include <iostream>
 
 using namespace assignment3;
@@ -34,7 +33,7 @@ const std::vector<Node*> & GroupNode::getChilds() const
 	return childs;
 }
 
-void GroupNode::action(Scene & scene)
+void GroupNode::action(SceneGraph & scene)
 {
 #if 0
 	std::cout << __FUNCTION__ << "===start===" << std::endl;
