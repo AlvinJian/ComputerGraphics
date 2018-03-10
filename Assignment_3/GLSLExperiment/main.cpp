@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
 	Gallery gallery;
 	Scene scn;
-	Scene::Use(&scn);
+	scn.use();
 
 	GroupNode root;
 	ModelNode dummy(gallery.current(), Angel::vec4(1.0, 0.0, 0.0, 1.0)); // done
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 	ArmNode leftEnd(Angel::vec3(0.66f, 0.0f, 0.0f));
 
 	AnimationEngine animEngine;
-	AnimationEngine::Use(&animEngine);
+	animEngine.use();
 	RotateAnimatorNode rotAnim(250, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever(400, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever2(150, RotateAnimatorNode::Y_AXIS);
@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 	glutPostRedisplay();
 
 	Manipulator manip;
-	Manipulator::Use(&manip);
+	manip.use();
 	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	glutMainLoop();
