@@ -68,7 +68,7 @@ ManipulatorImpl::~ManipulatorImpl()
 {
 }
 
-ManipulatorImpl * Manipulator::current = nullptr;
+ManipulatorImpl * SingleUsage<ManipulatorImpl>::current = nullptr;
 
 Manipulator::Manipulator():
 	ManipulatorImpl()

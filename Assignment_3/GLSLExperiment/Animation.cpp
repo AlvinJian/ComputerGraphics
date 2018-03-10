@@ -2,6 +2,7 @@
 #include "Angel.h"
 
 using namespace assignment3;
+using namespace common;
 
 AnimationEngineImpl::AnimationEngineImpl(unsigned int fps):
 	fps(fps), nextId(0),
@@ -66,7 +67,7 @@ void AnimationEngineImpl::playback()
 	}
 }
 
-AnimationEngineImpl* AnimationEngine::current = nullptr;
+AnimationEngineImpl* SingleUsage<AnimationEngineImpl>::current = nullptr;
 void AnimationEngine::Playback()
 {
 	auto inUse = GetCurrent();
