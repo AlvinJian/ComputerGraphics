@@ -62,13 +62,13 @@ void SceneGraph::popModelMatrix()
 	matrixStack.pop();
 }
 
-SceneGraph * SingleUsage<SceneGraph>::current = nullptr;
+SceneGraph * SingleUsage<SceneGraph>::InUse = nullptr;
 
 void Scene::Render()
 {
-	if (current != nullptr)
+	if (InUse != nullptr)
 	{
-		current->render();
+		InUse->render();
 	}
 }
 

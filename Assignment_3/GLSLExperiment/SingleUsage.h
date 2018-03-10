@@ -7,11 +7,11 @@ namespace common
 	public:
 		static inline void Use(T * ptr)
 		{
-			current = ptr;
+			InUse = ptr;
 		}
 		static inline T * GetCurrent()
 		{
-			return  current;
+			return  InUse;
 		}
 
 		SingleUsage(){}
@@ -19,6 +19,6 @@ namespace common
 		~SingleUsage(){}
 	
 	protected:
-		static T* current;
+		static T* InUse;
 	};
 }

@@ -67,11 +67,13 @@ void AnimationEngineImpl::playback()
 	}
 }
 
-AnimationEngineImpl* SingleUsage<AnimationEngineImpl>::current = nullptr;
+AnimationEngineImpl* SingleUsage<AnimationEngineImpl>::InUse = nullptr;
 void AnimationEngine::Playback()
 {
-	auto inUse = GetCurrent();
-	inUse->playback();
+	if (InUse != nullptr)
+	{
+		InUse->playback();
+	}
 }
 
 AnimationEngine::AnimationEngine(unsigned int fps):

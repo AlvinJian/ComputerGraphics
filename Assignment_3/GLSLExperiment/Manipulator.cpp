@@ -5,28 +5,18 @@
 using namespace assignment3;
 using namespace common;
 
-/* Manipulator * Manipulator::pInUseInstance = nullptr;
-
-void Manipulator::Use(Manipulator * pInstance)
-{
-	pInUseInstance = pInstance;
-} */
-
 void Manipulator::KbEventCallback(unsigned char key, int x, int y)
 {
 	if (key == 033)
 	{
 		exit(EXIT_SUCCESS);
 	}
-
-	ManipulatorImpl * pInUseInstance = GetCurrent();
-	if (pInUseInstance == nullptr)
+	if (InUse == nullptr)
 	{
 		return;
 	}
-	auto funcMap = pInUseInstance->getFuncMap();
-	if (funcMap.find(key) !=
-		funcMap.end())
+	auto funcMap = InUse->getFuncMap();
+	if (funcMap.find(key) != funcMap.end())
 	{
 		funcMap[key](key, x, y);
 	}
@@ -68,7 +58,7 @@ ManipulatorImpl::~ManipulatorImpl()
 {
 }
 
-ManipulatorImpl * SingleUsage<ManipulatorImpl>::current = nullptr;
+ManipulatorImpl * SingleUsage<ManipulatorImpl>::InUse = nullptr;
 
 Manipulator::Manipulator():
 	ManipulatorImpl()
