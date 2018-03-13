@@ -7,7 +7,7 @@ using namespace common;
 
 Angel::vec4 SceneGraph::LightPosition = Angel::vec4(-0.2f, 1.0f, 0.0f, 1.0f);
 Angel::vec4 SceneGraph::LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-float SceneGraph::LightAngle = 30.0f;
+float SceneGraph::LightAngle = 45.0f;
 float SceneGraph::Shininess = 6.0f;
 
 SceneGraph::SceneGraph():

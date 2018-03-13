@@ -120,17 +120,7 @@ void ModelNode::action(SceneGraph & scene)
 
 	// ortho matrix
 	const Ply& m = getPlyModel();
-	const point3& c = m.getCenter();
-	std::vector<GLfloat> len{ m.getWidth(), m.getHeight(), m.getDepth() };
-	GLfloat maxLen = *std::max_element(len.begin(), len.end());
-	maxLen *= 6.0f;
-	GLfloat left = c.x - 0.5f * maxLen;
-	GLfloat right = c.x + 0.5f * maxLen;
-	GLfloat bottom = c.y - 0.5f * maxLen;
-	GLfloat top = c.y + 0.5f * maxLen;
-	GLfloat znear = c.z - 0.5f * maxLen;
-	GLfloat zfar = c.z + 0.5f * maxLen;
-	Angel::mat4 orthoMat = Angel::Ortho(left, right, bottom, top, znear, zfar);
+	Angel::mat4 orthoMat = m.createOrthoMat();
 	float orthMatf[16] = { 0.0 };
 	orthMatf[0] = orthoMat[0][0]; orthMatf[4] = orthoMat[0][1];
 	orthMatf[1] = orthoMat[1][0]; orthMatf[5] = orthoMat[1][1];

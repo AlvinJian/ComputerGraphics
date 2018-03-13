@@ -21,6 +21,7 @@ namespace assignment3 {
 		float getDepth() const;
 		const point3& getCenter() const;
 		const std::string& getName() const;
+		Angel::mat4 createOrthoMat() const;
 
 	private:
 		static void AdjustGeoCenterToOrigin(Ply &);
