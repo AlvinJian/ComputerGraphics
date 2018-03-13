@@ -1,9 +1,12 @@
+#include <iostream>
 #include "Manipulator.h"
 #include "Scene.h"
 #include "ModelNode.h"
 
 using namespace assignment3;
 using namespace common;
+
+#define LIGHT_ANGEL_INCR 12.0f
 
 void Manipulator::KbEventCallback(unsigned char key, int x, int y)
 {
@@ -51,6 +54,45 @@ ManipulatorImpl::ManipulatorImpl()
 		}
 	};
 	funcMap['s'] = shadingChange;
+
+	KbEventHandler spotLightCtrl = [this](unsigned char k, int x, int y)
+	{
+		bool needRefresh = false;
+		switch (k)
+		{
+		// increase
+		case 'p':
+		{
+			Scene::LightAngle += LIGHT_ANGEL_INCR;
+			if (Scene::LightAngle >= 360.0f)
+			{
+				Scene::LightAngle = 360.0f;
+			}
+			needRefresh = true;
+		}
+		break;
+		// decrease
+		case 'P':
+		{
+			Scene::LightAngle -= LIGHT_ANGEL_INCR;
+			if (Scene::LightAngle <= 0.0f)
+			{
+				Scene::LightAngle = 0.0f;
+			}
+			needRefresh = true;
+		}
+		break;
+		default:
+			break;
+		}
+		if (needRefresh)
+		{
+			std::cout << "Light Angle=" << Scene::LightAngle << std::endl;
+			glutPostRedisplay();
+		}
+	};
+	funcMap['p'] = spotLightCtrl;
+	funcMap['P'] = spotLightCtrl;
 }
 
 
