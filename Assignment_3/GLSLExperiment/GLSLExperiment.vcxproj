@@ -98,6 +98,7 @@
     <ClCompile Include="AnimatorNode.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SingleUsage.cpp" />
+    <ClCompile Include="SinusoidAnimator.cpp" />
     <ClCompile Include="Stack.cpp" />
     <ClCompile Include="textfile.cpp" />
     <ClCompile Include="TransformNode.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="AnimatorNode.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SingleUsage.h" />
+    <ClInclude Include="SinusoidAnimator.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="TransformNode.h" />

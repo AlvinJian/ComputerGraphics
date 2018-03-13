@@ -14,6 +14,7 @@
 #include "ModelNode.h"
 #include "ArmNode.h"
 #include "Manipulator.h"
+#include "SinusoidAnimator.h"
 
 using namespace assignment3;
 
@@ -35,7 +36,6 @@ int main(int argc, char* argv[])
 	Scene scn;
 	scn.use();
 
-	GroupNode root;
 	ModelNode dummy(gallery.current(), Angel::vec4(1.0, 0.0, 0.0, 1.0)); // done
 	dummy.setup();
 	ModelNode dummy1(gallery.next(), Angel::vec4(0.0, 1.0, 0.0, 1.0)); // done
@@ -68,6 +68,15 @@ int main(int argc, char* argv[])
 	animEngine.registerAnimator(&rotAnimRever);
 	animEngine.registerAnimator(&rotAnimRever2);
 
+	SinusoidAnimator sinuAnim(500, TransformNode::Y_AXIS, 0.05f);
+	animEngine.registerAnimator(&sinuAnim);
+	// toRight.linkSinusoidAnimator(&sinuAnim);
+	SinusoidAnimator sinuAnimOffset(500, TransformNode::Y_AXIS, 0.05f, 90.0f);
+	animEngine.registerAnimator(&sinuAnimOffset);
+	// toLeft.linkSinusoidAnimator(&sinuAnimOffset);
+	// leftEnd.linkSinusoidAnimator(&sinuAnimOffset);
+
+	GroupNode root;
 	scn.setRoot(&root, Angel::vec3(0.0f, 0.65f, 0.0f));
 	root.addChild(&dummy);
 

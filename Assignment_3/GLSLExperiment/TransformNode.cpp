@@ -9,6 +9,12 @@ TransformNode::TransformNode(Angel::mat4 matrix, Side side):
 
 }
 
+TransformNode::TransformNode():
+	side(TransformNode::RIGHT),
+	transformMat(Angel::identity())
+{
+
+}
 
 TransformNode::~TransformNode()
 {

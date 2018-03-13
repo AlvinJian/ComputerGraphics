@@ -1,17 +1,23 @@
 #pragma once
-#include "TransformNode.h"
+#include <utility>
 #include "Angel.h"
+#include "TransformNode.h"
+#include "SinusoidAnimator.h"
 
 namespace assignment3
 {
 	class ArmNode: public TransformNode
 	{
 	public:
-		ArmNode(const Angel::vec3 &, 
+		ArmNode(
+			const Angel::vec3 &, 
 			TransformNode::Side s = TransformNode::RIGHT);
 		virtual ~ArmNode();
 
 		void action(SceneGraph & scene) override;
+
+		// TODO ugly stuff
+		void linkSinusoidAnimator(const SinusoidAnimator * animator);
 	
 	protected:
 		size_t setupArms();
@@ -23,5 +29,8 @@ namespace assignment3
 		GLuint vbo;
 		GLuint ebo;
 		GLuint program;
+
+		const SinusoidAnimator * sinuAnimator;
+		Angel::mat4 armMat;
 	};
 }

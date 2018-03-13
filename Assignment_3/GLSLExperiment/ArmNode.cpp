@@ -9,8 +9,9 @@ ArmNode::ArmNode(const Angel::vec3 & directedShape,
 	TransformNode::Side s):
 	TransformNode(Angel::Translate(directedShape), s),
 	directedShapeVec(directedShape),
-	vao(0), vbo(0), program(0)
+	vao(0), vbo(0), program(0), sinuAnimator(nullptr)
 {
+	armMat = Angel::mat4(TransformNode::transformMat);
 }
 
 
@@ -73,6 +74,11 @@ void ArmNode::action(SceneGraph & scene)
 	TransformNode::action(scene);
 }
 
+void ArmNode::linkSinusoidAnimator(const SinusoidAnimator * animator)
+{
+	sinuAnimator = animator;
+}
+
 size_t ArmNode::setupArms()
 {
 	std::vector<Angel::vec4> arms(4, Angel::vec4(Angel::vec3()));
@@ -82,6 +88,19 @@ size_t ArmNode::setupArms()
 	arms[3].x = directedShapeVec.x;
 	arms[3].y = directedShapeVec.y;
 	arms[3].z = directedShapeVec.z;
+
+	if (sinuAnimator != nullptr)
+	{
+		auto movement = sinuAnimator->getMovement();
+		// TODO hardcode
+		if (movement.first == TransformNode::Y_AXIS)
+		{
+			arms[3].y += movement.second;
+			arms[2].y += movement.second;
+			Angel::mat4 sinuMat = Angel::Translate(0.0f, movement.second, 0.0f);
+			transformMat = sinuMat * armMat;
+		}
+	}
 
 	std::vector<Angel::vec4> colors(4, 
 		Angel::vec4(1.0f, 0.0f, 0.0f, 1.0f));
