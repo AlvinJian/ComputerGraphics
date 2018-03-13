@@ -33,7 +33,6 @@ namespace common
 	inline Stack<T>::Stack(): count(0)
 	{
 		pData = reinterpret_cast<T*>(malloc(sizeof(T) * SIZE_INCR));
-		memset(pData, 0, sizeof(T) * SIZE_INCR);
 		capacity = SIZE_INCR;
 	}
 	template<class T>
@@ -91,7 +90,6 @@ namespace common
 		void * ptr = realloc(pData, new_size);
 		assert(ptr != nullptr);
 		pData = reinterpret_cast<T*>(ptr);
-		memset(pData + capacity, 0, sizeof(T) * SIZE_INCR);
 		capacity += SIZE_INCR;
 	}
 }
