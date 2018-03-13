@@ -1,9 +1,9 @@
 #pragma once
-#include <stack>
 #include <utility>
 #include "Angel.h"
 #include "Camera.h"
 #include "SingleUsage.h"
+#include "Stack.h"
 
 namespace assignment3
 {
@@ -33,7 +33,7 @@ namespace assignment3
 			getRoot() const;
 
 	protected:
-		std::stack<Angel::mat4> matrixStack;
+		common::Stack<Angel::mat4> matrixStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
 	};
