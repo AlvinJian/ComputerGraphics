@@ -55,48 +55,49 @@ int main(int argc, char* argv[])
 
 	ArmNode toRight(Angel::vec3(-0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
 	ArmNode toLeft(Angel::vec3(0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
-	ArmNode leftEnd(Angel::vec3(0.66f, 0.0f, 0.0f));
+	// ArmNode leftEnd(Angel::vec3(0.66f, 0.0f, 0.0f));
 
 	AnimationEngine animEngine;
 	animEngine.use();
 	RotateAnimatorNode rotAnim(250, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever(400, RotateAnimatorNode::Y_AXIS);
-	RotateAnimatorNode rotAnimRever2(150, RotateAnimatorNode::Y_AXIS);
+	// RotateAnimatorNode rotAnimRever2(150, RotateAnimatorNode::Y_AXIS);
 	rotAnimRever.reverse();
-	rotAnimRever2.reverse();
+	// rotAnimRever2.reverse();
 	animEngine.registerAnimator(&rotAnim);
 	animEngine.registerAnimator(&rotAnimRever);
-	animEngine.registerAnimator(&rotAnimRever2);
+	// animEngine.registerAnimator(&rotAnimRever2);
 
-	SinusoidAnimator sinuAnim(500, TransformNode::Y_AXIS, 0.05f);
+	SinusoidAnimator sinuAnim(500, TransformNode::Y_AXIS, 0.06f);
 	animEngine.registerAnimator(&sinuAnim);
-	// toRight.linkSinusoidAnimator(&sinuAnim);
-	SinusoidAnimator sinuAnimOffset(500, TransformNode::Y_AXIS, 0.05f, 90.0f);
+	toRight.linkSinusoidAnimator(&sinuAnim);
+	SinusoidAnimator sinuAnimOffset(500, TransformNode::Y_AXIS, 0.06f, 180.0f);
 	animEngine.registerAnimator(&sinuAnimOffset);
-	// toLeft.linkSinusoidAnimator(&sinuAnimOffset);
+	toLeft.linkSinusoidAnimator(&sinuAnimOffset);
 	// leftEnd.linkSinusoidAnimator(&sinuAnimOffset);
 
 	GroupNode root;
 	scn.setRoot(&root, Angel::vec3(0.0f, 0.65f, 0.0f));
 	root.addChild(&dummy);
 
-	GroupNode grpLv1; grpLv1.addChild(&rotAnimRever);
-	root.addChild(&grpLv1);
-	grpLv1.addChild(&toRight).addChild(&dummy1);
-	grpLv1.addChild(&leftEnd).addChild(&dummy2);
+	GroupNode grpLv1R; grpLv1R.addChild(&rotAnimRever); root.addChild(&grpLv1R);
+	grpLv1R.addChild(&toRight).addChild(&dummy1);
+	GroupNode grpLv1L; grpLv1L.addChild(&rotAnimRever);
+	root.addChild(&grpLv1L);
+	grpLv1L.addChild(&toLeft).addChild(&dummy2);
 
-	GroupNode grpLv2; grpLv2.addChild(&rotAnim);
-	grpLv1.addChild(&grpLv2);
-	grpLv2.addChild(&toRight).addChild(&dummy3);
-	GroupNode grpLv3; grpLv3.addChild(&rotAnimRever2);
-	grpLv2.addChild(&grpLv3);
-	grpLv2.addChild(&leftEnd).addChild(&dummy4);
+	GroupNode grpLv2R; grpLv2R.addChild(&rotAnim); grpLv1L.addChild(&grpLv2R);
+	grpLv2R.addChild(&toRight).addChild(&dummy3);
+	GroupNode grpLv2L; grpLv2L.addChild(&rotAnim); grpLv1L.addChild(&grpLv2L);
+	grpLv2L.addChild(&toLeft).addChild(&dummy4);
 
-	grpLv3.addChild(&toRight).addChild(&dummy5);
+	GroupNode grpLv3R; grpLv3R.addChild(&rotAnimRever); grpLv2L.addChild(&grpLv3R);
+	grpLv3R.addChild(&toRight).addChild(&dummy5);
+	GroupNode grpLv3L; grpLv3L.addChild(&rotAnimRever); grpLv2L.addChild(&grpLv3L);
+	grpLv3L.addChild(&toLeft).addChild(&dummy6);
+
 	GroupNode grpLv4; grpLv4.addChild(&rotAnim);
-	grpLv3.addChild(&grpLv4);
-	grpLv3.addChild(&leftEnd).addChild(&dummy6);
-
+	grpLv3R.addChild(&grpLv4);
 	grpLv4.addChild(&toLeft).addChild(&dummy7);
 
 
