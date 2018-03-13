@@ -35,13 +35,13 @@ ManipulatorImpl::ManipulatorImpl()
 	KbEventHandler shadingChange = [this](unsigned char k, int x, int y)
 	{
 		bool needRefresh = false;
-		switch (ModelNode::ShadingMode)
+		switch (k)
 		{
-		case ModelNode::PER_PIXEL:
+		case 'M':
 			ModelNode::ShadingMode = ModelNode::FLAT;
 			needRefresh = true;
 			break;
-		case ModelNode::FLAT:
+		case 'm':
 			ModelNode::ShadingMode = ModelNode::PER_PIXEL;
 			needRefresh = true;
 			break;
@@ -53,7 +53,8 @@ ManipulatorImpl::ManipulatorImpl()
 			glutPostRedisplay();
 		}
 	};
-	funcMap['s'] = shadingChange;
+	funcMap['m'] = shadingChange;
+	funcMap['M'] = shadingChange;
 
 	KbEventHandler spotLightCtrl = [this](unsigned char k, int x, int y)
 	{
