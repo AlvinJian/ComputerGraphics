@@ -12,6 +12,11 @@ namespace assignment3
 			LEFT = 0, RIGHT
 		};
 
+		enum Axis
+		{
+			X_AXIS = 0, Y_AXIS, Z_AXIS
+		};
+
 		TransformNode(Angel::mat4, Side side=RIGHT);
 		virtual ~TransformNode();
 

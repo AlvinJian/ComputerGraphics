@@ -5,13 +5,12 @@ using namespace assignment3;
 
 RotateAnimatorNode::RotateAnimatorNode(
 	unsigned int periodFrame,
-	enum RotateAxis axis,
+	enum TransformNode::Axis axis,
 	enum RotateDirection direction,
 	float startDegree,
 	enum TransformNode::Side s ):
 	TransformNode(Angel::identity(), s), axis(axis), 
-	degree(startDegree), periodFrame(periodFrame),
-	direction(direction)
+	degree(startDegree), periodFrame(periodFrame)
 {
 	switch (direction)
 	{
@@ -46,13 +45,13 @@ void RotateAnimatorNode::updateMat()
 {
 	switch (axis)
 	{
-	case RotateAnimatorNode::X_AXIS:
+	case TransformNode::X_AXIS:
 		TransformNode::transformMat = Angel::RotateX(degree);
 		break;
-	case RotateAnimatorNode::Y_AXIS:
+	case TransformNode::Y_AXIS:
 		TransformNode::transformMat = Angel::RotateY(degree);
 		break;
-	case RotateAnimatorNode::Z_AXIS:
+	case TransformNode::Z_AXIS:
 		TransformNode::transformMat = Angel::RotateZ(degree);
 		break;
 	default:
@@ -65,8 +64,7 @@ void RotateAnimatorNode::reverse()
 	degPerFrame *= -1.0f;
 }
 
-enum RotateAnimatorNode::RotateDirection 
-	RotateAnimatorNode::getDirection() const
+float RotateAnimatorNode::getRate() const
 {
-	return direction;
+	return this->degPerFrame;
 }
