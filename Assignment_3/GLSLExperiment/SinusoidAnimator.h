@@ -7,6 +7,8 @@ namespace assignment3
 	class SinusoidAnimator: public Animator
 	{
 	public:
+		static bool Switch;
+
 		SinusoidAnimator(
 			unsigned int periodFrame,
 			TransformNode::Axis axis,
@@ -23,6 +25,7 @@ namespace assignment3
 
 	private:
 		float degree;
+		float phase;
 		float degPerFrame;
 		enum TransformNode::Axis axis;
 		unsigned int periodFrame;

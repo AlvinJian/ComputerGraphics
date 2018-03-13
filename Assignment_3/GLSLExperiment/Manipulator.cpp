@@ -2,6 +2,7 @@
 #include "Manipulator.h"
 #include "Scene.h"
 #include "ModelNode.h"
+#include "SinusoidAnimator.h"
 
 using namespace assignment3;
 using namespace common;
@@ -94,6 +95,13 @@ ManipulatorImpl::ManipulatorImpl()
 	};
 	funcMap['p'] = spotLightCtrl;
 	funcMap['P'] = spotLightCtrl;
+
+	KbEventHandler sinuMovCtrl = [this](unsigned char k, int x, int y)
+	{
+		SinusoidAnimator::Switch = !SinusoidAnimator::Switch;
+		glutPostRedisplay();
+	};
+	funcMap['s'] = sinuMovCtrl;
 }
 
 

@@ -61,12 +61,12 @@ int main(int argc, char* argv[])
 	animEngine.use();
 	RotateAnimatorNode rotAnim(250, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever(400, RotateAnimatorNode::Y_AXIS);
-	// RotateAnimatorNode rotAnimRever2(150, RotateAnimatorNode::Y_AXIS);
+	RotateAnimatorNode rotAnimRever2(150, RotateAnimatorNode::Y_AXIS);
 	rotAnimRever.reverse();
-	// rotAnimRever2.reverse();
+	rotAnimRever2.reverse();
 	animEngine.registerAnimator(&rotAnim);
 	animEngine.registerAnimator(&rotAnimRever);
-	// animEngine.registerAnimator(&rotAnimRever2);
+	animEngine.registerAnimator(&rotAnimRever2);
 
 	SinusoidAnimator sinuAnim(500, TransformNode::Y_AXIS, 0.06f);
 	animEngine.registerAnimator(&sinuAnim);
@@ -91,9 +91,9 @@ int main(int argc, char* argv[])
 	GroupNode grpLv2L; grpLv2L.addChild(&rotAnim); grpLv1L.addChild(&grpLv2L);
 	grpLv2L.addChild(&toLeft).addChild(&dummy4);
 
-	GroupNode grpLv3R; grpLv3R.addChild(&rotAnimRever); grpLv2L.addChild(&grpLv3R);
+	GroupNode grpLv3R; grpLv3R.addChild(&rotAnimRever2); grpLv2L.addChild(&grpLv3R);
 	grpLv3R.addChild(&toRight).addChild(&dummy5);
-	GroupNode grpLv3L; grpLv3L.addChild(&rotAnimRever); grpLv2L.addChild(&grpLv3L);
+	GroupNode grpLv3L; grpLv3L.addChild(&rotAnimRever2); grpLv2L.addChild(&grpLv3L);
 	grpLv3L.addChild(&toLeft).addChild(&dummy6);
 
 	GroupNode grpLv4; grpLv4.addChild(&rotAnim);
