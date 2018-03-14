@@ -20,7 +20,6 @@ namespace assignment3
 	class AnimationEngineImpl
 	{
 	public:
-		AnimationEngineImpl(unsigned int fps = 30);
 		~AnimationEngineImpl();
 
 		int registerAnimator(Animator * anim);
@@ -28,6 +27,7 @@ namespace assignment3
 		void playback();
 		
 	protected:
+		AnimationEngineImpl(unsigned int fps = 30);
 		int nextId;
 		bool started;
 		TimePoint startTime;

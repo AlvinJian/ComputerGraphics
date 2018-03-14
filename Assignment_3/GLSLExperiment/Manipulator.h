@@ -12,11 +12,10 @@ namespace assignment3
 	{
 	public:
 		const std::map<char, KbEventHandler> & getFuncMap() const;
-
-		ManipulatorImpl();
 		~ManipulatorImpl();
 
-	private:
+	protected:
+		ManipulatorImpl();
 		std::map<char, KbEventHandler> funcMap;
 	};
 

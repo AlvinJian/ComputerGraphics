@@ -17,7 +17,6 @@ namespace assignment3
 		static float LightAngle;
 		static float Shininess;
 
-		SceneGraph();
 		~SceneGraph();
 
 		Angel::mat4 curModelMatrix;
@@ -33,6 +32,7 @@ namespace assignment3
 			getRoot() const;
 
 	protected:
+		SceneGraph();
 		common::Stack<Angel::mat4> matrixStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
