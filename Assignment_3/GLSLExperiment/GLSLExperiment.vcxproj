@@ -97,7 +97,7 @@
     <ClCompile Include="PlyFile.cpp" />
     <ClCompile Include="AnimatorNode.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SingleUsage.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="SinusoidAnimator.cpp" />
     <ClCompile Include="Stack.cpp" />
     <ClCompile Include="textfile.cpp" />
@@ -118,7 +118,7 @@
     <ClInclude Include="PlyFile.h" />
     <ClInclude Include="AnimatorNode.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SingleUsage.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="SinusoidAnimator.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="textfile.h" />
@@ -128,6 +128,8 @@
   <ItemGroup>
     <None Include="armfshader.glsl" />
     <None Include="armvshader.glsl" />
+    <None Include="cube.ply" />
+    <None Include="cube2.ply" />
     <None Include="fshader1.glsl" />
     <None Include="ply_files\airplane.ply" />
     <None Include="ply_files\ant.ply" />

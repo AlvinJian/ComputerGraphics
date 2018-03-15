@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <functional>
-#include "SingleUsage.h"
+#include "Utils.h"
 
 namespace assignment3
 {
@@ -19,7 +19,7 @@ namespace assignment3
 		std::map<char, KbEventHandler> funcMap;
 	};
 
-	class Manipulator : public common::SingleUsage<ManipulatorImpl>
+	class Manipulator : public utils::SingleUsage<ManipulatorImpl>
 	{
 	public:
 		Manipulator();

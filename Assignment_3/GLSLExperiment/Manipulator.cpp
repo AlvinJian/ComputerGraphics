@@ -5,7 +5,7 @@
 #include "SinusoidAnimator.h"
 
 using namespace assignment3;
-using namespace common;
+using namespace utils;
 
 #define LIGHT_ANGEL_INCR 12.0f
 
@@ -59,16 +59,18 @@ ManipulatorImpl::ManipulatorImpl()
 
 	KbEventHandler spotLightCtrl = [this](unsigned char k, int x, int y)
 	{
+		SceneGraph * pScn = Scene::GetCurrent();
+		if (pScn == nullptr) return;
 		bool needRefresh = false;
 		switch (k)
 		{
 		// increase
 		case 'p':
 		{
-			Scene::LightAngle += LIGHT_ANGEL_INCR;
-			if (Scene::LightAngle >= 360.0f)
+			pScn->LightAngle += LIGHT_ANGEL_INCR;
+			if (pScn->LightAngle >= 360.0f)
 			{
-				Scene::LightAngle = 360.0f;
+				pScn->LightAngle = 360.0f;
 			}
 			needRefresh = true;
 		}
@@ -76,10 +78,10 @@ ManipulatorImpl::ManipulatorImpl()
 		// decrease
 		case 'P':
 		{
-			Scene::LightAngle -= LIGHT_ANGEL_INCR;
-			if (Scene::LightAngle <= 0.0f)
+			pScn->LightAngle -= LIGHT_ANGEL_INCR;
+			if (pScn->LightAngle <= 0.0f)
 			{
-				Scene::LightAngle = 0.0f;
+				pScn->LightAngle = 0.0f;
 			}
 			needRefresh = true;
 		}
@@ -89,7 +91,7 @@ ManipulatorImpl::ManipulatorImpl()
 		}
 		if (needRefresh)
 		{
-			std::cout << "Light Angle=" << Scene::LightAngle << std::endl;
+			std::cout << "Light Angle=" << pScn->LightAngle << std::endl;
 			glutPostRedisplay();
 		}
 	};

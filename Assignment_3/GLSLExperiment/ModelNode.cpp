@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Angel.h"
 #include "Config.h"
+#include "Utils.h"
 
 using namespace assignment3;
 using color4 = Angel::vec4;
@@ -91,46 +92,26 @@ void ModelNode::action(SceneGraph & scene)
 		(GLfloat)config::ViewportConfig::GetHeight();
 	Angel::mat4 perspectiveMat = Angel::Perspective((GLfloat)45.0f, ratio, (
 		GLfloat)0.1, (GLfloat) 100.0);
-	float projMatrixf[16] = { 0.0 };
-	projMatrixf[0] = perspectiveMat[0][0]; projMatrixf[4] = perspectiveMat[0][1];
-	projMatrixf[1] = perspectiveMat[1][0]; projMatrixf[5] = perspectiveMat[1][1];
-	projMatrixf[2] = perspectiveMat[2][0]; projMatrixf[6] = perspectiveMat[2][1];
-	projMatrixf[3] = perspectiveMat[3][0]; projMatrixf[7] = perspectiveMat[3][1];
-
-	projMatrixf[8] = perspectiveMat[0][2]; projMatrixf[12] = perspectiveMat[0][3];
-	projMatrixf[9] = perspectiveMat[1][2]; projMatrixf[13] = perspectiveMat[1][3];
-	projMatrixf[10] = perspectiveMat[2][2]; projMatrixf[14] = perspectiveMat[2][3];
-	projMatrixf[11] = perspectiveMat[3][2]; projMatrixf[15] = perspectiveMat[3][3];
+	auto perspectiveMatT = Angel::transpose(perspectiveMat);
+	std::vector<float> projMatrixf = utils::Mat2DtoStdVec<float, Angel::mat4>
+		(perspectiveMatT, 4, 4);
 
 	// view matrix
 	Angel::mat4 viewMatrix = scene.camera.createViewMat();
 
 	// model & view matrix
 	Angel::mat4 mvMatrix = viewMatrix * modelMat;
-	float modelMatrixf[16] = { 0.0 };
-	modelMatrixf[0] = mvMatrix[0][0]; modelMatrixf[4] = mvMatrix[0][1];
-	modelMatrixf[1] = mvMatrix[1][0]; modelMatrixf[5] = mvMatrix[1][1];
-	modelMatrixf[2] = mvMatrix[2][0]; modelMatrixf[6] = mvMatrix[2][1];
-	modelMatrixf[3] = mvMatrix[3][0]; modelMatrixf[7] = mvMatrix[3][1];
+	auto mvMatrixT = Angel::transpose(mvMatrix);
+	std::vector<float> modelMatrixf = utils::Mat2DtoStdVec<float, Angel::mat4>
+		(mvMatrixT, 4, 4);
 
-	modelMatrixf[8] = mvMatrix[0][2]; modelMatrixf[12] = mvMatrix[0][3];
-	modelMatrixf[9] = mvMatrix[1][2]; modelMatrixf[13] = mvMatrix[1][3];
-	modelMatrixf[10] = mvMatrix[2][2]; modelMatrixf[14] = mvMatrix[2][3];
-	modelMatrixf[11] = mvMatrix[3][2]; modelMatrixf[15] = mvMatrix[3][3];
 
 	// ortho matrix
 	const Ply& m = getPlyModel();
 	Angel::mat4 orthoMat = m.createOrthoMat();
-	float orthMatf[16] = { 0.0 };
-	orthMatf[0] = orthoMat[0][0]; orthMatf[4] = orthoMat[0][1];
-	orthMatf[1] = orthoMat[1][0]; orthMatf[5] = orthoMat[1][1];
-	orthMatf[2] = orthoMat[2][0]; orthMatf[6] = orthoMat[2][1];
-	orthMatf[3] = orthoMat[3][0]; orthMatf[7] = orthoMat[3][1];
-
-	orthMatf[8] = orthoMat[0][2]; orthMatf[12] = orthoMat[0][3];
-	orthMatf[9] = orthoMat[1][2]; orthMatf[13] = orthoMat[1][3];
-	orthMatf[10] = orthoMat[2][2]; orthMatf[14] = orthoMat[2][3];
-	orthMatf[11] = orthoMat[3][2]; orthMatf[15] = orthoMat[3][3];
+	auto orthoMatT = Angel::transpose(orthoMat);
+	std::vector<float> orthMatf = utils::Mat2DtoStdVec<float, Angel::mat4>
+		(orthoMatT, 4, 4);
 
 	glBindVertexArray(vao);
 	// glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -138,11 +119,11 @@ void ModelNode::action(SceneGraph & scene)
 	glUseProgram(program);
 
 	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "modelViewMatrix");
-	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf);
+	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());
 	GLuint projMatrixLoc = glGetUniformLocationARB(program, "projection_matrix");
-	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf);
+	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
 	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orth_matrix");
-	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf);
+	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
 
 	// light attributes
 	Angel::vec4 lightPosView = viewMatrix * scene.LightPosition;

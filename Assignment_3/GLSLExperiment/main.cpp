@@ -34,6 +34,10 @@ int main(int argc, char* argv[])
 
 	Gallery gallery;
 	Scene scn;
+	scn.LightPosition = Angel::vec4(-0.2f, 1.0f, 0.0f, 1.0f);
+	scn.LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	scn.LightAngle = 45.0f;
+	scn.Shininess = 6.0f;
 	scn.use();
 
 	ModelNode dummy(gallery.current(), Angel::vec4(1.0, 0.0, 0.0, 1.0)); // done

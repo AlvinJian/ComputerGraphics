@@ -2,7 +2,7 @@
 #include <map>
 #include <chrono>
 #include <ctime>
-#include "SingleUsage.h"
+#include "Utils.h"
 
 namespace assignment3
 {
@@ -38,7 +38,7 @@ namespace assignment3
 		std::map<int, Animator * > regAnimators;
 	};
 
-	class AnimationEngine : public common::SingleUsage<AnimationEngineImpl>
+	class AnimationEngine : public utils::SingleUsage<AnimationEngineImpl>
 	{
 	public:
 		static void Playback();

@@ -2,7 +2,7 @@
 #include "Angel.h"
 
 using namespace assignment3;
-using namespace common;
+using namespace utils;
 
 AnimationEngineImpl::AnimationEngineImpl(unsigned int fps):
 	fps(fps), nextId(0),

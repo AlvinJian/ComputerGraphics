@@ -2,7 +2,7 @@
 #include <utility>
 #include "Angel.h"
 #include "Camera.h"
-#include "SingleUsage.h"
+#include "Utils.h"
 #include "Stack.h"
 
 namespace assignment3
@@ -12,10 +12,10 @@ namespace assignment3
 	{
 	public:
 		// Light
-		static Angel::vec4 LightPosition;
-		static Angel::vec4 LightPositionEnd;
-		static float LightAngle;
-		static float Shininess;
+		Angel::vec4 LightPosition;
+		Angel::vec4 LightPositionEnd;
+		float LightAngle;
+		float Shininess;
 
 		~SceneGraph();
 
@@ -33,12 +33,12 @@ namespace assignment3
 
 	protected:
 		SceneGraph();
-		common::Stack<Angel::mat4> matrixStack;
+		utils::Stack<Angel::mat4> matrixStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
 	};
 
-	class Scene : public common::SingleUsage<SceneGraph>
+	class Scene : public utils::SingleUsage<SceneGraph>
 	{
 	public:
 		static void Render();

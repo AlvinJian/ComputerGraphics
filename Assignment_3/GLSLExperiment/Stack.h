@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace common
+namespace utils
 {
 	template< class T>
 	class Stack

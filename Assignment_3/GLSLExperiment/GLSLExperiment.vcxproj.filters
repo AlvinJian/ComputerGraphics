@@ -66,13 +66,13 @@
     <ClCompile Include="Manipulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SingleUsage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Stack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SinusoidAnimator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,13 +128,13 @@
     <ClInclude Include="Manipulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SingleUsage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Stack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SinusoidAnimator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -279,6 +279,12 @@
     </None>
     <None Include="armvshader.glsl">
       <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="cube.ply">
+      <Filter>Resource Files\Ply Files</Filter>
+    </None>
+    <None Include="cube2.ply">
+      <Filter>Resource Files\Ply Files</Filter>
     </None>
   </ItemGroup>
 </Project>
