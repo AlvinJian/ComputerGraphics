@@ -15,6 +15,7 @@
 #include "ArmNode.h"
 #include "Manipulator.h"
 #include "SinusoidAnimator.h"
+#include "SkelBoxNode.h"
 
 using namespace assignment3;
 
@@ -32,37 +33,9 @@ int main(int argc, char* argv[])
 	std::cout.precision(3);
 	std::cout << std::fixed;
 
-	Gallery gallery;
-	Scene scn;
-	scn.LightPosition = Angel::vec4(-0.2f, 1.0f, 0.0f, 1.0f);
-	scn.LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	scn.LightAngle = 45.0f;
-	scn.Shininess = 6.0f;
-	scn.use();
-
-	ModelNode dummy(gallery.current(), Angel::vec4(1.0, 0.0, 0.0, 1.0)); // done
-	dummy.setup();
-	ModelNode dummy1(gallery.next(), Angel::vec4(0.0, 1.0, 0.0, 1.0)); // done
-	dummy1.setup();
-	ModelNode dummy2(gallery.next(), Angel::vec4(0.0, 0.0, 1.0, 1.0)); // done
-	dummy2.setup();
-	ModelNode dummy3(gallery.next(), Angel::vec4(1.0, 1.0, 0.0, 1.0)); // done
-	dummy3.setup();
-	ModelNode dummy4(gallery.next(), Angel::vec4(1.0, 0.0, 1.0, 1.0)); // done
-	dummy4.setup();
-	ModelNode dummy5(gallery.next(), Angel::vec4(0.0, 1.0, 1.0, 1.0)); // done
-	dummy5.setup();
-	ModelNode dummy6(gallery.next(), Angel::vec4(0.5, 0.55, 0.35, 1.0)); // done
-	dummy6.setup();
-	ModelNode dummy7(gallery.next(), Angel::vec4(0.3, 0.8, 0.5, 1.0)); // done
-	dummy7.setup();
-
-	ArmNode toRight(Angel::vec3(-0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
-	ArmNode toLeft(Angel::vec3(0.33f, -0.33f, 0.0f), TransformNode::RIGHT);
-	// ArmNode leftEnd(Angel::vec3(0.66f, 0.0f, 0.0f));
-
 	AnimationEngine animEngine;
 	animEngine.use();
+	RotateAnimatorNode selfRotAnim(90, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnim(250, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever(400, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever2(150, RotateAnimatorNode::Y_AXIS);
@@ -71,6 +44,60 @@ int main(int argc, char* argv[])
 	animEngine.registerAnimator(&rotAnim);
 	animEngine.registerAnimator(&rotAnimRever);
 	animEngine.registerAnimator(&rotAnimRever2);
+	animEngine.registerAnimator(&selfRotAnim);
+
+	Gallery gallery;
+	Scene scn;
+	scn.LightPosition = Angel::vec4(-0.2f, 1.0f, 0.0f, 1.0f);
+	scn.LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	scn.LightAngle = 60.0f;
+	scn.Shininess = 6.0f;
+	scn.use();
+
+	SkelBoxNode box(Angel::vec4(0.0f, 0.5f, 0.3f, 1.0f));
+
+	GroupNode dummy;
+	ModelNode model(gallery.current(), Angel::vec4(1.0, 0.0, 0.0, 1.0)); // done
+	model.setup();
+	dummy.addChild(&box).addChild(&selfRotAnim).addChild(&model);
+	
+	GroupNode dummy1;
+	ModelNode model1(gallery.next(), Angel::vec4(0.0, 1.0, 0.0, 1.0)); // done
+	model1.setup();
+	dummy1.addChild(&box).addChild(&selfRotAnim).addChild(&model1);
+
+	GroupNode dummy2;
+	ModelNode model2(gallery.next(), Angel::vec4(0.0, 0.0, 1.0, 1.0)); // done
+	model2.setup();
+	dummy2.addChild(&box).addChild(&selfRotAnim).addChild(&model2);
+
+	GroupNode dummy3;
+	ModelNode model3(gallery.next(), Angel::vec4(1.0, 1.0, 0.0, 1.0)); // done
+	model3.setup();
+	dummy3.addChild(&box).addChild(&selfRotAnim).addChild(&model3);
+	
+	GroupNode dummy4;
+	ModelNode model4(gallery.next(), Angel::vec4(1.0, 0.0, 1.0, 1.0)); // done
+	model4.setup();
+	dummy4.addChild(&box).addChild(&selfRotAnim).addChild(&model4);
+	
+	GroupNode dummy5;
+	ModelNode model5(gallery.next(), Angel::vec4(0.0, 1.0, 1.0, 1.0)); // done
+	model5.setup();
+	dummy5.addChild(&box).addChild(&selfRotAnim).addChild(&model5);
+	
+	GroupNode dummy6;
+	ModelNode model6(gallery.next(), Angel::vec4(0.5, 0.55, 0.35, 1.0)); // done
+	model6.setup();
+	dummy6.addChild(&box).addChild(&selfRotAnim).addChild(&model6);
+
+	GroupNode dummy7;
+	ModelNode model7(gallery.next(), Angel::vec4(0.3, 0.8, 0.5, 1.0)); // done
+	model7.setup();
+	dummy7.addChild(&box).addChild(&selfRotAnim).addChild(&model7);
+
+	ArmNode toRight(Angel::vec3(-0.38f, -0.35f, 0.0f), TransformNode::RIGHT);
+	ArmNode toLeft(Angel::vec3(0.38f, -0.35f, 0.0f), TransformNode::RIGHT);
 
 	SinusoidAnimator sinuAnim(500, TransformNode::Y_AXIS, 0.06f);
 	animEngine.registerAnimator(&sinuAnim);
@@ -81,7 +108,7 @@ int main(int argc, char* argv[])
 	// leftEnd.linkSinusoidAnimator(&sinuAnimOffset);
 
 	GroupNode root;
-	scn.setRoot(&root, Angel::vec3(0.0f, 0.65f, 0.0f));
+	scn.setRoot(&root, Angel::vec3(0.0f, 0.72f, 0.0f));
 	root.addChild(&dummy);
 
 	GroupNode grpLv1R; grpLv1R.addChild(&rotAnimRever); root.addChild(&grpLv1R);

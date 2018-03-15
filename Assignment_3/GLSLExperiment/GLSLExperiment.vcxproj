@@ -97,6 +97,7 @@
     <ClCompile Include="PlyFile.cpp" />
     <ClCompile Include="AnimatorNode.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SkelBoxNode.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="SinusoidAnimator.cpp" />
     <ClCompile Include="Stack.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="PlyFile.h" />
     <ClInclude Include="AnimatorNode.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SkelBoxNode.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="SinusoidAnimator.h" />
     <ClInclude Include="Stack.h" />
@@ -126,8 +128,8 @@
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="armfshader.glsl" />
-    <None Include="armvshader.glsl" />
+    <None Include="skel_fshader.glsl" />
+    <None Include="skel_vshader.glsl" />
     <None Include="cube.ply" />
     <None Include="cube2.ply" />
     <None Include="fshader1.glsl" />

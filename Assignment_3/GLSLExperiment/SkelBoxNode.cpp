@@ -1,27 +1,29 @@
-#include <vector>
-#include "Scene.h"
+#include "SkelBoxNode.h"
 #include "Config.h"
-#include "ArmNode.h"
 
 using namespace assignment3;
 
-ArmNode::ArmNode(const Angel::vec3 & directedShape,
-	TransformNode::Side s):
-	TransformNode(Angel::Translate(directedShape), s),
-	directedShapeVec(directedShape),
-	vao(0), vbo(0), program(0), sinuAnimator(nullptr)
+std::string SkelBoxNode::CubePlyPath = "cube2.ply";
+bool SkelBoxNode::Switch = true;
+
+SkelBoxNode::SkelBoxNode(const Angel::vec4 & color):
+	color(color), vao(0),
+	vbo(0), ebo(0),
+	program(0)
 {
-	armMat = Angel::mat4(TransformNode::transformMat);
+	cubePly = Ply::Load(CubePlyPath);
 }
 
 
-ArmNode::~ArmNode()
+SkelBoxNode::~SkelBoxNode()
 {
 }
 
-void ArmNode::action(SceneGraph & scene)
+void SkelBoxNode::action(SceneGraph & scene)
 {
-	auto num = setupArms();
+	if (!Switch) return;
+	setupBox();
+	size_t elementNum = cubePly->getFlattenIndexesOfFaces().size();
 	Angel::mat4 modelMat(scene.curModelMatrix);
 	// projection matrix
 	GLfloat ratio = (GLfloat)config::ViewportConfig::GetWidth() /
@@ -41,8 +43,9 @@ void ArmNode::action(SceneGraph & scene)
 	std::vector<float> modelMatrixf = utils::Mat2DtoStdVec<float, Angel::mat4>
 		(mvMatrixT, 4, 4);
 
-	// create ortho
-	auto orthoMatT = Angel::transpose(Angel::identity());
+	// ortho matrix
+	Angel::mat4 orthoMat = cubePly->createOrthoMat();
+	auto orthoMatT = Angel::transpose(orthoMat);
 	std::vector<float> orthMatf = utils::Mat2DtoStdVec<float, Angel::mat4>
 		(orthoMatT, 4, 4);
 
@@ -52,76 +55,60 @@ void ArmNode::action(SceneGraph & scene)
 	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
 	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orth_matrix");
 	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
+
+	// drawing
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnable(GL_DEPTH_TEST);
-	glDrawArrays(GL_LINE_STRIP, 0, num);
+	glDrawElements(GL_QUADS, elementNum, GL_UNSIGNED_INT, 0);
 	glDisable(GL_DEPTH_TEST);
 	glFlush();
+
 	// disable all buffer and shader program
 	glBindVertexArray(0);
 	// glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
-
-	// glDeleteBuffers(1, &vbo);
-	// glDeleteVertexArrays(1, &vao);
-
-	// append new matrix to CTM
-	TransformNode::action(scene);
 }
 
-void ArmNode::linkSinusoidAnimator(const SinusoidAnimator * animator)
+void SkelBoxNode::setupBox()
 {
-	sinuAnimator = animator;
-}
-
-size_t ArmNode::setupArms()
-{
-	std::vector<Angel::vec4> arms(4, Angel::vec4(Angel::vec3()));
-	arms[1].y = directedShapeVec.y;
-	arms[2].y = directedShapeVec.y;
-	arms[2].x = directedShapeVec.x;
-	arms[3].x = directedShapeVec.x;
-	arms[3].y = directedShapeVec.y;
-	arms[3].z = directedShapeVec.z;
-
-	if (sinuAnimator != nullptr)
-	{
-		auto movement = sinuAnimator->getMovement();
-		// TODO hardcode
-		if (movement.first == TransformNode::Y_AXIS)
-		{
-			arms[3].y += movement.second;
-			arms[2].y += movement.second;
-			Angel::mat4 sinuMat = Angel::Translate(0.0f, movement.second, 0.0f);
-			transformMat = sinuMat * armMat;
-		}
-	}
-
-	std::vector<Angel::vec4> colors(4, 
-		Angel::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-
+	const std::vector<point4> & vertices = cubePly->getVertices();
+	const std::vector<GLuint> & elements = cubePly->getFlattenIndexesOfFaces();
+	std::vector<Angel::vec4> colors(vertices.size(), this->color);
+	
 	// Create a vertex array object
 	if (vao == 0)
 	{
 		glGenVertexArrays(1, &vao);
 	}
 	glBindVertexArray(vao);
-
+	
 	// create buffer
-	size_t armBufSize = arms.size() * sizeof(Angel::vec4);
-	size_t colorsBufSize = colors.size() * sizeof(Angel::vec4);
-	size_t bufSize = armBufSize + colorsBufSize;
+	size_t vertBufSize = vertices.size() * sizeof(point4);
+	size_t colorsBufSize = colors.size() * sizeof(point4);
+	size_t bufSize = vertBufSize + colorsBufSize;
 	if (vbo == 0)
 	{
 		glGenBuffers(1, &vbo);
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, bufSize, NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, armBufSize, arms.data());
-	glBufferSubData(GL_ARRAY_BUFFER, armBufSize, colorsBufSize, colors.data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vertBufSize, vertices.data());
+	glBufferSubData(GL_ARRAY_BUFFER, vertBufSize, colorsBufSize, colors.data());
 
+	// Create ebo for faces
+	size_t elemByteSize = sizeof(int) * elements.size();
+	if (ebo == 0)
+	{
+		glGenBuffers(1, &ebo);
+	}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elemByteSize, elements.data(),
+		GL_STATIC_DRAW);
+
+	// shader program
 	if (program == 0)
 	{
-		// shader program
 		program = Angel::InitShader("skel_vshader.glsl", "skel_fshader.glsl");
 	}
 	glUseProgram(program);
@@ -134,7 +121,5 @@ size_t ArmNode::setupArms()
 	GLuint vColor = glGetAttribLocation(program, "vColor");
 	glEnableVertexAttribArray(vColor);
 	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, 0,
-		BUFFER_OFFSET(armBufSize));
-
-	return arms.size();
+		BUFFER_OFFSET(vertBufSize));
 }

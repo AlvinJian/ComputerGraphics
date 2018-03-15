@@ -42,7 +42,9 @@ void main()
   {
     // flat shading
             // Normalize the input lighting vectors
-        vec3 norm = normalize(vNormal);
+        vec4 normal4 = vec4(vNormal.xyz, 1.0);
+        vec3 _normal3 = (modelViewMatrix * normal4).xyz;
+        vec3 norm = normalize(_normal3);
         vec3 vPos = (modelViewMatrix * orthPos).xyz;
         vec3 spotToEye = normalize(-1.0 * vPos);
         vec3 spotToLight = normalize(lightPosition.xyz - vPos);

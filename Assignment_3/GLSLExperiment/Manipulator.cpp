@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "ModelNode.h"
 #include "SinusoidAnimator.h"
+#include "SkelBoxNode.h"
 
 using namespace assignment3;
 using namespace utils;
@@ -104,6 +105,13 @@ ManipulatorImpl::ManipulatorImpl()
 		glutPostRedisplay();
 	};
 	funcMap['s'] = sinuMovCtrl;
+
+	KbEventHandler boxCtrl = [this](unsigned char k, int x, int y)
+	{
+		SkelBoxNode::Switch = !SkelBoxNode::Switch;
+		glutPostRedisplay();
+	};
+	funcMap['e'] = boxCtrl;
 }
 
 

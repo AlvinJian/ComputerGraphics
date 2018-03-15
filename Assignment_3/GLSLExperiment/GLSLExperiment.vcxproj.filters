@@ -75,6 +75,9 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SkelBoxNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="textfile.h">
@@ -135,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkelBoxNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -274,17 +280,17 @@
     <None Include="vshader1.glsl">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="armfshader.glsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="armvshader.glsl">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
     <None Include="cube.ply">
       <Filter>Resource Files\Ply Files</Filter>
     </None>
     <None Include="cube2.ply">
       <Filter>Resource Files\Ply Files</Filter>
+    </None>
+    <None Include="skel_fshader.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="skel_vshader.glsl">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
