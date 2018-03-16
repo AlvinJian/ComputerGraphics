@@ -31,8 +31,7 @@ void SkelBoxNode::action(SceneGraph & scene)
 	Angel::mat4 perspectiveMat = Angel::Perspective((GLfloat)45.0f, ratio, (
 		GLfloat)0.1, (GLfloat) 100.0);
 	auto perspectiveMatT = Angel::transpose(perspectiveMat);
-	std::vector<float> projMatrixf = utils::Mat2DtoStdVec<float, Angel::mat4>
-		(perspectiveMatT, 4, 4);
+	std::vector<float> projMatrixf = utils::FlattenMat4(perspectiveMatT);
 
 	// create view matrix
 	Angel::mat4 viewMatrix = scene.camera.createViewMat();
@@ -40,14 +39,12 @@ void SkelBoxNode::action(SceneGraph & scene)
 	// model & view matrix
 	Angel::mat4 mvMatrix = viewMatrix * modelMat;
 	auto mvMatrixT = Angel::transpose(mvMatrix);
-	std::vector<float> modelMatrixf = utils::Mat2DtoStdVec<float, Angel::mat4>
-		(mvMatrixT, 4, 4);
+	std::vector<float> modelMatrixf = utils::FlattenMat4(mvMatrixT);
 
 	// ortho matrix
 	Angel::mat4 orthoMat = cubePly->createOrthoMat();
 	auto orthoMatT = Angel::transpose(orthoMat);
-	std::vector<float> orthMatf = utils::Mat2DtoStdVec<float, Angel::mat4>
-		(orthoMatT, 4, 4);
+	std::vector<float> orthMatf = utils::FlattenMat4(orthoMatT);
 
 	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "modelViewMatrix");
 	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());

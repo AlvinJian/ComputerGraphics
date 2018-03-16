@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Angel.h"
 
 namespace utils
 {
@@ -25,20 +26,5 @@ namespace utils
 		static T* InUse;
 	};
 
-
-	template<typename outT, typename inT>
-	inline std::vector<outT>
-		Mat2DtoStdVec(const inT & mat2d, size_t rowMax, size_t colMax)
-	{
-		size_t num = rowMax * colMax;
-		std::vector<outT> ret(num);
-		for (auto i = 0; i < rowMax; ++i)
-		{
-			for (auto j = 0; j < colMax; ++j)
-			{
-				ret[rowMax*i + j] = mat2d[i][j];
-			}
-		}
-		return ret;
-	}
+	std::vector<float> FlattenMat4(const Angel::mat4 & mat);
 }
