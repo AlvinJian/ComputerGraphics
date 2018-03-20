@@ -15,9 +15,9 @@ AnimationEngineImpl::~AnimationEngineImpl()
 {
 }
 
-int AnimationEngineImpl::registerAnimator(Animator * anim)
+int AnimationEngineImpl::registerAnimator(Animator & anim)
 {
-	regAnimators[nextId++] = anim;
+	regAnimators[nextId++] = &anim;
 	return nextId - 1;
 }
 

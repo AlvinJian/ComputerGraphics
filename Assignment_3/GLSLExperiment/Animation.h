@@ -22,7 +22,7 @@ namespace assignment3
 	public:
 		~AnimationEngineImpl();
 
-		int registerAnimator(Animator * anim);
+		int registerAnimator(Animator & anim);
 		void deRegisterAnimator(int id);
 		void playback();
 		

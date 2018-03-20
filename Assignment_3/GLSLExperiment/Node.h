@@ -20,7 +20,7 @@ namespace assignment3
 		GroupNode();
 		virtual ~GroupNode();
 
-		GroupNode& addChild(Node* c);
+		GroupNode& addChild(Node & c);
 		const std::vector<Node*> & getChilds() const;
 		virtual void action(SceneGraph & scene) override;
 

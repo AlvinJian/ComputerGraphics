@@ -22,9 +22,9 @@ GroupNode::~GroupNode()
 
 }
 
-GroupNode& GroupNode::addChild(Node * c)
+GroupNode& GroupNode::addChild(Node & c)
 {
-	childs.push_back(c);
+	childs.push_back(&c);
 	return *this;
 }
 
