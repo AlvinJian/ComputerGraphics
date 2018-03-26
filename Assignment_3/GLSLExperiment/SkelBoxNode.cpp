@@ -33,24 +33,33 @@ void SkelBoxNode::action(SceneGraph & scene)
 	auto perspectiveMatT = Angel::transpose(perspectiveMat);
 	std::vector<float> projMatrixf = utils::FlattenMat4(perspectiveMatT);
 
-	// create view matrix
+		// view matrix
 	Angel::mat4 viewMatrix = scene.camera.createViewMat();
+	auto viewMatrixT = Angel::transpose(viewMatrix);
+	std::vector<float> viewMatrixf = utils::FlattenMat4(viewMatrixT);
 
-	// model & view matrix
-	Angel::mat4 mvMatrix = viewMatrix * modelMat;
-	auto mvMatrixT = Angel::transpose(mvMatrix);
-	std::vector<float> modelMatrixf = utils::FlattenMat4(mvMatrixT);
+	// model matrix
+	auto modelMatrixT = Angel::transpose(modelMat);
+	std::vector<float> modelMatrixf = utils::FlattenMat4(modelMatrixT);
 
 	// ortho matrix
-	Angel::mat4 orthoMat = cubePly->createOrthoMat();
+	const Ply& m = *cubePly;
+	Angel::mat4 orthoMat = m.createOrthoMat();
 	auto orthoMatT = Angel::transpose(orthoMat);
 	std::vector<float> orthMatf = utils::FlattenMat4(orthoMatT);
 
-	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "modelViewMatrix");
+	glBindVertexArray(vao);
+	// glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glUseProgram(program);
+
+	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "modelMatrix");
 	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());
-	GLuint projMatrixLoc = glGetUniformLocationARB(program, "projection_matrix");
+	GLuint viewMatrixLoc = glGetUniformLocationARB(program, "viewMatrix");
+	glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, viewMatrixf.data());
+	GLuint projMatrixLoc = glGetUniformLocationARB(program, "projectionMatrix");
 	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
-	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orth_matrix");
+	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orthoMatrix");
 	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
 
 	// drawing

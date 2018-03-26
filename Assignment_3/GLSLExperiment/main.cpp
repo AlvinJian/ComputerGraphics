@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
 	AnimationEngine animEngine;
 	animEngine.use();
-	RotateAnimatorNode selfRotAnim(90, RotateAnimatorNode::Y_AXIS);
+	RotateAnimatorNode selfRotAnim(80, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnim(250, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever(400, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever2(150, RotateAnimatorNode::Y_AXIS);
@@ -48,10 +48,10 @@ int main(int argc, char* argv[])
 
 	Gallery gallery;
 	Scene scn;
-	scn.LightPosition = Angel::vec4(-0.2f, 1.0f, 0.0f, 1.0f);
+	scn.LightPosition = Angel::vec4(-0.33f, 1.2f, 0.0f, 1.0f);
 	scn.LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	scn.LightAngle = 60.0f;
-	scn.Shininess = 6.0f;
+	scn.Shininess = 8.0f;
 	scn.use();
 
 	SkelBoxNode box(Angel::vec4(0.0f, 0.5f, 0.3f, 1.0f));

@@ -59,7 +59,7 @@ void Ply::calcVertexNormal()
 		{
 			avgNormal += fnorm[f];
 		}
-		avgNormal /= fidsPerVert.size();
+		avgNormal /= (GLfloat)fidsPerVert.size();
 		normals[i].x = avgNormal.x;
 		normals[i].y = avgNormal.y;
 		normals[i].z = avgNormal.z;

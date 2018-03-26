@@ -1,8 +1,10 @@
 #version 150
 
-uniform mat4 projection_matrix;
-uniform mat4 modelViewMatrix;
-uniform mat4 orth_matrix;
+uniform mat4 projectionMatrix;
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 orthoMatrix;
+uniform vec4 viewPosition;
 
 uniform int shadingMode;
 
@@ -22,6 +24,7 @@ flat out vec4 flatColor;
 // output values that will be interpretated per-fragment
 out vec3 fNormal;
 out vec3 fPosition;
+out vec4 fViewPosition;
 
 // PROTIP #3
 // can extend to gl_Position = projection * camera * models * vertex
@@ -35,18 +38,18 @@ out vec3 fPosition;
 
 void main() 
 {
-  vec4 orthPos = orth_matrix * vPosition;
-  gl_Position = projection_matrix * modelViewMatrix * orthPos;
+  vec4 orthPos = orthoMatrix * vPosition;
+  gl_Position = projectionMatrix * viewMatrix * modelMatrix * orthPos;
 
   if (shadingMode == 0)
   {
     // flat shading
             // Normalize the input lighting vectors
-        vec4 normal4 = vec4(vNormal.xyz, 1.0);
-        vec3 _normal3 = (modelViewMatrix * normal4).xyz;
+        vec4 normal4 = vec4(vNormal.xyz, 0.0);
+        vec3 _normal3 = (modelMatrix * orthoMatrix * normal4).xyz;
         vec3 norm = normalize(_normal3);
-        vec3 vPos = (modelViewMatrix * orthPos).xyz;
-        vec3 spotToEye = normalize(-1.0 * vPos);
+        vec3 vPos = (modelMatrix * orthPos).xyz;
+        vec3 spotToEye = normalize(viewPosition.xyz - vPos);
         vec3 spotToLight = normalize(lightPosition.xyz - vPos);
         vec3 reflect = normalize(-1.0 * spotToLight + 2.0 * dot(spotToLight, norm));
         vec3 lightNorm = normalize(lightDirection);
@@ -77,8 +80,9 @@ void main()
   }
   else
   {
-    vec4 normal4 = vec4(vNormal.xyz, 1.0);
-    fNormal = (modelViewMatrix * normal4).xyz;
-    fPosition = (modelViewMatrix * orthPos).xyz;
+    vec4 normal4 = vec4(vNormal.xyz, 0.0);
+    fNormal = (modelMatrix * orthoMatrix * normal4).xyz;
+    fPosition = (modelMatrix * orthPos).xyz;
+    fViewPosition = viewPosition;
   }
 }

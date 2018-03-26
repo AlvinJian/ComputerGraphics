@@ -11,6 +11,7 @@ uniform int shadingMode;
 // per-fragment interpolated values from the vertex shader
 in vec3 fNormal;
 in vec3 fPosition;
+in vec4 fViewPosition;
 
 flat in vec4 flatColor;
 
@@ -26,7 +27,7 @@ void main()
     {
         // Normalize the input lighting vectors
         vec3 norm = normalize(fNormal);
-        vec3 spotToEye = normalize(-1.0 * fPosition);
+        vec3 spotToEye = normalize(fViewPosition.xyz - fPosition);
         vec3 spotToLight = normalize(lightPosition.xyz - fPosition);
         // vec3 H = normalize( L + E );
         vec3 reflect = normalize(-1.0 * spotToLight + 2.0 * dot(spotToLight, norm));

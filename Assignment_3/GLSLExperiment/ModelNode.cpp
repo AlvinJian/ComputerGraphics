@@ -97,12 +97,12 @@ void ModelNode::action(SceneGraph & scene)
 
 	// view matrix
 	Angel::mat4 viewMatrix = scene.camera.createViewMat();
+	auto viewMatrixT = Angel::transpose(viewMatrix);
+	std::vector<float> viewMatrixf = utils::FlattenMat4(viewMatrixT);
 
-	// model & view matrix
-	Angel::mat4 mvMatrix = viewMatrix * modelMat;
-	auto mvMatrixT = Angel::transpose(mvMatrix);
-	std::vector<float> modelMatrixf = utils::FlattenMat4(mvMatrixT);
-
+	// model matrix
+	auto modelMatrixT = Angel::transpose(modelMat);
+	std::vector<float> modelMatrixf = utils::FlattenMat4(modelMatrixT);
 
 	// ortho matrix
 	const Ply& m = getPlyModel();
@@ -115,23 +115,23 @@ void ModelNode::action(SceneGraph & scene)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glUseProgram(program);
 
-	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "modelViewMatrix");
+	GLuint modelMatrixLoc = glGetUniformLocationARB(program, "modelMatrix");
 	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());
-	GLuint projMatrixLoc = glGetUniformLocationARB(program, "projection_matrix");
+	GLuint viewMatrixLoc = glGetUniformLocationARB(program, "viewMatrix");
+	glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, viewMatrixf.data());
+	GLuint projMatrixLoc = glGetUniformLocationARB(program, "projectionMatrix");
 	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
-	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orth_matrix");
+	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orthoMatrix");
 	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
 
 	// light attributes
-	Angel::vec4 lightPosView = viewMatrix * scene.LightPosition;
-	float lightPos[4] = { lightPosView.x, lightPosView.y,
-		lightPosView.z, lightPosView.w };
+	float lightPos[4] = { scene.LightPosition.x, scene.LightPosition.y,
+		scene.LightPosition.z, scene.LightPosition.w };
 	GLuint lightPositionLoc = glGetUniformLocation(program, "lightPosition");
 	glUniform4fv(lightPositionLoc, 1, lightPos);
 
-	Angel::vec4 lightPosViewEnd = viewMatrix * scene.LightPositionEnd;
-	Angel::vec4 lightDirInView = lightPosViewEnd - lightPosView;
-	float lightDir[3] = { lightDirInView.x, lightDirInView.y, lightDirInView.z };
+	Angel::vec4 lightDirection = scene.LightPositionEnd - scene.LightPosition;
+	float lightDir[3] = { lightDirection.x, lightDirection.y, lightDirection.z };
 	GLuint lightDirectionLoc = glGetUniformLocation(program, "lightDirection");
 	glUniform3fv(lightDirectionLoc, 1, lightDir);
 
@@ -139,12 +139,12 @@ void ModelNode::action(SceneGraph & scene)
 	glUniform1f(lightAngleLoc, scene.LightAngle);
 
 	color4 light_ambient(0.2, 0.2, 0.2, 1.0);
-	color4 light_diffuse(1.0, 1.0, 1.0, 1.0);
+	color4 light_diffuse(0.5, 0.5, 0.5, 1.0);
 	color4 light_specular(1.0, 1.0, 1.0, 1.0);
 
-	color4 material_ambient = color; //(1.0, 0.0, 1.0, 1.0);
-	color4 material_diffuse = color; //(1.0, 0.8, 0.0, 1.0);
-	color4 material_specular = color; //(1.0, 0.0, 1.0, 1.0);
+	color4 material_ambient = color;
+	color4 material_diffuse = color;
+	color4 material_specular = color;
 	float  material_shininess = scene.Shininess;
 
 	color4 ambient_product = light_ambient * material_ambient;
