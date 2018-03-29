@@ -1,7 +1,7 @@
 #include "Node.h"
 #include <iostream>
 
-using namespace assignment3;
+using namespace scn;
 
 Node::Node()
 {

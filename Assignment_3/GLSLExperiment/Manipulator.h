@@ -3,7 +3,7 @@
 #include <functional>
 #include "Utils.h"
 
-namespace assignment3
+namespace scn
 {
 	using KbEventHandler =
 		std::function<void(unsigned char, int, int)>;

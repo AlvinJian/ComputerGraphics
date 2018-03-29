@@ -6,7 +6,7 @@
 #include <strsafe.h>
 #pragma comment(lib, "User32.lib")
 
-using namespace assignment3;
+using namespace common;
 
 void DisplayErrorBox(LPTSTR lpszFunction);
 

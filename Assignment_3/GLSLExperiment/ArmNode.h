@@ -4,7 +4,7 @@
 #include "TransformNode.h"
 #include "SinusoidAnimator.h"
 
-namespace assignment3
+namespace scn
 {
 	class ArmNode: public TransformNode
 	{

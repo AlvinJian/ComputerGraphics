@@ -1,7 +1,7 @@
 #include "Animation.h"
 #include "Angel.h"
 
-using namespace assignment3;
+using namespace anim;
 using namespace utils;
 
 AnimationEngineImpl::AnimationEngineImpl(unsigned int fps):

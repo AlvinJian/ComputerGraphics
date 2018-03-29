@@ -4,7 +4,7 @@
 #include "Angel.h"
 #include "Scene.h"
 
-namespace assignment3
+namespace scn
 {
 	class Node
 	{

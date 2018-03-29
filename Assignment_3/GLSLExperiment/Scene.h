@@ -5,7 +5,7 @@
 #include "Utils.h"
 #include "Stack.h"
 
-namespace assignment3
+namespace scn
 {
 	class Node;
 	class SceneGraph

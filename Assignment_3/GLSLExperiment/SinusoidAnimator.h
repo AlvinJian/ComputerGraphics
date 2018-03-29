@@ -2,9 +2,9 @@
 #include "TransformNode.h"
 #include "Animation.h"
 
-namespace assignment3
+namespace scn
 {
-	class SinusoidAnimator: public Animator
+	class SinusoidAnimator: public anim::Animator
 	{
 	public:
 		static bool Switch;

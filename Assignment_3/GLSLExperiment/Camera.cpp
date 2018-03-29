@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-using namespace assignment3;
+using namespace scn;
 
 Camera::Camera() :
 	position(Angel::vec3(0.0f, 0.0f, -1.5f)),

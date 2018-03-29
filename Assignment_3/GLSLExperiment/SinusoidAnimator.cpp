@@ -1,7 +1,8 @@
 #include <cmath>
 #include "SinusoidAnimator.h"
 
-using namespace assignment3;
+using namespace anim;
+using namespace scn;
 
 bool SinusoidAnimator::Switch = true;
 

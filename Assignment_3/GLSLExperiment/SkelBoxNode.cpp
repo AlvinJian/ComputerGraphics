@@ -1,7 +1,8 @@
 #include "SkelBoxNode.h"
 #include "Config.h"
 
-using namespace assignment3;
+using namespace scn;
+using namespace common;
 
 std::string SkelBoxNode::CubePlyPath = "cube2.ply";
 bool SkelBoxNode::Switch = true;

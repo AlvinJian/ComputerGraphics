@@ -5,7 +5,7 @@
 #include <functional>
 #include "PlyFile.h"
 
-using namespace assignment3;
+using namespace common;
 
 Ply::Ply():
 	vertexNum(0), faceNum(0),

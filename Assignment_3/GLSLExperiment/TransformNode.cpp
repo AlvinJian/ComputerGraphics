@@ -1,7 +1,7 @@
 #include "TransformNode.h"
 #include "Scene.h"
 
-using namespace assignment3;
+using namespace scn;
 
 TransformNode::TransformNode(Angel::mat4 matrix, Side side):
 	transformMat(matrix), side(side)

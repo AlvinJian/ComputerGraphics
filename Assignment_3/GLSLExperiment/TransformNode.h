@@ -2,7 +2,7 @@
 #include "Node.h"
 #include "Angel.h"
 
-namespace assignment3
+namespace scn
 {
 	class TransformNode: public Node
 	{

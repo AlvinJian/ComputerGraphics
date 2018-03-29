@@ -4,7 +4,7 @@
 #include "Node.h"
 #include "Angel.h"
 
-namespace assignment3
+namespace scn
 {
 	class SkelBoxNode: public Node
 	{
@@ -22,7 +22,7 @@ namespace assignment3
 		void setupBox();
 
 		Angel::vec4 color;
-		Ply * cubePly;
+		common::Ply * cubePly;
 
 
 		GLuint vao;

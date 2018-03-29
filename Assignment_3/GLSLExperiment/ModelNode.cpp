@@ -5,7 +5,8 @@
 #include "Config.h"
 #include "Utils.h"
 
-using namespace assignment3;
+using namespace scn;
+using namespace common;
 using color4 = Angel::vec4;
 
 int ModelNode::ShadingMode = ModelNode::PER_PIXEL;

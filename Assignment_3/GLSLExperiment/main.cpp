@@ -17,7 +17,9 @@
 #include "SinusoidAnimator.h"
 #include "SkelBoxNode.h"
 
-using namespace assignment3;
+using namespace common;
+using namespace anim;
+using namespace scn;
 
 int main(int argc, char* argv[])
 {
@@ -47,12 +49,12 @@ int main(int argc, char* argv[])
 	animEngine.registerAnimator(selfRotAnim);
 
 	Gallery gallery;
-	Scene scn;
-	scn.LightPosition = Angel::vec4(-0.33f, 1.2f, 0.0f, 1.0f);
-	scn.LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	scn.LightAngle = 60.0f;
-	scn.Shininess = 8.0f;
-	scn.use();
+	Scene mainScene;
+	mainScene.LightPosition = Angel::vec4(-0.33f, 1.2f, 0.0f, 1.0f);
+	mainScene.LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	mainScene.LightAngle = 60.0f;
+	mainScene.Shininess = 8.0f;
+	mainScene.use();
 
 	SkelBoxNode box(Angel::vec4(0.0f, 0.5f, 0.3f, 1.0f));
 
@@ -108,7 +110,7 @@ int main(int argc, char* argv[])
 	// leftEnd.linkSinusoidAnimator(&sinuAnimOffset);
 
 	GroupNode root;
-	scn.setRoot(&root, Angel::vec3(0.0f, 0.72f, 0.0f));
+	mainScene.setRoot(&root, Angel::vec3(0.0f, 0.72f, 0.0f));
 	root.addChild(dummy);
 
 	GroupNode grpLv1R; grpLv1R.addChild(rotAnimRever); root.addChild(grpLv1R);

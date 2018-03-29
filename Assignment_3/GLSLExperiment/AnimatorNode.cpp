@@ -1,7 +1,8 @@
 #include <cmath>
 #include "AnimatorNode.h"
 
-using namespace assignment3;
+using namespace scn;
+using namespace anim;
 
 RotateAnimatorNode::RotateAnimatorNode(
 	unsigned int periodFrame,

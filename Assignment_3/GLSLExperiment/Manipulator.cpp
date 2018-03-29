@@ -5,7 +5,7 @@
 #include "SinusoidAnimator.h"
 #include "SkelBoxNode.h"
 
-using namespace assignment3;
+using namespace scn;
 using namespace utils;
 
 #define LIGHT_ANGEL_INCR 12.0f

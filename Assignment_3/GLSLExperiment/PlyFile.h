@@ -3,7 +3,7 @@
 #include <string>
 #include "Angel.h"
 
-namespace assignment3 {
+namespace common {
 	using point4 = Angel::vec4;
 	using point3 = Angel::vec3;
 

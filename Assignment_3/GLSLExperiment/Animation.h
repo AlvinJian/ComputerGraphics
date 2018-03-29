@@ -4,7 +4,7 @@
 #include <ctime>
 #include "Utils.h"
 
-namespace assignment3
+namespace anim
 {
 	using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 	class Animator

@@ -3,7 +3,7 @@
 #include <string>
 #include <utility>
 
-namespace assignment3
+namespace common
 {
 	class Gallery
 	{

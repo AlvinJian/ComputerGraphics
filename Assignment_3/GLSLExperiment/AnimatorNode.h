@@ -2,9 +2,9 @@
 #include "Animation.h"
 #include "TransformNode.h"
 
-namespace assignment3
+namespace scn
 {
-	class RotateAnimatorNode: public Animator, public TransformNode
+	class RotateAnimatorNode: public anim::Animator, public TransformNode
 	{
 	public:
 		enum RotateDirection

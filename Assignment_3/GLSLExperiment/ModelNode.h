@@ -2,7 +2,7 @@
 #include "Node.h"
 #include "PlyFile.h"
 
-namespace assignment3
+namespace scn
 {
 	class ModelNode: public Node
 	{
@@ -14,18 +14,18 @@ namespace assignment3
 
 		static int ShadingMode; // flat
 
-		ModelNode(Ply & model, const Angel::vec4 & color);
+		ModelNode(common::Ply & model, const Angel::vec4 & color);
 		virtual ~ModelNode();
 
 		virtual void action(SceneGraph & scene) override;
 		void setup();
-		const Ply & getPlyModel() const
+		const common::Ply & getPlyModel() const
 		{
 			return plyModel;
 		}
 
 	private:
-		Ply & plyModel;
+		common::Ply & plyModel;
 		Angel::vec4 color;
 
 		GLuint vao;

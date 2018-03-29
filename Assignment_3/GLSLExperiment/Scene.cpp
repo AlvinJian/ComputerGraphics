@@ -2,7 +2,7 @@
 #include "Node.h"
 #include "Config.h"
 
-using namespace assignment3;
+using namespace scn;
 using namespace utils;
 
 SceneGraph::SceneGraph():

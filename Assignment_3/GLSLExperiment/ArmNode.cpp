@@ -3,7 +3,7 @@
 #include "Config.h"
 #include "ArmNode.h"
 
-using namespace assignment3;
+using namespace scn;
 
 ArmNode::ArmNode(const Angel::vec3 & directedShape,
 	TransformNode::Side s):

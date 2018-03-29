@@ -1,7 +1,7 @@
 #pragma once
 #include "Angel.h"
 
-namespace assignment3
+namespace scn
 {
 	class Camera
 	{
