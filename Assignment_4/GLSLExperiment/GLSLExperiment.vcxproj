@@ -100,6 +100,7 @@
     <ClCompile Include="AnimatorNode.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SkelBoxNode.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="SinusoidAnimator.cpp" />
     <ClCompile Include="Stack.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SkelBoxNode.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="SinusoidAnimator.h" />
     <ClInclude Include="Stack.h" />

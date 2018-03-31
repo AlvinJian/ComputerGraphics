@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "Utils.h"
 #include "Stack.h"
-#include "Plane.h"
+#include "Skybox.h"
 
 namespace scn
 {
@@ -38,7 +38,7 @@ namespace scn
 		Node * pRootNode;
 		Angel::vec4 rootPos;
 
-		Plane ground;
+		Skybox background;
 	};
 
 	class Scene : public utils::SingleUsage<SceneGraph>
