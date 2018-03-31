@@ -45,11 +45,12 @@ int Plane::createTexture(std::string & fileName)
 	return 1;
 }
 
-void Plane::setupBufAndProg()
+void Plane::setup()
 {
-	struct TexturePosition
+	struct TexturePoint
 	{
 		Angel::vec4 position;
+		Angel::vec3 normal;
 		Angel::vec2 texCoord;
 	};
 
@@ -58,56 +59,49 @@ void Plane::setupBufAndProg()
 		glGenBuffers(1, &vao);
 	}
 	glBindVertexArray(vao);
-#if 0
-	std::vector<TexturePosition> coords;
+
+	std::vector<TexturePoint> coords;
 	// bottom left;
-	TexturePosition bl
+	TexturePoint bl
 	{
 		Angel::vec4(-1.0f, -1.0f, 0.0f, 1.0f),
+		Angel::vec3(0.0f, 0.0f, 1.0f),
 		Angel::vec2(0.0f, 0.0f)
 	};
 	coords.push_back(bl);
 
 	// bottom right
-	TexturePosition br
+	TexturePoint br
 	{
 		Angel::vec4(1.0f, -1.0f, 0.0f, 1.0f),
+		Angel::vec3(0.0f, 0.0f, 1.0f),
 		Angel::vec2(1.0f, 0.0f)
 	};
 	coords.push_back(br);
 
 	// top right
-	TexturePosition tr
+	TexturePoint tr
 	{
 		Angel::vec4(1.0f, 1.0f, 0.0f, 1.0f),
+		Angel::vec3(0.0f, 0.0f, 1.0f),
 		Angel::vec2(1.0f, 1.0f)
 	};
 	coords.push_back(tr);
 
 	// top left
-	TexturePosition tl
+	TexturePoint tl
 	{
 		Angel::vec4(-1.0f, 1.0f, 0.0f, 1.0f),
+		Angel::vec3(0.0f, 0.0f, 1.0f),
 		Angel::vec2(0.0f, 1.0f)
 	};
 	coords.push_back(tl);
-#endif
-	float planeVertices[] = {
-		// positions            // normals         // texcoords
-		1.0f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f,  1.0f,  0.0f,
-		-1.0f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
-		-1.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1.0f,
-
-		1.0f, 0.0f,  1.0f,  0.0f, 1.0f, 0.0f,  1.0f,  0.0f,
-		-1.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f,   0.0f, 1.0f,
-		1.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f,  1.0f, 1.0f
-	};
 	if (vbo == 0)
 	{
 		glGenBuffers(1, &vbo);
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(TexturePoint) * coords.size(), coords.data(), GL_STATIC_DRAW);
 
 	if (ebo == 0)
 	{
@@ -119,9 +113,8 @@ void Plane::setupBufAndProg()
 		0, 1, 2,
 		2, 3, 0
 	};
-	size_t indicesByteSize = sizeof(GLuint) * indices.size();
 	elemCount = indices.size();
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesByteSize, indices.data(),
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size() , indices.data(),
 		GL_STATIC_DRAW);
 
 	if (program == 0)
@@ -132,18 +125,18 @@ void Plane::setupBufAndProg()
 	// set up vertex arrays
 	GLuint vPosition = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(vPosition);
-	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
+	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, sizeof(TexturePoint),
 		BUFFER_OFFSET(0));
 
 	GLuint vNormal = glGetAttribLocation(program, "vNormal");
 	glEnableVertexAttribArray(vNormal);
-	glVertexAttribPointer(vNormal, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-		BUFFER_OFFSET( 3 * sizeof(float) ) );
+	glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, sizeof(TexturePoint),
+		BUFFER_OFFSET( sizeof(Angel::vec4) ) );
 
 	GLuint vTexCoord = glGetAttribLocation(program, "vTexCoord");
 	glEnableVertexAttribArray(vTexCoord);
-	glVertexAttribPointer(vTexCoord, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-		BUFFER_OFFSET( 6 * sizeof(float) ) );
+	glVertexAttribPointer(vTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(TexturePoint),
+		BUFFER_OFFSET( sizeof(Angel::vec4) + sizeof(Angel::vec3) ) );
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -152,15 +145,12 @@ void Plane::setupBufAndProg()
 
 void Plane::setModelMatrix(Angel::mat4 & matrix)
 {
-	groundModelMat = Angel::mat4(matrix);
+	planeModelMat = Angel::mat4(matrix);
 }
 
 void Plane::draw(SceneGraph & scene)
 {
-	createTexture(StoneBmp);
-	setupBufAndProg();
-
-	Angel::mat4 modelMat(scene.curModelMatrix * groundModelMat);
+	Angel::mat4 modelMat(scene.curModelMatrix * planeModelMat);
 	// projection matrix
 	GLfloat ratio = (GLfloat)config::ViewportConfig::GetWidth() /
 		(GLfloat)config::ViewportConfig::GetHeight();
@@ -178,9 +168,9 @@ void Plane::draw(SceneGraph & scene)
 	auto modelMatrixT = Angel::transpose(modelMat);
 	std::vector<float> modelMatrixf = utils::FlattenMat4(modelMatrixT);
 
-	glUseProgram(program);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glUseProgram(program);
 
 	GLuint modelMatrixLoc = glGetUniformLocation(program, "modelMatrix");
 	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());
@@ -193,18 +183,19 @@ void Plane::draw(SceneGraph & scene)
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glEnable(GL_DEPTH_TEST);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glDisable(GL_DEPTH_TEST);
 	glFlush();
 
 	// disable all buffer and shader program
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
 
 Plane::Plane():vao(0), ebo(0), vbo(0),
-	program(0), groundModelMat(Angel::identity()),
+	program(0), planeModelMat(Angel::identity()),
 	elemCount(0)
 {
 }

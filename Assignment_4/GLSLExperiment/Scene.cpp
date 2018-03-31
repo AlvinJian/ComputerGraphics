@@ -8,9 +8,10 @@ using namespace utils;
 SceneGraph::SceneGraph():
 	pRootNode(nullptr), curModelMatrix(Angel::identity())
 {
-	auto rot = Angel::RotateX(0.0f);
-	auto mov = Angel::Translate(0.0f, 0.0f, 0.0f);
+	auto rot = Angel::RotateX(-90.0f);
+	auto mov = Angel::Translate(0.0f, -1.05f, 0.0f);
 	ground.setModelMatrix(mov * rot);
+	ground.createTexture(Plane::GrassBmp);
 }
 
 
@@ -41,11 +42,12 @@ void SceneGraph::render()
 			config::ViewportConfig::GetHeight()
 		);
 		curModelMatrix = Angel::identity();
-		curModelMatrix *= Angel::Translate(rootPos);
 		pushModelMatrix();
+		curModelMatrix *= Angel::Translate(rootPos);
 		pRootNode->action(*this);
 		popModelMatrix();
 
+		ground.setup();
 		ground.draw(*this);
 		glutSwapBuffers();
 	}

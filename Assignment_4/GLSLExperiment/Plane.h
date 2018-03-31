@@ -14,7 +14,7 @@ namespace scn
 		static std::string StoneBmp;
 
 		int createTexture(std::string&);
-		void setupBufAndProg();
+		void setup();
 		void setModelMatrix(Angel::mat4 &);
 		void draw(SceneGraph & scene);
 		Plane();
@@ -22,7 +22,7 @@ namespace scn
 
 	private:
 		int bmpRet;
-		Angel::mat4 groundModelMat;
+		Angel::mat4 planeModelMat;
 
 		GLuint texture;
 		GLuint vao, ebo, vbo;
