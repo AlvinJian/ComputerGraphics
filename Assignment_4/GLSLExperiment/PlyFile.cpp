@@ -335,7 +335,7 @@ Angel::mat4 Ply::createOrthoMat() const
 	GLfloat right = c.x + 0.5f * maxLen;
 	GLfloat bottom = c.y - 0.5f * maxLen;
 	GLfloat top = c.y + 0.5f * maxLen;
-	GLfloat znear = c.z - 0.5f * maxLen;
-	GLfloat zfar = c.z + 0.5f * maxLen;
+	GLfloat znear = c.z + 0.5f * maxLen;
+	GLfloat zfar = c.z - 0.5f * maxLen;
 	return Angel::Ortho(left, right, bottom, top, znear, zfar);
 }

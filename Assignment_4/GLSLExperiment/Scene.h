@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Utils.h"
 #include "Stack.h"
+#include "Plane.h"
 
 namespace scn
 {
@@ -36,6 +37,8 @@ namespace scn
 		utils::Stack<Angel::mat4> matrixStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
+
+		Plane ground;
 	};
 
 	class Scene : public utils::SingleUsage<SceneGraph>

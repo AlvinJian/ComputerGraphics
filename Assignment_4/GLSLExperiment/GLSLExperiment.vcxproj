@@ -86,9 +86,11 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="ArmNode.cpp" />
+    <ClCompile Include="bmpread.c" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Gallery.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manipulator.cpp" />
@@ -108,16 +110,19 @@
     <ClInclude Include="Angel.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="ArmNode.h" />
+    <ClInclude Include="bmpread.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Gallery.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Manipulator.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PlyFile.h" />
     <ClInclude Include="AnimatorNode.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SkelBoxNode.h" />
     <ClInclude Include="Utils.h" />
@@ -128,6 +133,8 @@
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="plane_frag.glsl" />
+    <None Include="plane_vertex.glsl" />
     <None Include="skel_fshader.glsl" />
     <None Include="skel_vshader.glsl" />
     <None Include="cube.ply" />
@@ -177,6 +184,10 @@
     <None Include="ply_files\walkman.ply" />
     <None Include="ply_files\weathervane.ply" />
     <None Include="vshader1.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="grass.bmp" />
+    <Image Include="stones.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
