@@ -34,29 +34,21 @@ const std::map<char, KbEventHandler>& ManipulatorImpl::getFuncMap() const
 
 ManipulatorImpl::ManipulatorImpl()
 {
-	KbEventHandler shadingChange = [this](unsigned char k, int x, int y)
+	KbEventHandler reflectionToggle = [this](unsigned char k, int x, int y)
 	{
-		bool needRefresh = false;
-		switch (k)
+		static bool isReflect = false;
+		if (isReflect)
 		{
-		case 'M':
-			ModelNode::ShadingMode = ModelNode::FLAT;
-			needRefresh = true;
-			break;
-		case 'm':
 			ModelNode::ShadingMode = ModelNode::PER_PIXEL;
-			needRefresh = true;
-			break;
-		default:
-			break;
 		}
-		if (needRefresh)
+		else
 		{
-			glutPostRedisplay();
+			ModelNode::ShadingMode = ModelNode::REFLECTION;
 		}
+		isReflect = !isReflect;
+		glutPostRedisplay();
 	};
-	funcMap['m'] = shadingChange;
-	funcMap['M'] = shadingChange;
+	funcMap['C'] = reflectionToggle;
 
 	KbEventHandler spotLightCtrl = [this](unsigned char k, int x, int y)
 	{

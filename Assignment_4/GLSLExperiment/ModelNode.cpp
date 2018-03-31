@@ -162,6 +162,7 @@ void ModelNode::action(SceneGraph & scene)
 		material_shininess);
 	glUniform1i(glGetUniformLocation(program, "shadingMode"), 
 		ModelNode::ShadingMode);
+	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
 
 #if 1
 	// debug

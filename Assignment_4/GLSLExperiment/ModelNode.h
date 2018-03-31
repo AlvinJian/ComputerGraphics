@@ -9,7 +9,7 @@ namespace scn
 	public:
 		enum SHADING_MODE
 		{
-			FLAT = 0, PER_PIXEL = 1
+			FLAT = 0, PER_PIXEL = 1, REFLECTION=2, REFRACTION=3
 		};
 
 		static int ShadingMode; // flat

@@ -18,6 +18,8 @@ namespace scn
 		float LightAngle;
 		float Shininess;
 
+		Angel::mat4 getShadowProjMatrix();
+
 		~SceneGraph();
 
 		Angel::mat4 curModelMatrix;

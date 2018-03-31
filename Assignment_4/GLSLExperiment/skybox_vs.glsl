@@ -10,6 +10,5 @@ out vec3 TexCoords;
 void main()
 {
     TexCoords = vPosition.xyz;
-    vec4 pos = projectionMatrix * viewMatrix * modelMatrix * vPosition;
-    gl_Position = pos;
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
 }

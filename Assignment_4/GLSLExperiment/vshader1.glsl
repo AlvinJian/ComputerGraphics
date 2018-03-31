@@ -26,6 +26,9 @@ out vec3 fNormal;
 out vec3 fPosition;
 out vec4 fViewPosition;
 
+// reflection mode
+out vec3 fReflect;
+
 // PROTIP #3
 // can extend to gl_Position = projection * camera * models * vertex
 // you may wish to view camera motion as a transform on the projection (projection * camera) * models ...
@@ -77,7 +80,18 @@ void main()
             flatColor = ambient;
             flatColor.a = 1.0;
         }
-  }
+  } 
+  /* else if (shadingMode == 2)
+  {
+      vec4 normal4 = vec4(vNormal.xyz, 0.0);
+      vec3 _normal3 = (modelMatrix * orthoMatrix * normal4).xyz;
+      vec3 norm = normalize(_normal3);
+      vec3 vPos = (modelMatrix * orthPos).xyz;
+      vec3 spotToEye = normalize(viewPosition.xyz - vPos);
+      vec3 spotToLight = normalize(lightPosition.xyz - vPos);
+      vec3 reflect = normalize(-1.0 * spotToLight + 2.0 * dot(spotToLight, norm));
+      fReflect = reflect;
+  } */
   else
   {
     vec4 normal4 = vec4(vNormal.xyz, 0.0);

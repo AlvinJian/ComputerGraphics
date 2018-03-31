@@ -156,3 +156,16 @@ void Skybox::loadCubemap()
 	
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
 }
+
+void Skybox::bindCubemap(bool b)
+{
+	if (b && texture > 0)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+	}
+	else
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
+	}
+}

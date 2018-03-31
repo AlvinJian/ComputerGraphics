@@ -18,6 +18,7 @@ namespace scn
 		
 		void draw(SceneGraph & scene);
 		void loadCubemap();
+		void bindCubemap(bool);
 
 	private:
 		static std::string CubePlyPath;

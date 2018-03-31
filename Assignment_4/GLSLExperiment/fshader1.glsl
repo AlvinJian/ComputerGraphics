@@ -15,6 +15,10 @@ in vec4 fViewPosition;
 
 flat in vec4 flatColor;
 
+// reflect mode
+uniform samplerCube skybox;
+in vec3 fReflect;
+
 out vec4  fColor;
 
 void main() 
@@ -22,6 +26,16 @@ void main()
     if (shadingMode == 0)
     {
         fColor = flatColor;
+    }
+    else if (shadingMode == 2)
+    {
+        // Normalize the input lighting vectors
+        vec3 norm = normalize(fNormal);
+        vec3 spotToEye = normalize(fViewPosition.xyz - fPosition);
+        vec3 spotToLight = normalize(lightPosition.xyz - fPosition);
+        // vec3 H = normalize( L + E );
+        vec3 reflect = normalize(-1.0 * spotToLight + 2.0 * dot(spotToLight, norm));
+        fColor = textureCube(skybox, reflect);
     }
     else
     {
@@ -48,7 +62,7 @@ void main()
             if( dot(spotToLight, norm) < 0.0 ) {
 	            specular = vec4(0.0, 0.0, 0.0, 1.0);
             }
-            fColor = ambient + diffuse + specular; // + interpolatedColor * 0.2;
+            fColor = ambient + diffuse + specular;
             fColor.a = 1.0;
         }
         else

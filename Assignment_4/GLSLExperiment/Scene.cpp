@@ -13,6 +13,13 @@ SceneGraph::SceneGraph():
 }
 
 
+Angel::mat4 SceneGraph::getShadowProjMatrix()
+{
+	Angel::mat4 shadowProj = Angel::identity();
+	shadowProj[3][1] = -1.0f / LightPosition.y;
+	return Angel::Translate(LightPosition) * shadowProj;
+}
+
 SceneGraph::~SceneGraph()
 {
 }
@@ -42,9 +49,13 @@ void SceneGraph::render()
 		curModelMatrix = Angel::identity();
 		pushModelMatrix();
 		background.draw(*this);
+		background.bindCubemap(true);
+
 		curModelMatrix *= Angel::Translate(rootPos);
 		pRootNode->action(*this);
 		popModelMatrix();
+
+		background.bindCubemap(false);
 
 		glutSwapBuffers();
 	}
