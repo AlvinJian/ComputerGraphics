@@ -33,5 +33,10 @@ namespace scn
 		GLuint ebo;
 		GLuint program;
 		size_t elementNum;
+
+		GLuint shadowVao;
+		GLuint shadowVbo;
+		GLuint shadowEbo;
+		GLuint shadowProgram;
 	};
 }

@@ -16,8 +16,11 @@ SceneGraph::SceneGraph():
 Angel::mat4 SceneGraph::getShadowProjMatrix()
 {
 	Angel::mat4 shadowProj = Angel::identity();
+	// shadowProj[3][0] = -1.0f / LightPosition.x;
 	shadowProj[3][1] = -1.0f / LightPosition.y;
-	return Angel::Translate(LightPosition) * shadowProj;
+	// shadowProj[3][2] = -1.0f / LightPosition.z;
+	return Angel::Translate(LightPosition) * 
+		shadowProj * Angel::Translate(-1.0f * LightPosition);
 }
 
 SceneGraph::~SceneGraph()

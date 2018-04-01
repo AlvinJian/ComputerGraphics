@@ -15,7 +15,9 @@ ModelNode::ModelNode(Ply & model, const Angel::vec4 & color):
 	plyModel(model), vao(0), 
 	vbo(0), ebo(0), 
 	program(0), elementNum(0),
-	color(color)
+	color(color), shadowVao(0),
+	shadowVbo(0), shadowEbo(0),
+	shadowProgram(0)
 {
 }
 
@@ -77,6 +79,28 @@ void ModelNode::setup()
 	glEnableVertexAttribArray(vNormal);
 	glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, 0,
 		BUFFER_OFFSET(pointsByteSize + colorsByteSize));
+
+	// disable all buffer and shader program
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+
+	// setup shadow shader
+	glGenVertexArrays(1, &shadowVao);
+	glBindVertexArray(shadowVao);
+	glGenBuffers(1, &shadowVbo);
+	glBindBuffer(GL_ARRAY_BUFFER, shadowVbo);
+	glBufferData(GL_ARRAY_BUFFER, pointsByteSize, points.data(), GL_STATIC_DRAW);
+	glGenBuffers(1, &shadowEbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowEbo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elemByteSize, elements.data(),
+		GL_STATIC_DRAW);
+	shadowProgram = Angel::InitShader("shadow_vs.glsl", "shadow_fs.glsl");
+	glUseProgram(shadowProgram);
+	GLuint vPos = glGetAttribLocation(program, "vPosition");
+	glEnableVertexAttribArray(vPos);
+	glVertexAttribPointer(vPos, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 
 	// disable all buffer and shader program
 	glBindVertexArray(0);
@@ -164,20 +188,10 @@ void ModelNode::action(SceneGraph & scene)
 		ModelNode::ShadingMode);
 	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
 
-#if 1
-	// debug
-	auto rootPair = scene.getRoot();
-	// Angel::vec4 r(rootPair.second);
-	auto mr = viewMatrix * *rootPair.second;
-#endif
-
 	// drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_DEPTH_TEST);
 	glDrawElements(GL_TRIANGLES, elementNum, GL_UNSIGNED_INT, 0);
-	glDisable(GL_DEPTH_TEST);
-
-	glFlush();
 
 	// disable all buffer and shader program
 	glBindVertexArray(0);
@@ -185,5 +199,35 @@ void ModelNode::action(SceneGraph & scene)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 
-	auto err = glGetError();
+	// draw shadow
+	glBindVertexArray(shadowVao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowEbo);
+	glUseProgram(shadowProgram);
+	Angel::mat4 shadowMat = scene.getShadowProjMatrix();
+	Angel::mat4 shadowMatT = Angel::transpose(shadowMat);
+	std::vector<GLfloat> shadowMatf = utils::FlattenMat4(shadowMatT);
+	
+	// Angel::mat4 orthoProjMat = Angel::Ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+	// std::vector<GLfloat> orthoProjMatf = utils::FlattenMat4(Angel::transpose(orthoProjMat));
+
+	modelMatrixLoc = glGetUniformLocationARB(shadowProgram, "modelMatrix");
+	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());
+	viewMatrixLoc = glGetUniformLocationARB(shadowProgram, "viewMatrix");
+	glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, viewMatrixf.data());
+	projMatrixLoc = glGetUniformLocationARB(shadowProgram, "projectionMatrix");
+	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
+	orthMatrixLoc = glGetUniformLocationARB(shadowProgram, "orthoMatrix");
+	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
+	GLuint shadowProjLoc = glGetUniformLocation(shadowProgram, "shadowProjMatrix");
+	glUniformMatrix4fv(shadowProjLoc, 1, GL_FALSE, shadowMatf.data());
+	glDrawElements(GL_TRIANGLES, elementNum, GL_UNSIGNED_INT, 0);
+
+	// disable all buffer and shader program
+	glBindVertexArray(0);
+	// glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+
+	glDisable(GL_DEPTH_TEST);
+	glFlush();
 }

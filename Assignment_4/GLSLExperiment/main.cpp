@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 	Scene mainScene;
 	mainScene.LightPosition = Angel::vec4(-0.33f, 1.2f, 0.0f, 1.0f);
 	mainScene.LightPositionEnd = Angel::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	mainScene.LightAngle = 60.0f;
+	mainScene.LightAngle = 360.0f;
 	mainScene.Shininess = 8.0f;
 	mainScene.camera.position.z = -1.5f;
 	mainScene.use();
