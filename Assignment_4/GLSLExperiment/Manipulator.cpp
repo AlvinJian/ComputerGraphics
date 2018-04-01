@@ -50,6 +50,22 @@ ManipulatorImpl::ManipulatorImpl()
 	};
 	funcMap['C'] = reflectionToggle;
 
+	KbEventHandler refractionToggle = [this](unsigned char k, int x, int y)
+	{
+		static bool isRefract = false;
+		if (isRefract)
+		{
+			ModelNode::ShadingMode = ModelNode::PER_PIXEL;
+		}
+		else
+		{
+			ModelNode::ShadingMode = ModelNode::REFRACTION;
+		}
+		isRefract = !isRefract;
+		glutPostRedisplay();
+	};
+	funcMap['D'] = refractionToggle;
+
 	KbEventHandler spotLightCtrl = [this](unsigned char k, int x, int y)
 	{
 		SceneGraph * pScn = Scene::GetCurrent();

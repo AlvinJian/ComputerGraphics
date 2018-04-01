@@ -29,13 +29,16 @@ void main()
     }
     else if (shadingMode == 2)
     {
-        // Normalize the input lighting vectors
-        vec3 norm = normalize(fNormal);
-        vec3 spotToEye = normalize(fViewPosition.xyz - fPosition);
-        vec3 spotToLight = normalize(lightPosition.xyz - fPosition);
-        // vec3 H = normalize( L + E );
-        vec3 reflect = normalize(-1.0 * spotToLight + 2.0 * dot(spotToLight, norm));
-        fColor = textureCube(skybox, reflect);
+        vec3 eyeToSpot = normalize(fPosition - fViewPosition.xyz);
+        vec3 reflectVec = reflect(eyeToSpot, normalize(fNormal) );
+        fColor = textureCube(skybox, reflectVec);
+    }
+    else if (shadingMode == 3)
+    {
+        vec3 eyeToSpot = normalize(fPosition - fViewPosition.xyz);
+        vec3 refra = refract(eyeToSpot, normalize(fNormal), 0.6);
+        vec4 refractColor = textureCube(skybox, refra);
+        fColor = mix(refractColor, vec4(0.85, 0.85, 0.85, 1.0), 0.45);
     }
     else
     {
