@@ -12,7 +12,7 @@ in vec4 vPosition;
 vec4 calcProjectionPoint(vec4 vertPos)
 {
     vec3 deltaVec = (vertPos - lightPosition).xyz;
-    float alpha = (-vertPos.y-1.0) / deltaVec.y;
+    float alpha = (-vertPos.y + ground) / deltaVec.y;
     return vec4(vertPos.x + alpha * deltaVec.x,
                 ground,
                 vertPos.z + alpha * deltaVec.z,
