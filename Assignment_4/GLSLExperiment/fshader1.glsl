@@ -15,11 +15,26 @@ in vec4 fViewPosition;
 
 flat in vec4 flatColor;
 
-// reflect mode
+// reflect/refract mode
 uniform samplerCube skybox;
 in vec3 fReflect;
+uniform int skyboxMode;
 
 out vec4  fColor;
+
+vec4 plainCube(vec3 point)
+{
+    vec4 blue = vec4(0.12, 0.12, 0.55, 1.0);
+    vec4 gray = vec4(0.45, 0.45, 0.45, 1.0);
+
+    if (abs(point.y) >= max(abs(point.x), abs(point.z)) && point.y < 0)
+    {
+        return gray;
+    } else
+    {
+        return blue;
+    }
+}
 
 void main() 
 {
@@ -31,13 +46,28 @@ void main()
     {
         vec3 eyeToSpot = normalize(fPosition - fViewPosition.xyz);
         vec3 reflectVec = reflect(eyeToSpot, normalize(fNormal) );
-        fColor = textureCube(skybox, reflectVec);
+        if (skyboxMode == 1)
+        {
+            fColor = plainCube(reflectVec);
+        }
+        else
+        {
+            fColor = textureCube(skybox, reflectVec);
+        }
     }
     else if (shadingMode == 3)
     {
         vec3 eyeToSpot = normalize(fPosition - fViewPosition.xyz);
         vec3 refra = refract(eyeToSpot, normalize(fNormal), 0.6);
-        vec4 refractColor = textureCube(skybox, refra);
+        vec4 refractColor;
+        if (skyboxMode == 1)
+        {
+            refractColor = textureCube(skybox, refra);
+        }
+        else
+        {
+            refractColor = plainCube(refra);
+        }
         fColor = mix(refractColor, vec4(0.85, 0.85, 0.85, 1.0), 0.45);
     }
     else

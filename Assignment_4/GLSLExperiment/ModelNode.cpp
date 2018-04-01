@@ -176,7 +176,7 @@ void ModelNode::action(SceneGraph & scene)
 	color4 diffuse_product = light_diffuse * material_diffuse;
 	color4 specular_product = light_specular * material_specular;
 
-	glUniform4fv(glGetUniformLocation(program, "AmbientProduct"),
+	glUniform4fv(glGetUniformLocation(program, "AmbientProduct"), 
 		1, ambient_product);
 	glUniform4fv(glGetUniformLocation(program, "DiffuseProduct"),
 		1, diffuse_product);
@@ -187,6 +187,7 @@ void ModelNode::action(SceneGraph & scene)
 	glUniform1i(glGetUniformLocation(program, "shadingMode"), 
 		ModelNode::ShadingMode);
 	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
+	glUniform1i(glGetUniformLocation(program, "skyboxMode"), Skybox::CurrentMode);
 
 	// drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

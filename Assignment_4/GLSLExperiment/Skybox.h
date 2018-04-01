@@ -9,6 +9,13 @@ namespace scn
 	class Skybox
 	{
 	public:
+		static int CurrentMode;
+
+		enum Mode
+		{
+			TEXTURE = 0, PLAIN
+		};
+
 		static std::string GrassBmp;
 		static std::string StoneBmp;
 

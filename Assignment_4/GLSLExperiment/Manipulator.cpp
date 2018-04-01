@@ -107,19 +107,19 @@ ManipulatorImpl::ManipulatorImpl()
 	funcMap['p'] = spotLightCtrl;
 	funcMap['P'] = spotLightCtrl;
 
-	KbEventHandler sinuMovCtrl = [this](unsigned char k, int x, int y)
+	KbEventHandler envCtrl = [this](unsigned char k, int x, int y)
 	{
-		SinusoidAnimator::Switch = !SinusoidAnimator::Switch;
+		if (Skybox::CurrentMode == Skybox::TEXTURE)
+		{
+			Skybox::CurrentMode = Skybox::PLAIN;
+		}
+		else if (Skybox::CurrentMode == Skybox::PLAIN)
+		{
+			Skybox::CurrentMode = Skybox::TEXTURE;
+		}
 		glutPostRedisplay();
 	};
-	funcMap['s'] = sinuMovCtrl;
-
-	KbEventHandler boxCtrl = [this](unsigned char k, int x, int y)
-	{
-		SkelBoxNode::Switch = !SkelBoxNode::Switch;
-		glutPostRedisplay();
-	};
-	funcMap['e'] = boxCtrl;
+	funcMap['B'] = envCtrl;
 }
 
 

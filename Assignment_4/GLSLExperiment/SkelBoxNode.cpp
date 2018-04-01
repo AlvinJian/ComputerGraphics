@@ -5,7 +5,7 @@ using namespace scn;
 using namespace common;
 
 std::string SkelBoxNode::CubePlyPath = "cube2.ply";
-bool SkelBoxNode::Switch = true;
+bool SkelBoxNode::Switch = false;
 
 SkelBoxNode::SkelBoxNode(const Angel::vec4 & color):
 	color(color), vao(0),
