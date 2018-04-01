@@ -36,33 +36,31 @@ ManipulatorImpl::ManipulatorImpl()
 {
 	KbEventHandler reflectionToggle = [this](unsigned char k, int x, int y)
 	{
-		static bool isReflect = false;
-		if (isReflect)
+		if (ModelNode::ShadingMode == ModelNode::REFLECTION)
 		{
 			ModelNode::ShadingMode = ModelNode::PER_PIXEL;
+			glutPostRedisplay();
 		}
-		else
+		else if (ModelNode::ShadingMode == ModelNode::PER_PIXEL)
 		{
 			ModelNode::ShadingMode = ModelNode::REFLECTION;
+			glutPostRedisplay();
 		}
-		isReflect = !isReflect;
-		glutPostRedisplay();
 	};
 	funcMap['C'] = reflectionToggle;
 
 	KbEventHandler refractionToggle = [this](unsigned char k, int x, int y)
 	{
-		static bool isRefract = false;
-		if (isRefract)
+		if (ModelNode::ShadingMode == ModelNode::REFRACTION)
 		{
 			ModelNode::ShadingMode = ModelNode::PER_PIXEL;
+			glutPostRedisplay();
 		}
-		else
+		else if (ModelNode::ShadingMode == ModelNode::PER_PIXEL)
 		{
 			ModelNode::ShadingMode = ModelNode::REFRACTION;
+			glutPostRedisplay();
 		}
-		isRefract = !isRefract;
-		glutPostRedisplay();
 	};
 	funcMap['D'] = refractionToggle;
 
@@ -121,6 +119,14 @@ ManipulatorImpl::ManipulatorImpl()
 		glutPostRedisplay();
 	};
 	funcMap['B'] = envCtrl;
+
+	KbEventHandler shadowCtrl = [this](unsigned char k, int x, int y)
+	{
+		SceneGraph * pScene = Scene::GetCurrent();
+		pScene->shadowToggle = !pScene->shadowToggle;
+		glutPostRedisplay();
+	};
+	funcMap['A'] = shadowCtrl;
 }
 
 

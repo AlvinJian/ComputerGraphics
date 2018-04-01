@@ -187,7 +187,8 @@ void ModelNode::action(SceneGraph & scene)
 	glUniform1i(glGetUniformLocation(program, "shadingMode"), 
 		ModelNode::ShadingMode);
 	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
-	glUniform1i(glGetUniformLocation(program, "skyboxMode"), scene.background.currentMode);
+	glUniform1i(glGetUniformLocation(program, "skyboxMode"), 
+		scene.background.currentMode);
 
 	// drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
