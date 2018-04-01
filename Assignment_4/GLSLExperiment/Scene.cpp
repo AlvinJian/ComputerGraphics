@@ -5,22 +5,12 @@
 using namespace scn;
 using namespace utils;
 
-SceneGraph::SceneGraph():
-	pRootNode(nullptr), curModelMatrix(Angel::identity())
+SceneGraph::SceneGraph() :
+	pRootNode(nullptr), curModelMatrix(Angel::identity()),
+	groundLevel(0.0f), shadowToggle(true)
 {
 	
 	background.loadCubemap();
-}
-
-
-Angel::mat4 SceneGraph::getShadowProjMatrix()
-{
-	Angel::mat4 shadowProj = Angel::identity();
-	// shadowProj[3][0] = -1.0f / LightPosition.x;
-	shadowProj[3][1] = -1.0f / LightPosition.y;
-	// shadowProj[3][2] = -1.0f / LightPosition.z;
-	return Angel::Translate(LightPosition) * 
-		shadowProj * Angel::Translate(-1.0f * LightPosition);
 }
 
 SceneGraph::~SceneGraph()

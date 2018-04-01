@@ -104,18 +104,19 @@ ManipulatorImpl::ManipulatorImpl()
 			glutPostRedisplay();
 		}
 	};
-	funcMap['p'] = spotLightCtrl;
-	funcMap['P'] = spotLightCtrl;
+	// funcMap['p'] = spotLightCtrl;
+	// funcMap['P'] = spotLightCtrl;
 
 	KbEventHandler envCtrl = [this](unsigned char k, int x, int y)
 	{
-		if (Skybox::CurrentMode == Skybox::TEXTURE)
+		Skybox & skybox = Scene::GetCurrent()->background;
+		if (skybox.currentMode == Skybox::TEXTURE)
 		{
-			Skybox::CurrentMode = Skybox::PLAIN;
+			skybox.currentMode = Skybox::PLAIN;
 		}
-		else if (Skybox::CurrentMode == Skybox::PLAIN)
+		else if (skybox.currentMode == Skybox::PLAIN)
 		{
-			Skybox::CurrentMode = Skybox::TEXTURE;
+			skybox.currentMode = Skybox::TEXTURE;
 		}
 		glutPostRedisplay();
 	};

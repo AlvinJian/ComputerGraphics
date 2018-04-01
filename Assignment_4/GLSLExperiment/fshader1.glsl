@@ -62,13 +62,13 @@ void main()
         vec4 refractColor;
         if (skyboxMode == 1)
         {
-            refractColor = textureCube(skybox, refra);
+           refractColor = plainCube(refra);
         }
         else
         {
-            refractColor = plainCube(refra);
+            refractColor = textureCube(skybox, refra);
         }
-        fColor = mix(refractColor, vec4(0.85, 0.85, 0.85, 1.0), 0.45);
+        fColor = mix(refractColor, vec4(0.85, 0.85, 0.85, 1.0), 0.25);
     }
     else
     {

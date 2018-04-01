@@ -187,7 +187,7 @@ void ModelNode::action(SceneGraph & scene)
 	glUniform1i(glGetUniformLocation(program, "shadingMode"), 
 		ModelNode::ShadingMode);
 	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
-	glUniform1i(glGetUniformLocation(program, "skyboxMode"), Skybox::CurrentMode);
+	glUniform1i(glGetUniformLocation(program, "skyboxMode"), scene.background.currentMode);
 
 	// drawing
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -200,34 +200,38 @@ void ModelNode::action(SceneGraph & scene)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 
-	// draw shadow
-	glBindVertexArray(shadowVao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowEbo);
-	glUseProgram(shadowProgram);
-	Angel::mat4 shadowMat = scene.getShadowProjMatrix();
-	Angel::mat4 shadowMatT = Angel::transpose(shadowMat);
-	std::vector<GLfloat> shadowMatf = utils::FlattenMat4(shadowMatT);
-	
-	// Angel::mat4 orthoProjMat = Angel::Ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-	// std::vector<GLfloat> orthoProjMatf = utils::FlattenMat4(Angel::transpose(orthoProjMat));
+	if (scene.shadowToggle)
+	{
+		// draw shadow
+		glBindVertexArray(shadowVao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, shadowEbo);
+		glUseProgram(shadowProgram);
 
-	modelMatrixLoc = glGetUniformLocationARB(shadowProgram, "modelMatrix");
-	glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());
-	viewMatrixLoc = glGetUniformLocationARB(shadowProgram, "viewMatrix");
-	glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, viewMatrixf.data());
-	projMatrixLoc = glGetUniformLocationARB(shadowProgram, "projectionMatrix");
-	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
-	orthMatrixLoc = glGetUniformLocationARB(shadowProgram, "orthoMatrix");
-	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
-	GLuint shadowProjLoc = glGetUniformLocation(shadowProgram, "shadowProjMatrix");
-	glUniformMatrix4fv(shadowProjLoc, 1, GL_FALSE, shadowMatf.data());
-	glDrawElements(GL_TRIANGLES, elementNum, GL_UNSIGNED_INT, 0);
+		modelMatrixLoc = glGetUniformLocationARB(shadowProgram, "modelMatrix");
+		glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, modelMatrixf.data());
+		viewMatrixLoc = glGetUniformLocationARB(shadowProgram, "viewMatrix");
+		glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, viewMatrixf.data());
+		projMatrixLoc = glGetUniformLocationARB(shadowProgram, "projectionMatrix");
+		glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
+		orthMatrixLoc = glGetUniformLocationARB(shadowProgram, "orthoMatrix");
+		glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
 
-	// disable all buffer and shader program
-	glBindVertexArray(0);
-	// glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glUseProgram(0);
+		// light attributes
+		float _lightPos[4] = { scene.LightPosition.x, scene.LightPosition.y,
+			scene.LightPosition.z, scene.LightPosition.w };
+		lightPositionLoc = glGetUniformLocation(shadowProgram, "lightPosition");
+		glUniform4fv(lightPositionLoc, 1, _lightPos);
+
+		glUniform1f(glGetUniformLocation(shadowProgram, "ground"), scene.groundLevel);
+
+		glDrawElements(GL_TRIANGLES, elementNum, GL_UNSIGNED_INT, 0);
+
+		// disable all buffer and shader program
+		glBindVertexArray(0);
+		// glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glUseProgram(0);
+	}
 
 	glDisable(GL_DEPTH_TEST);
 	glFlush();

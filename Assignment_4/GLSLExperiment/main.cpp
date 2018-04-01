@@ -55,6 +55,7 @@ int main(int argc, char* argv[])
 	mainScene.LightAngle = 360.0f;
 	mainScene.Shininess = 8.0f;
 	mainScene.camera.position.z = -1.5f;
+	mainScene.groundLevel = -1.0f;
 	mainScene.use();
 
 	SkelBoxNode box(Angel::vec4(0.0f, 0.5f, 0.3f, 1.0f));

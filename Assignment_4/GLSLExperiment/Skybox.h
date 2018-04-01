@@ -9,8 +9,6 @@ namespace scn
 	class Skybox
 	{
 	public:
-		static int CurrentMode;
-
 		enum Mode
 		{
 			TEXTURE = 0, PLAIN
@@ -22,6 +20,7 @@ namespace scn
 		Skybox();
 		~Skybox();
 
+		Mode currentMode;
 		
 		void draw(SceneGraph & scene);
 		void loadCubemap();

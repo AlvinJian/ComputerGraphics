@@ -18,7 +18,10 @@ namespace scn
 		float LightAngle;
 		float Shininess;
 
-		Angel::mat4 getShadowProjMatrix();
+		// env and shadow
+		Skybox background;
+		float groundLevel;
+		bool shadowToggle;
 
 		~SceneGraph();
 
@@ -39,8 +42,6 @@ namespace scn
 		utils::Stack<Angel::mat4> matrixStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
-
-		Skybox background;
 	};
 
 	class Scene : public utils::SingleUsage<SceneGraph>

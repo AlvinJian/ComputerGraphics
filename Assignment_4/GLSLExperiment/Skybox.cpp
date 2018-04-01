@@ -11,11 +11,9 @@ std::string Skybox::GrassBmp = "grass.bmp";
 std::string Skybox::StoneBmp = "stones256.bmp";
 std::string Skybox::CubePlyPath = "cube2.ply";
 
-int Skybox::CurrentMode = Skybox::TEXTURE;
-
 Skybox::Skybox():
 	vao(0), vbo(0), program(0),
-	texture(0)
+	texture(0), currentMode(Skybox::TEXTURE)
 {
 	cubePly = Ply::Load(CubePlyPath);
 }
@@ -102,7 +100,7 @@ void Skybox::draw(SceneGraph & scene)
 	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
 
 	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
-	glUniform1i(glGetUniformLocation(program, "skyboxMode"), Skybox::CurrentMode);
+	glUniform1i(glGetUniformLocation(program, "skyboxMode"), currentMode);
 
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_TEXTURE_CUBE_MAP);
