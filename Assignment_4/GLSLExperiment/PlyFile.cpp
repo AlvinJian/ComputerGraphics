@@ -324,13 +324,13 @@ const std::string& Ply::getName() const
 	return name;
 }
 
-Angel::mat4 Ply::createOrthoMat() const
+Angel::mat4 Ply::createOrthoMat(float factor) const
 {
 	const Ply& m = *this;
 	const point3& c = m.getCenter();
 	std::vector<GLfloat> len{ m.getWidth(), m.getHeight(), m.getDepth() };
 	GLfloat maxLen = *std::max_element(len.begin(), len.end());
-	maxLen *= 6.0f;
+	maxLen *= factor;
 	GLfloat left = c.x - 0.5f * maxLen;
 	GLfloat right = c.x + 0.5f * maxLen;
 	GLfloat bottom = c.y - 0.5f * maxLen;

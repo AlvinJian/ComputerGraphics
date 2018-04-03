@@ -90,7 +90,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Gallery.cpp" />
-    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="InitShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manipulator.cpp" />
@@ -116,7 +115,6 @@
     <ClInclude Include="CheckError.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Gallery.h" />
-    <ClInclude Include="Plane.h" />
     <ClInclude Include="Manipulator.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="ModelNode.h" />
@@ -135,8 +133,6 @@
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="plane_frag.glsl" />
-    <None Include="plane_vertex.glsl" />
     <None Include="skel_fshader.glsl" />
     <None Include="skel_vshader.glsl" />
     <None Include="cube.ply" />
@@ -185,6 +181,8 @@
     <None Include="ply_files\urn2.ply" />
     <None Include="ply_files\walkman.ply" />
     <None Include="ply_files\weathervane.ply" />
+    <None Include="skybox_fs.glsl" />
+    <None Include="skybox_vs.glsl" />
     <None Include="vshader1.glsl" />
   </ItemGroup>
   <ItemGroup>

@@ -21,7 +21,7 @@ namespace common {
 		float getDepth() const;
 		const point3& getCenter() const;
 		const std::string& getName() const;
-		Angel::mat4 createOrthoMat() const;
+		Angel::mat4 createOrthoMat(float factor=6.0f) const;
 
 	private:
 		static void AdjustGeoCenterToOrigin(Ply &);

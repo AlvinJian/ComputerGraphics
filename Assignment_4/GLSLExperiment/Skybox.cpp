@@ -87,6 +87,12 @@ void Skybox::draw(SceneGraph & scene)
 	auto viewMatrixT = Angel::transpose(viewMatrix);
 	std::vector<float> viewMatrixf = utils::FlattenMat4(viewMatrixT);
 
+	// ortho matrix
+	const Ply& m = *cubePly;
+	Angel::mat4 orthoMat = m.createOrthoMat(0.8);
+	auto orthoMatT = Angel::transpose(orthoMat);
+	std::vector<float> orthMatf = utils::FlattenMat4(orthoMatT);
+
 	// model matrix
 	Angel::mat4 modelMat(scene.curModelMatrix);
 	auto modelMatrixT = Angel::transpose(modelMat);
@@ -98,6 +104,8 @@ void Skybox::draw(SceneGraph & scene)
 	glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, viewMatrixf.data());
 	GLuint projMatrixLoc = glGetUniformLocationARB(program, "projectionMatrix");
 	glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, projMatrixf.data());
+	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orthoMatrix");
+	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
 
 	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
 	glUniform1i(glGetUniformLocation(program, "skyboxMode"), currentMode);
@@ -150,9 +158,9 @@ void Skybox::loadCubemap()
 	}
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_REPEAT);
 	
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
 }

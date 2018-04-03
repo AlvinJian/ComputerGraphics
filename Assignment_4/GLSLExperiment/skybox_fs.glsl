@@ -8,7 +8,7 @@ uniform int skyboxMode;
 
 vec4 plainCube(vec3 point)
 {
-    vec4 blue = vec4(0.12, 0.12, 0.55, 1.0);
+    vec4 blue = vec4(0.33, 0.33, 0.55, 1.0);
     vec4 gray = vec4(0.45, 0.45, 0.45, 1.0);
 
     if (abs(point.y) >= max(abs(point.x), abs(point.z)) && point.y < 0)
