@@ -31,13 +31,13 @@ void main()
     {
         vec3 eyeToSpot = normalize(fPosition - fViewPosition.xyz);
         vec3 reflectVec = reflect(eyeToSpot, normalize(fNormal) );
-        fColor = textureCube(skybox, reflectVec);
+        fColor = texture(skybox, reflectVec);
     }
     else if (shadingMode == 3)
     {
         vec3 eyeToSpot = normalize(fPosition - fViewPosition.xyz);
         vec3 refra = refract(eyeToSpot, normalize(fNormal), 0.55);
-        vec4 refractColor = textureCube(skybox, refra);
+        vec4 refractColor = texture(skybox, refra);
         fColor = mix(refractColor, vec4(0.55, 0.75, 0.75, 1.0), 0.33);
     }
     else
