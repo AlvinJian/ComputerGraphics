@@ -13,7 +13,8 @@ std::string Skybox::CubePlyPath = "cube2.ply";
 
 Skybox::Skybox():
 	vao(0), vbo(0), program(0),
-	texture(0), currentMode(Skybox::TEXTURE)
+	texture(0), currentMode(Skybox::TEXTURE),
+	plainTex(0)
 {
 	cubePly = Ply::Load(CubePlyPath);
 }
@@ -107,13 +108,12 @@ void Skybox::draw(SceneGraph & scene)
 	GLuint orthMatrixLoc = glGetUniformLocationARB(program, "orthoMatrix");
 	glUniformMatrix4fv(orthMatrixLoc, 1, GL_FALSE, orthMatf.data());
 
-	glUniform1i(glGetUniformLocation(program, "skybox"), 0);
+	// TODO switch texture unit
+	glUniform1i(glGetUniformLocation(program, "skybox"), currentMode);
 	glUniform1i(glGetUniformLocation(program, "skyboxMode"), currentMode);
 
 	glDepthFunc(GL_LEQUAL);
-	glEnable(GL_TEXTURE_CUBE_MAP);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+	bindCubemap(true);
 	glDrawElements(GL_QUADS, elementNum, GL_UNSIGNED_INT, 0);
 	glFlush();
 	glDepthFunc(GL_LESS);
@@ -139,6 +139,7 @@ void Skybox::loadCubemap()
 	{
 		glGenTextures(1, &texture);
 	}
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 	int bmpRet;
 	for (size_t i = 0; i < 6; ++i)
@@ -165,15 +166,60 @@ void Skybox::loadCubemap()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
 }
 
+void Skybox::genPlainCube()
+{
+	const std::vector<GLubyte> blue { 85, 85, 128 };
+	const std::vector<GLubyte> gray { 120, 120, 120 };
+
+	std::vector<std::vector<GLubyte>> faceColor
+	{
+		blue, // right
+		blue, // left
+		blue, // top
+		gray, // bottom
+		blue, // front
+		blue // back
+	};
+
+	if (plainTex == 0)
+	{
+		glGenTextures(1, &plainTex);
+	}
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, plainTex);
+	for (size_t i = 0; i < faceColor.size(); ++i)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB,
+			1, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, faceColor[i].data());
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
+}
+
 void Skybox::bindCubemap(bool b)
 {
-	if (b && texture > 0)
+	if (!b)
 	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
+		glDisable(GL_TEXTURE_CUBE_MAP);
 	}
 	else
 	{
-		glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
+		glEnable(GL_TEXTURE_CUBE_MAP);
+		if (currentMode == TEXTURE)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+		}
+		else if (currentMode == PLAIN)
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, plainTex);
+		}
 	}
 }

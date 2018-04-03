@@ -11,6 +11,7 @@ SceneGraph::SceneGraph() :
 {
 	
 	background.loadCubemap();
+	background.genPlainCube();
 }
 
 SceneGraph::~SceneGraph()

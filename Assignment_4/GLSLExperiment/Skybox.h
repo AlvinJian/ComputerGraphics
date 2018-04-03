@@ -24,6 +24,7 @@ namespace scn
 		
 		void draw(SceneGraph & scene);
 		void loadCubemap();
+		void genPlainCube();
 		void bindCubemap(bool);
 
 	private:
@@ -39,5 +40,6 @@ namespace scn
 		GLuint program;
 
 		GLuint texture;
+		GLuint plainTex;
 	};
 }
