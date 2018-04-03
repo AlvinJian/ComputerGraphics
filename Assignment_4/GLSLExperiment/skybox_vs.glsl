@@ -1,4 +1,5 @@
-#version 330 core
+#version 150
+
 in vec4 vPosition;
 
 uniform mat4 projectionMatrix;
