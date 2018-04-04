@@ -25,7 +25,9 @@ namespace scn
 		void draw(SceneGraph & scene);
 		void loadCubemap();
 		void genPlainCube();
+		void loadEnvMap();
 		void bindCubemap(bool);
+		void bindEnvMap(bool);
 
 	private:
 		static std::string CubePlyPath;
@@ -41,5 +43,6 @@ namespace scn
 
 		GLuint texture;
 		GLuint plainTex;
+		GLuint envTex;
 	};
 }

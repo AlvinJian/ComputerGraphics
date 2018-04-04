@@ -90,7 +90,7 @@ void Skybox::draw(SceneGraph & scene)
 
 	// ortho matrix
 	const Ply& m = *cubePly;
-	Angel::mat4 orthoMat = m.createOrthoMat(0.8);
+	Angel::mat4 orthoMat = m.createOrthoMat(0.8f);
 	auto orthoMatT = Angel::transpose(orthoMat);
 	std::vector<float> orthMatf = utils::FlattenMat4(orthoMatT);
 
@@ -119,7 +119,7 @@ void Skybox::draw(SceneGraph & scene)
 	glDepthFunc(GL_LESS);
 	
 	glBindVertexArray(0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
+	bindCubemap(false); // unbind
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
@@ -201,6 +201,58 @@ void Skybox::genPlainCube()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
 }
 
+void Skybox::loadEnvMap()
+{
+	// nvnegx.bmp  nvnegy.bmp  nvnegz.bmp  nvposx.bmp  nvposy.bmp  nvposz.bmp
+	// env_map/
+	std::string envRight = "env_map/nvposx.bmp";
+	std::string envLeft = "env_map/nvnegx.bmp";
+	std::string envTop = "env_map/nvposy.bmp";
+	std::string envBottom = "env_map/nvnegy.bmp";
+	std::string envFront = "env_map/nvposz.bmp";
+	std::string envBack = "env_map/nvnegz.bmp";
+
+	std::vector<std::string> envFaces
+	{
+		envRight,
+		envLeft,
+		envTop,
+		envBottom,
+		envFront,
+		envBack
+	};
+
+	if (envTex == 0)
+	{
+		glGenTextures(1, &envTex);
+	}
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, envTex);
+	int bmpRet;
+	for (size_t i = 0; i < 6; ++i)
+	{
+		std::string & fileName = envFaces[i];
+		bmpread_t bitmap;
+		bmpRet = bmpread(fileName.c_str(), 0, &bitmap);
+		if (!bmpRet)
+		{
+			std::cerr << "loading fails=" << fileName << std::endl;
+			exit(1);
+		}
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB,
+			bitmap.width, bitmap.height, 0, GL_RGB, GL_UNSIGNED_BYTE,
+			bitmap.rgb_data);
+		bmpread_free(&bitmap);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
+}
+
 void Skybox::bindCubemap(bool b)
 {
 	if (!b)
@@ -221,5 +273,20 @@ void Skybox::bindCubemap(bool b)
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, plainTex);
 		}
+	}
+}
+
+void Skybox::bindEnvMap(bool b)
+{
+	if (!b)
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
+		glDisable(GL_TEXTURE_CUBE_MAP);
+	}
+	else
+	{
+		glEnable(GL_TEXTURE_CUBE_MAP);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, envTex);
 	}
 }

@@ -11,6 +11,7 @@ SceneGraph::SceneGraph() :
 {
 	
 	background.loadCubemap();
+	background.loadEnvMap();
 	background.genPlainCube();
 }
 
@@ -43,13 +44,14 @@ void SceneGraph::render()
 		curModelMatrix = Angel::identity();
 		pushModelMatrix();
 		background.draw(*this);
-		background.bindCubemap(true);
+		
+		background.bindEnvMap(true);
 
 		curModelMatrix *= Angel::Translate(rootPos);
 		pRootNode->action(*this);
 		popModelMatrix();
 
-		background.bindCubemap(false);
+		background.bindEnvMap(false);
 
 		glutSwapBuffers();
 	}
