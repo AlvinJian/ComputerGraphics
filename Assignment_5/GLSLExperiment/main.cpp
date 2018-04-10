@@ -4,11 +4,13 @@
 
 #include "ImageRenderer.h"
 #include "Config.h"
+#include "Manipulator.h"
 #include "Angel.h"
 
 using namespace image;
 using namespace utils;
 using namespace config;
+using namespace ctrl;
 
 int main(int argc, char* argv[])
 {
@@ -25,6 +27,35 @@ int main(int argc, char* argv[])
 	imageRenderer.use();
 	std::string imageFilename("usain_bolt.bmp");
 	imageRenderer.loadImageToTexture(imageFilename);
+
+	Manipulator manip;
+	manip.use();
+
+	ctrl::KbEventHandler resetCtrl = [](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "reset" << std::endl;
+			pRender->resetPostProcessShader();
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('O', resetCtrl);
+
+	GLuint luminEffect = InitShader("vshader1.glsl", "lumin_fs.glsl");
+	ctrl::KbEventHandler luminCtrl = [luminEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "luminProg=" << luminEffect << std::endl;
+			pRender->setPostProcessShader(luminEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('L', luminCtrl);
+	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	auto reshape = [](int w, int h)
 	{

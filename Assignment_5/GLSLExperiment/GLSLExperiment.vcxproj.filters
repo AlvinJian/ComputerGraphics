@@ -39,6 +39,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Manipulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="textfile.h">
@@ -65,12 +68,18 @@
     <ClInclude Include="ImageRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Manipulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="fshader1.glsl">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="vshader1.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lumin_fs.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

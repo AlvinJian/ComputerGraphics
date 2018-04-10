@@ -17,9 +17,10 @@ struct TextureData {
 ImageRenderer::ImageRenderer() :
 	vao(0), vbo(0), ebo(0), program(0), texture(0),
 	framebuffer(0), framebufferTexture(0),
-	defaultPostProgram(0)
+	defaultPostProgram(0), currentPostProgram(0)
 {
-
+	defaultPostProgram = InitShader("vshader1.glsl", "fshader1.glsl");
+	currentPostProgram = defaultPostProgram;
 }
 
 
@@ -65,15 +66,19 @@ void ImageRenderer::loadImageToTexture(const std::string & filename)
 
 void image::ImageRenderer::setPostProcessShader(GLuint postProcess)
 {
-	defaultPostProgram = postProcess;
+	currentPostProgram = postProcess;
+}
+
+void ImageRenderer::resetPostProcessShader()
+{
+	currentPostProgram = defaultPostProgram;
 }
 
 void ImageRenderer::render()
 {
 	glClearColor(0.33f, 0.33f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	setupPreProcess();
+	glClear(GL_COLOR_BUFFER_BIT);
 	auto projLoc = glGetUniformLocation(program, "Projection");
 	// Set our texture samples to the active texture unit
 	mat4 projection = Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
@@ -91,10 +96,11 @@ void ImageRenderer::render()
 #if 1
 	// post process
 	setupPostProcess();
-	projLoc = glGetUniformLocation(defaultPostProgram, "Projection");
+	glClear(GL_COLOR_BUFFER_BIT);
+	projLoc = glGetUniformLocation(currentPostProgram, "Projection");
 	// Set our texture samples to the active texture unit
 	glUniformMatrix4fv(projLoc, 1, GL_TRUE, projMatf.data());
-	glUniform1i(glGetUniformLocation(defaultPostProgram, "texture"), 0);
+	glUniform1i(glGetUniformLocation(currentPostProgram, "texture"), 0);
 	glViewport(0, 0,
 		config::ViewportConfig::GetWidth(),
 		config::ViewportConfig::GetHeight()
@@ -211,8 +217,10 @@ void ImageRenderer::setupPreProcess()
 	GLsizei windowHeight = config::ViewportConfig::GetHeight();
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, windowWidth, windowHeight,
 		0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, 
 		GL_TEXTURE_2D, framebufferTexture, 0);
 
@@ -232,11 +240,7 @@ void ImageRenderer::setupPostProcess()
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-	if (defaultPostProgram == 0)
-	{
-		defaultPostProgram = InitShader("vshader1.glsl", "fshader1.glsl");
-	}
-	glUseProgram(defaultPostProgram);
+	glUseProgram(currentPostProgram);
 
 	glEnableVertexAttribArray(PROGRAM_VERTEX_ATTRIBUTE);
 	glVertexAttribPointer(PROGRAM_VERTEX_ATTRIBUTE, 4, GL_FLOAT, GL_FALSE,

@@ -1,0 +1,14 @@
+#version 330 core
+
+in  vec2 texCoord;
+out vec4 fColor;
+
+uniform sampler2D texture;
+
+void main()
+{
+    const vec3 factor = vec3(0.2125, 0.7154, 0.0721);
+    vec3 origColor = texture2D(texture, texCoord).rgb;
+    float luminance = dot(origColor, factor);
+    fColor = vec4(luminance, luminance, luminance, 1.0);
+}

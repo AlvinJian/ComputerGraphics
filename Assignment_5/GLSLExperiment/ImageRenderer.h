@@ -15,6 +15,7 @@ namespace image
 
 		void loadImageToTexture(const std::string &);
 		void setPostProcessShader(GLuint postProcess);
+		void resetPostProcessShader();
 		void render();
 	
 	protected:
@@ -30,6 +31,7 @@ namespace image
 		GLuint framebufferTexture;
 
 		GLuint defaultPostProgram;
+		GLuint currentPostProgram;
 	};
 
 	class SingleImageRender : public utils::SingleUsage<ImageRenderer>
