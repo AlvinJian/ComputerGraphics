@@ -82,5 +82,11 @@
     <None Include="lumin_fs.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="edge_detect_fs.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="negative_fs.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

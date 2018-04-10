@@ -55,6 +55,33 @@ int main(int argc, char* argv[])
 		}
 	};
 	manip.addKeyFunc('L', luminCtrl);
+
+	GLuint negativeEffect = InitShader("vshader1.glsl", "negative_fs.glsl");
+	ctrl::KbEventHandler negativeCtrl = [negativeEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "negativeProg=" << negativeEffect << std::endl;
+			pRender->setPostProcessShader(negativeEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('N', negativeCtrl);
+
+	GLuint edgeDetectEffect = InitShader("vshader1.glsl", "edge_detect_fs.glsl");
+	ctrl::KbEventHandler edgeDetectCtrl = [edgeDetectEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "edgeDetectProg=" << edgeDetectEffect << std::endl;
+			pRender->setPostProcessShader(edgeDetectEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('D', edgeDetectCtrl);
+
 	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	auto reshape = [](int w, int h)
