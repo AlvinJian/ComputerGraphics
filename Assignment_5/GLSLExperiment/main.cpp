@@ -82,6 +82,19 @@ int main(int argc, char* argv[])
 	};
 	manip.addKeyFunc('D', edgeDetectCtrl);
 
+	GLuint sphereEffect = InitShader("vshader1.glsl", "sphere_fs.glsl");
+	ctrl::KbEventHandler sphereCtrl = [sphereEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "sphereProg=" << sphereEffect << std::endl;
+			pRender->setPostProcessShader(sphereEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('S', sphereCtrl);
+
 	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	auto reshape = [](int w, int h)

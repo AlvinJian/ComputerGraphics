@@ -110,6 +110,7 @@
     <None Include="fshader1.glsl" />
     <None Include="lumin_fs.glsl" />
     <None Include="negative_fs.glsl" />
+    <None Include="sphere.glsl" />
     <None Include="vshader1.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
