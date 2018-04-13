@@ -121,6 +121,19 @@ int main(int argc, char* argv[])
 	};
 	manip.addKeyFunc('T', toonCtrl);
 
+	GLuint twirlEffect = InitShader("vshader1.glsl", "twirl_fs.glsl");
+	ctrl::KbEventHandler twirlCtrl = [twirlEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "twirlProg=" << twirlEffect << std::endl;
+			pRender->setPostProcessShader(twirlEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('W', twirlCtrl);
+
 	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	auto reshape = [](int w, int h)

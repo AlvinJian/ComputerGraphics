@@ -97,5 +97,8 @@
     <None Include="toon_fs.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="twirl_fs.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
