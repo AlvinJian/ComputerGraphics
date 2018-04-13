@@ -134,6 +134,19 @@ int main(int argc, char* argv[])
 	};
 	manip.addKeyFunc('W', twirlCtrl);
 
+	GLuint rippleEffect = InitShader("vshader1.glsl", "ripple_fs.glsl");
+	ctrl::KbEventHandler rippleCtrl = [rippleEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "rippleProg=" << rippleEffect << std::endl;
+			pRender->setPostProcessShader(rippleEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('P', rippleCtrl);
+
 	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	auto reshape = [](int w, int h)

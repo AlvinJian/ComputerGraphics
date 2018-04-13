@@ -111,6 +111,7 @@
     <None Include="fshader1.glsl" />
     <None Include="lumin_fs.glsl" />
     <None Include="negative_fs.glsl" />
+    <None Include="ripple_fs.glsl" />
     <None Include="sphere.glsl" />
     <None Include="toon_fs.glsl" />
     <None Include="twirl_fs.glsl" />
