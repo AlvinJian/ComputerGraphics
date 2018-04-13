@@ -108,6 +108,19 @@ int main(int argc, char* argv[])
 	};
 	manip.addKeyFunc('E', embossCtrl);
 
+	GLuint toonEffect = InitShader("vshader1.glsl", "toon_fs.glsl");
+	ctrl::KbEventHandler toonCtrl = [toonEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "toonProg=" << toonEffect << std::endl;
+			pRender->setPostProcessShader(toonEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('T', toonCtrl);
+
 	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	auto reshape = [](int w, int h)
