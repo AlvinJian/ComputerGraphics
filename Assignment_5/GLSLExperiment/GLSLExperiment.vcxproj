@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="edge_detect_fs.glsl" />
+    <None Include="emboss_fs.glsl" />
     <None Include="fshader1.glsl" />
     <None Include="lumin_fs.glsl" />
     <None Include="negative_fs.glsl" />

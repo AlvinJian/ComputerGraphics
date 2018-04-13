@@ -95,6 +95,19 @@ int main(int argc, char* argv[])
 	};
 	manip.addKeyFunc('S', sphereCtrl);
 
+	GLuint embossEffect = InitShader("vshader1.glsl", "emboss_fs.glsl");
+	ctrl::KbEventHandler embossCtrl = [embossEffect](unsigned char k, int x, int y)
+	{
+		ImageRenderer * pRender = SingleImageRender::GetCurrent();
+		if (pRender != nullptr)
+		{
+			std::cout << "embossProg=" << embossEffect << std::endl;
+			pRender->setPostProcessShader(embossEffect);
+			glutPostRedisplay();
+		}
+	};
+	manip.addKeyFunc('E', embossCtrl);
+
 	glutKeyboardFunc(Manipulator::KbEventCallback);
 
 	auto reshape = [](int w, int h)
