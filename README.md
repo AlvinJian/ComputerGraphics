@@ -10,6 +10,7 @@
 ![Image Processing Using Shaders](GPUImageProcessing.gif)
 
 Effects:
+
 1. Luminance
 1. Image Negative
 1. Edge Detection
