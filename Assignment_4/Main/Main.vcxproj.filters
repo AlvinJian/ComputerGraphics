@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatorNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gallery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InitShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Manipulator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlyFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SinusoidAnimator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkelBoxNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="textfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bmpread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Angel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatorNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bmpread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gallery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manipulator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlyFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkelBoxNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="textfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SinusoidAnimator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="grass.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="stones.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ply_files\airplane.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\ant.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\apple.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\balance.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\beethoven.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\big_atc.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\big_dodge.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\big_porsche.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\big_spider.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\canstick.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\cow.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\chopper.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="cube.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="cube2.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\dolphins.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\egret.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\f16.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\footbones.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\fracttree.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="fshader1.glsl">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\galleon.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\hammerhead.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\helix.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\hind.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\kerolamp.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\ketchup.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\mug.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\part.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\pickup_big.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\pump.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\pumpa_tb.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\sandal.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\saratoga.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\scissors.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\shark.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\steeringweel.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\stratocaster.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\street_lamp.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\teapot.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\tennis_shoe.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\tommygun.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\trashcan.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\turbine.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\urn2.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\walkman.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="ply_files\weathervane.ply">
+      <Filter>Ply Files</Filter>
+    </None>
+    <None Include="skel_fshader.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="skel_vshader.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="skybox_fs.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="skybox_vs.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="vshader1.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{041645de-bb42-464c-9144-e8d379c16bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d677d995-6faf-404e-923b-19eb3cd5258c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ply Files">
+      <UniqueIdentifier>{8dc19948-33f1-467d-b8ff-a33d487f8e93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{0c56d9ea-63f1-483e-81d6-c7d7826e6320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader Files">
+      <UniqueIdentifier>{d8eed6ba-92b5-498b-ab70-d669917aefe6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
