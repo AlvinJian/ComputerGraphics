@@ -69,7 +69,7 @@ void Skybox::setup()
 	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 }
 
-void Skybox::draw(SceneGraph & scene)
+void Skybox::draw(Scene & scene)
 {
 	GLenum err = 0;
 	setup();

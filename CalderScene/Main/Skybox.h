@@ -5,7 +5,7 @@
 
 namespace scn
 {
-	class SceneGraph;
+	class Scene;
 	class Skybox
 	{
 	public:
@@ -22,7 +22,7 @@ namespace scn
 
 		Mode currentMode;
 		
-		void draw(SceneGraph & scene);
+		void draw(Scene & scene);
 		void loadCubemap();
 		void genPlainCube();
 		void loadEnvMap();

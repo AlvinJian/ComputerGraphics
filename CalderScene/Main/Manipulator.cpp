@@ -10,6 +10,8 @@ using namespace utils;
 
 #define LIGHT_ANGEL_INCR 12.0f
 
+Manipulator * SingleUsage<Manipulator>::InUse = nullptr;
+
 void Manipulator::KbEventCallback(unsigned char key, int x, int y)
 {
 	if (key == 033)
@@ -27,12 +29,12 @@ void Manipulator::KbEventCallback(unsigned char key, int x, int y)
 	}
 }
 
-const std::map<char, KbEventHandler>& ManipulatorImpl::getFuncMap() const
+const std::map<char, KbEventHandler>& Manipulator::getFuncMap() const
 {
 	return funcMap;
 }
 
-ManipulatorImpl::ManipulatorImpl()
+Manipulator::Manipulator()
 {
 	KbEventHandler reflectionToggle = [this](unsigned char k, int x, int y)
 	{
@@ -66,7 +68,7 @@ ManipulatorImpl::ManipulatorImpl()
 
 	KbEventHandler spotLightCtrl = [this](unsigned char k, int x, int y)
 	{
-		SceneGraph * pScn = Scene::GetCurrent();
+		Scene * pScn = Scene::GetCurrent();
 		if (pScn == nullptr) return;
 		bool needRefresh = false;
 		switch (k)
@@ -122,24 +124,13 @@ ManipulatorImpl::ManipulatorImpl()
 
 	KbEventHandler shadowCtrl = [this](unsigned char k, int x, int y)
 	{
-		SceneGraph * pScene = Scene::GetCurrent();
+		Scene * pScene = Scene::GetCurrent();
 		pScene->shadowToggle = !pScene->shadowToggle;
 		glutPostRedisplay();
 	};
 	funcMap['A'] = shadowCtrl;
 }
 
-
-ManipulatorImpl::~ManipulatorImpl()
-{
-}
-
-ManipulatorImpl * SingleUsage<ManipulatorImpl>::InUse = nullptr;
-
-Manipulator::Manipulator():
-	ManipulatorImpl()
-{
-}
-
 Manipulator::~Manipulator()
-{}
+{
+}

@@ -20,7 +20,7 @@ TransformNode::~TransformNode()
 {
 }
 
-void TransformNode::action(SceneGraph & scene)
+void TransformNode::action(Scene & scene)
 {
 	if (side == TransformNode::LEFT)
 	{

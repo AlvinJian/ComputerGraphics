@@ -4,30 +4,31 @@
 using namespace anim;
 using namespace utils;
 
-AnimationEngineImpl::AnimationEngineImpl(unsigned int fps):
+AnimationEngine::AnimationEngine(unsigned int fps):
 	fps(fps), nextId(0),
 	started(false), frameCount(0)
 {
 	usPerFrame = 1000000 / fps;
 }
 
-AnimationEngineImpl::~AnimationEngineImpl()
+AnimationEngine::~AnimationEngine()
 {
 }
 
-int AnimationEngineImpl::registerAnimator(Animator & anim)
+int AnimationEngine::registerAnimator(Animator & anim)
 {
 	regAnimators[nextId++] = &anim;
 	return nextId - 1;
 }
 
-void AnimationEngineImpl::deRegisterAnimator(int id)
+void AnimationEngine::deRegisterAnimator(int id)
 {
 	regAnimators.erase(id);
 }
 
-void AnimationEngineImpl::playback()
+void AnimationEngine::playback()
 {
+	if (InUse != this) return;
 	auto current = std::chrono::system_clock::now();
 	bool shouldPlay = false;
 	if (started)
@@ -67,7 +68,8 @@ void AnimationEngineImpl::playback()
 	}
 }
 
-AnimationEngineImpl* SingleUsage<AnimationEngineImpl>::InUse = nullptr;
+AnimationEngine* SingleUsage<AnimationEngine>::InUse = nullptr;
+
 void AnimationEngine::Playback()
 {
 	if (InUse != nullptr)
@@ -75,10 +77,3 @@ void AnimationEngine::Playback()
 		InUse->playback();
 	}
 }
-
-AnimationEngine::AnimationEngine(unsigned int fps):
-	AnimationEngineImpl(fps)
-{
-}
-
-AnimationEngine::~AnimationEngine(){}

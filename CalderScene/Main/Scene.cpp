@@ -5,7 +5,7 @@
 using namespace scn;
 using namespace utils;
 
-SceneGraph::SceneGraph() :
+Scene::Scene() :
 	pRootNode(nullptr), curModelMatrix(Angel::identity()),
 	groundLevel(0.0f), shadowToggle(true)
 {
@@ -15,23 +15,24 @@ SceneGraph::SceneGraph() :
 	background.genPlainCube();
 }
 
-SceneGraph::~SceneGraph()
+Scene::~Scene()
 {
 }
 
-void SceneGraph::setRoot(Node * root, Angel::vec3 pos)
+void Scene::setRoot(Node * root, Angel::vec3 pos)
 {
 	pRootNode = root;
 	rootPos = Angel::vec4(pos, 1.0f);
 }
 
-std::pair<const Node *, const Angel::vec4 *> SceneGraph::getRoot() const
+std::pair<const Node *, const Angel::vec4 *> Scene::getRoot() const
 {
 	return std::make_pair(pRootNode, &rootPos);
 }
 
-void SceneGraph::render()
+void Scene::render()
 {
+	if (InUse != this) return;
 	if (pRootNode != nullptr)
 	{
 		// sets the default color to clear screen
@@ -57,18 +58,18 @@ void SceneGraph::render()
 	}
 }
 
-void SceneGraph::pushModelMatrix()
+void Scene::pushModelMatrix()
 {
 	matrixStack.push(curModelMatrix);
 }
 
-void SceneGraph::popModelMatrix()
+void Scene::popModelMatrix()
 {
 	curModelMatrix = Angel::mat4( matrixStack.top() );
 	matrixStack.pop();
 }
 
-SceneGraph * SingleUsage<SceneGraph>::InUse = nullptr;
+Scene * SingleUsage<Scene>::InUse = nullptr;
 
 void Scene::Render()
 {
@@ -76,13 +77,4 @@ void Scene::Render()
 	{
 		InUse->render();
 	}
-}
-
-Scene::Scene():
-	SceneGraph()
-{
-}
-
-Scene::~Scene()
-{
 }

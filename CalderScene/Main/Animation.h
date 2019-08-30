@@ -17,17 +17,19 @@ namespace anim
 			unsigned int frmNum) = 0;
 	};
 
-	class AnimationEngineImpl
+	class AnimationEngine: public utils::SingleUsage<AnimationEngine>
 	{
 	public:
-		~AnimationEngineImpl();
+		static void Playback();
+
+		AnimationEngine(unsigned int fps = 30);
+		~AnimationEngine();
 
 		int registerAnimator(Animator & anim);
 		void deRegisterAnimator(int id);
 		void playback();
 		
-	protected:
-		AnimationEngineImpl(unsigned int fps = 30);
+	private:
 		int nextId;
 		bool started;
 		TimePoint startTime;
@@ -36,14 +38,5 @@ namespace anim
 		unsigned int frameCount;
 		TimePoint prevTime;
 		std::map<int, Animator * > regAnimators;
-	};
-
-	class AnimationEngine : public utils::SingleUsage<AnimationEngineImpl>
-	{
-	public:
-		static void Playback();
-
-		AnimationEngine(unsigned int fps = 30);
-		~AnimationEngine();
 	};
 }

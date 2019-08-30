@@ -14,7 +14,7 @@ namespace scn
 			TransformNode::Side s = TransformNode::RIGHT);
 		virtual ~ArmNode();
 
-		void action(SceneGraph & scene) override;
+		void action(Scene & scene) override;
 
 		// TODO ugly stuff
 		void linkSinusoidAnimator(const SinusoidAnimator * animator);

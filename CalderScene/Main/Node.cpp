@@ -33,7 +33,7 @@ const std::vector<Node*> & GroupNode::getChilds() const
 	return childs;
 }
 
-void GroupNode::action(SceneGraph & scene)
+void GroupNode::action(Scene & scene)
 {
 #if 0
 	std::cout << __FUNCTION__ << "===start===" << std::endl;

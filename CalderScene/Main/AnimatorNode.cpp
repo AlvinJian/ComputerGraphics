@@ -37,7 +37,7 @@ void RotateAnimatorNode::play(std::chrono::microseconds ms,
 	updateMat();
 }
 
-void RotateAnimatorNode::action(SceneGraph & scene)
+void RotateAnimatorNode::action(Scene & scene)
 {
 	TransformNode::action(scene);
 }

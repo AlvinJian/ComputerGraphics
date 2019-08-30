@@ -109,7 +109,7 @@ void ModelNode::setup()
 	glUseProgram(0);
 }
 
-void ModelNode::action(SceneGraph & scene)
+void ModelNode::action(Scene & scene)
 {
 	Angel::mat4 modelMat(scene.curModelMatrix);
 	// projection matrix

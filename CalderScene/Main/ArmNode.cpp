@@ -19,7 +19,7 @@ ArmNode::~ArmNode()
 {
 }
 
-void ArmNode::action(SceneGraph & scene)
+void ArmNode::action(Scene & scene)
 {
 	auto num = setupArms();
 	Angel::mat4 modelMat(scene.curModelMatrix);

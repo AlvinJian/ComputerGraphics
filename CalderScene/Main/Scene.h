@@ -9,9 +9,11 @@
 namespace scn
 {
 	class Node;
-	class SceneGraph
+	class Scene : public utils::SingleUsage<Scene>
 	{
 	public:
+		static void Render();
+
 		// Light
 		Angel::vec4 LightPosition;
 		Angel::vec4 LightPositionEnd;
@@ -23,7 +25,8 @@ namespace scn
 		float groundLevel;
 		bool shadowToggle;
 
-		~SceneGraph();
+		Scene();
+		~Scene();
 
 		Angel::mat4 curModelMatrix;
 		Angel::vec4 curColor;
@@ -37,19 +40,9 @@ namespace scn
 		std::pair<const Node *, const Angel::vec4 *>
 			getRoot() const;
 
-	protected:
-		SceneGraph();
+	private:
 		utils::Stack<Angel::mat4> matrixStack;
 		Node * pRootNode;
 		Angel::vec4 rootPos;
-	};
-
-	class Scene : public utils::SingleUsage<SceneGraph>
-	{
-	public:
-		static void Render();
-
-		Scene();
-		~Scene();
 	};
 }

@@ -17,7 +17,7 @@ namespace scn
 		ModelNode(common::Ply & model, const Angel::vec4 & color);
 		virtual ~ModelNode();
 
-		virtual void action(SceneGraph & scene) override;
+		virtual void action(Scene & scene) override;
 		void setup();
 		const common::Ply & getPlyModel() const
 		{

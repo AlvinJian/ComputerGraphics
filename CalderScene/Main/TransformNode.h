@@ -21,7 +21,7 @@ namespace scn
 		TransformNode();
 		virtual ~TransformNode();
 
-		void action(SceneGraph & scene) override;
+		void action(Scene & scene) override;
 
 	protected:
 		Side side;

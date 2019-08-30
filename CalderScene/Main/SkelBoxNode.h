@@ -14,7 +14,7 @@ namespace scn
 		SkelBoxNode(const Angel::vec4 & color);
 		virtual ~SkelBoxNode();
 
-		void action(SceneGraph & scene) override;
+		void action(Scene & scene) override;
 
 	private:
 		static std::string CubePlyPath;

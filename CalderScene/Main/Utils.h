@@ -4,8 +4,11 @@
 
 namespace utils
 {
+	/*
+	 * class Foobar: public SingleUsage<Foobar>
+	 */
 	template <class T>
-	class SingleUsage: public virtual T
+	class SingleUsage
 	{
 	public:
 		static inline T * GetCurrent()
@@ -15,12 +18,13 @@ namespace utils
 
 		inline void use()
 		{
-			InUse = this;
+			// NOTE: reinterpret_cast will cause problem in some class
+			InUse = static_cast<T*>(this);
 		}
 
-		SingleUsage(){}
+		SingleUsage() = default;
 
-		~SingleUsage(){}
+		~SingleUsage() = default;
 	
 	protected:
 		static T* InUse;

@@ -8,22 +8,16 @@ namespace scn
 	using KbEventHandler =
 		std::function<void(unsigned char, int, int)>;
 
-	class ManipulatorImpl
+	class Manipulator : public utils::SingleUsage<Manipulator>
 	{
 	public:
-		const std::map<char, KbEventHandler> & getFuncMap() const;
-		~ManipulatorImpl();
-
-	protected:
-		ManipulatorImpl();
-		std::map<char, KbEventHandler> funcMap;
-	};
-
-	class Manipulator : public utils::SingleUsage<ManipulatorImpl>
-	{
-	public:
-		Manipulator();
-		~Manipulator();
 		static void KbEventCallback(unsigned char key, int x, int y);
+
+		Manipulator();
+		const std::map<char, KbEventHandler> & getFuncMap() const;
+		~Manipulator();
+
+	private:
+		std::map<char, KbEventHandler> funcMap;
 	};
 }

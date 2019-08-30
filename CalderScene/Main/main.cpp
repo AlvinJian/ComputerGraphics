@@ -36,7 +36,6 @@ int main(int argc, char* argv[])
 	std::cout << std::fixed;
 
 	AnimationEngine animEngine;
-	animEngine.use();
 	RotateAnimatorNode selfRotAnim(80, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnim(250, RotateAnimatorNode::Y_AXIS);
 	RotateAnimatorNode rotAnimRever(400, RotateAnimatorNode::Y_AXIS);
@@ -56,7 +55,6 @@ int main(int argc, char* argv[])
 	mainScene.Shininess = 8.0f;
 	mainScene.camera.position.z = -1.5f;
 	mainScene.groundLevel = -1.0f;
-	mainScene.use();
 
 	SkelBoxNode box(Angel::vec4(0.0f, 0.5f, 0.3f, 1.0f));
 
@@ -141,7 +139,11 @@ int main(int argc, char* argv[])
 		config::ViewportConfig::SetSize(w, h);
 	};
 	glutReshapeFunc(reshape);
+
+	mainScene.use();
 	glutDisplayFunc(Scene::Render);
+	
+	animEngine.use();
 	glutIdleFunc(AnimationEngine::Playback);
 	glutPostRedisplay();
 

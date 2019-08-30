@@ -20,7 +20,7 @@ SkelBoxNode::~SkelBoxNode()
 {
 }
 
-void SkelBoxNode::action(SceneGraph & scene)
+void SkelBoxNode::action(Scene & scene)
 {
 	if (!Switch) return;
 	setupBox();
