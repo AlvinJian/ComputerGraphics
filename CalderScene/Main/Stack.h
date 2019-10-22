@@ -1,8 +1,7 @@
 #pragma once
-#include <cstdlib>
-#include <cassert>
 #include <stdexcept>
-#include <string>
+#include <memory>
+#include <algorithm>
 
 namespace utils
 {
@@ -20,25 +19,22 @@ namespace utils
 		const T & top() const;
 
 	private:
-		static const size_t SIZE_INCR = 16;
+		static const size_t SIZE_INCR = 8;
 
 		size_t count;
 		size_t capacity;
 
 		void enlarge();
 
-		T * pData;
+		std::unique_ptr<T[]> pData;
 	};
 	template<class T>
-	inline Stack<T>::Stack(): count(0)
+	inline Stack<T>::Stack(): count(0), capacity(SIZE_INCR),pData(new T[SIZE_INCR])
 	{
-		pData = reinterpret_cast<T*>(malloc(sizeof(T) * SIZE_INCR));
-		capacity = SIZE_INCR;
 	}
 	template<class T>
 	inline Stack<T>::~Stack()
 	{
-		free(pData);
 	}
 	template<class T>
 	inline size_t Stack<T>::size() const
@@ -53,8 +49,8 @@ namespace utils
 	template<class T>
 	inline void Stack<T>::push(const T & item)
 	{
-		memcpy(&pData[count++], &item, sizeof(T));
-		if (count >= capacity)
+		pData[count++] = item;
+		if (count == capacity)
 		{
 			enlarge();
 		}
@@ -86,11 +82,11 @@ namespace utils
 	template<class T>
 	inline void Stack<T>::enlarge()
 	{
-		size_t new_size = sizeof(T) * (capacity + SIZE_INCR);
-		void * ptr = realloc(pData, new_size);
-		assert(ptr != nullptr);
-		pData = reinterpret_cast<T*>(ptr);
-		capacity += SIZE_INCR;
+		size_t new_size = capacity + SIZE_INCR;
+		std::unique_ptr<T[]> buf(new T[new_size]);
+		std::copy(&pData[0], &pData[0] + capacity, &buf[0]);
+		pData = std::move(buf);
+		capacity = new_size;
 	}
 }
 
