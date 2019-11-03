@@ -22,10 +22,10 @@ void Manipulator::KbEventCallback(unsigned char key, int x, int y)
 	{
 		return;
 	}
-	auto funcMap = InUse->getFuncMap();
-	if (funcMap.find(key) != funcMap.end())
+
+	if (InUse->funcMap.count(key) > 0)
 	{
-		funcMap[key](key, x, y);
+		InUse->funcMap.at(key)(key, x, y);
 	}
 }
 
