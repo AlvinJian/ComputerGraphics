@@ -5,7 +5,7 @@
 
 namespace utils
 {
-	template< class T>
+	template<typename T>
 	class Stack
 	{
 	public:
@@ -28,25 +28,25 @@ namespace utils
 
 		std::unique_ptr<T[]> pData;
 	};
-	template<class T>
+	template<typename T>
 	inline Stack<T>::Stack(): count(0), capacity(SIZE_INCR),pData(new T[SIZE_INCR])
 	{
 	}
-	template<class T>
+	template<typename T>
 	inline Stack<T>::~Stack()
 	{
 	}
-	template<class T>
+	template<typename T>
 	inline size_t Stack<T>::size() const
 	{
 		return count;
 	}
-	template<class T>
+	template<typename T>
 	inline bool Stack<T>::empty() const
 	{
 		return count < 1;
 	}
-	template<class T>
+	template<typename T>
 	inline void Stack<T>::push(const T & item)
 	{
 		pData[count++] = item;
@@ -55,7 +55,7 @@ namespace utils
 			enlarge();
 		}
 	}
-	template<class T>
+	template<typename T>
 	inline void Stack<T>::pop()
 	{
 		if (count > 0)
@@ -67,7 +67,7 @@ namespace utils
 			throw std::length_error("the stack is empty");
 		}
 	}
-	template<class T>
+	template<typename T>
 	inline const T & Stack<T>::top() const
 	{
 		if (count > 0)
@@ -79,7 +79,7 @@ namespace utils
 			throw std::length_error("the stack is empty");
 		}
 	}
-	template<class T>
+	template<typename T>
 	inline void Stack<T>::enlarge()
 	{
 		size_t new_size = capacity + SIZE_INCR;
