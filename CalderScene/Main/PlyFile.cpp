@@ -94,16 +94,16 @@ Ply::~Ply()
 {
 }
 
-Ply* Ply::Load(const std::string & path)
+std::unique_ptr<Ply> Ply::Load(const std::string & path)
 {
 
-#define PLY_HEADER "ply"
-#define HEADER_END "end_header"
-#define ELEMENT_STR "element"
-#define VERTEX_STR "vertex"
-#define FACE_STR "face"
+  const std::string PLY_HEADER = "ply";
+  const std::string HEADER_END = "end_header";
+  const std::string ELEMENT_STR = "element";
+  const std::string VERTEX_STR = "vertex";
+  const std::string FACE_STR = "face";
 
-	Ply * data = nullptr;
+  std::unique_ptr<Ply> data; 
 	std::ifstream f(path);
 	std::string buffer;
 	const char HEADER = 0;
@@ -125,7 +125,7 @@ Ply* Ply::Load(const std::string & path)
 		}
 		else
 		{
-			data = new Ply();
+			data = std::unique_ptr<Ply>(new Ply());
 			buffer.clear();
 		}
 	}

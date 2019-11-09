@@ -1,16 +1,16 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <memory>
 #include "Angel.h"
 
 namespace common {
 	using point4 = Angel::vec4;
 	using point3 = Angel::vec3;
 
-	class Ply;
 	class Ply {
 	public:
-		static Ply * Load(const std::string & path);
+		static std::unique_ptr<Ply> Load(const std::string & path);
 		~Ply();
 		const std::vector<point4>& getVertices() const;
 		const std::vector<Angel::vec3> getNormals() const;

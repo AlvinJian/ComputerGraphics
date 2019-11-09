@@ -8,7 +8,7 @@ namespace common
 	class Gallery
 	{
 	public:
-		using PlyEntity = std::pair<std::string, Ply *>;
+		using PlyEntity = std::pair<std::string, std::unique_ptr<Ply>>;
 		Ply& current();
 		Ply& next();
 		Ply& prev();

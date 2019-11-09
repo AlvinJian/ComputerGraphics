@@ -10,9 +10,8 @@ bool SkelBoxNode::Switch = false;
 SkelBoxNode::SkelBoxNode(const Angel::vec4 & color):
 	color(color), vao(0),
 	vbo(0), ebo(0),
-	program(0)
+	program(0), cubePly(Ply::Load(CubePlyPath))
 {
-	cubePly = Ply::Load(CubePlyPath);
 }
 
 

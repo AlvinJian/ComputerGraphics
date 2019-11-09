@@ -15,10 +15,7 @@ Gallery::Gallery(): dir("ply_files"), _i(0)
 	auto filenames = LoadFilesWin32(dir);
 	for (auto f : filenames)
 	{
-		PlyEntity entity;
-		entity.first = f;
-		entity.second = nullptr;
-		allPlys.push_back(entity);
+    allPlys.push_back({ f, std::unique_ptr<Ply>() });
 	}
 	std::cout << "total ply number=" << allPlys.size() << std::endl;
 	load();
@@ -54,13 +51,6 @@ Ply& Gallery::prev()
 
 Gallery::~Gallery()
 {
-	for (auto& p : allPlys)
-	{
-		if (p.second != nullptr)
-		{
-			delete p.second;
-		}
-	}
 }
 
 std::vector<std::string> 

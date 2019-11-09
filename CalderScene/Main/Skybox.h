@@ -34,7 +34,7 @@ namespace scn
 
 		void setup();
 
-		common::Ply * cubePly;
+    std::unique_ptr<common::Ply> cubePly;
 
 		GLuint vao;
 		GLuint vbo;

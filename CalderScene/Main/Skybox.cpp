@@ -14,9 +14,8 @@ std::string Skybox::CubePlyPath = "cube2.ply";
 Skybox::Skybox():
 	vao(0), vbo(0), program(0),
 	texture(0), currentMode(Skybox::TEXTURE),
-	plainTex(0)
+	plainTex(0), cubePly(Ply::Load(CubePlyPath))
 {
-	cubePly = Ply::Load(CubePlyPath);
 }
 
 
