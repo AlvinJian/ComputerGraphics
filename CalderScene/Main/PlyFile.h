@@ -10,7 +10,7 @@ namespace common {
 
 	class Ply {
 	public:
-		static std::unique_ptr<Ply> Load(const std::string & path);
+		static std::unique_ptr<Ply> Load(const std::string& path);
 		~Ply();
 		const std::vector<point4>& getVertices() const;
 		const std::vector<Angel::vec3> getNormals() const;
@@ -21,11 +21,11 @@ namespace common {
 		float getDepth() const;
 		const point3& getCenter() const;
 		const std::string& getName() const;
-		Angel::mat4 createOrthoMat(float factor=6.0f) const;
+		Angel::mat4 createOrthoMat(float factor = 6.0f) const;
 
 	private:
-		static void AdjustGeoCenterToOrigin(Ply &);
-		static void AdjustCenterToOrigin(Ply &);
+		static void AdjustGeoCenterToOrigin(Ply&);
+		static void AdjustCenterToOrigin(Ply&);
 
 		explicit Ply();
 		void calcVertexNormal();

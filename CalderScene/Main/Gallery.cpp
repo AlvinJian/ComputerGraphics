@@ -10,12 +10,12 @@ using namespace common;
 
 void DisplayErrorBox(LPTSTR lpszFunction);
 
-Gallery::Gallery(): dir("ply_files"), _i(0)
+Gallery::Gallery() : dir("ply_files"), _i(0)
 {
 	auto filenames = LoadFilesWin32(dir);
 	for (auto f : filenames)
 	{
-    allPlys.push_back({ f, std::unique_ptr<Ply>() });
+		allPlys.push_back({ f, std::unique_ptr<Ply>() });
 	}
 	std::cout << "total ply number=" << allPlys.size() << std::endl;
 	load();
@@ -45,7 +45,7 @@ Ply& Gallery::next()
 
 Ply& Gallery::prev()
 {
-	_i = (_i > 0) ? _i - 1 : allPlys.size()-1;
+	_i = (_i > 0) ? _i - 1 : allPlys.size() - 1;
 	return current();
 }
 
@@ -53,8 +53,8 @@ Gallery::~Gallery()
 {
 }
 
-std::vector<std::string> 
-Gallery::LoadFilesWin32(const std::string & dir)
+std::vector<std::string>
+Gallery::LoadFilesWin32(const std::string& dir)
 {
 	// copied from MS website
 	// https://msdn.microsoft.com/en-us/library/windows/desktop/aa365200(v=vs.85).aspx
@@ -89,7 +89,7 @@ Gallery::LoadFilesWin32(const std::string & dir)
 		{
 			filesize.LowPart = ffd.nFileSizeLow;
 			filesize.HighPart = ffd.nFileSizeHigh;
-			_tprintf(TEXT("  %s   %ld bytes\n"), 
+			_tprintf(TEXT("  %s   %ld bytes\n"),
 				ffd.cFileName, filesize.QuadPart);
 			filenames.push_back(std::string(ffd.cFileName));
 		}

@@ -21,8 +21,8 @@ namespace scn
 		~Skybox();
 
 		Mode currentMode;
-		
-		void draw(Scene & scene);
+
+		void draw(Scene& scene);
 		void loadCubemap();
 		void genPlainCube();
 		void loadEnvMap();
@@ -34,7 +34,7 @@ namespace scn
 
 		void setup();
 
-    std::unique_ptr<common::Ply> cubePly;
+		std::unique_ptr<common::Ply> cubePly;
 
 		GLuint vao;
 		GLuint vbo;

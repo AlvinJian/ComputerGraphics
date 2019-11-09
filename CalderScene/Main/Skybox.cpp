@@ -11,7 +11,7 @@ std::string Skybox::GrassBmp = "grass.bmp";
 std::string Skybox::StoneBmp = "stones256.bmp";
 std::string Skybox::CubePlyPath = "cube2.ply";
 
-Skybox::Skybox():
+Skybox::Skybox() :
 	vao(0), vbo(0), program(0),
 	texture(0), currentMode(Skybox::TEXTURE),
 	plainTex(0), cubePly(Ply::Load(CubePlyPath))
@@ -27,8 +27,8 @@ void Skybox::setup()
 {
 	GLenum err = 0;
 
-	const std::vector<point4> & vertices = cubePly->getVertices();
-	const std::vector<GLuint> & elements = cubePly->getFlattenIndexesOfFaces();
+	const std::vector<point4>& vertices = cubePly->getVertices();
+	const std::vector<GLuint>& elements = cubePly->getFlattenIndexesOfFaces();
 
 	// Create a vertex array object
 	if (vao == 0)
@@ -68,7 +68,7 @@ void Skybox::setup()
 	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 }
 
-void Skybox::draw(Scene & scene)
+void Skybox::draw(Scene& scene)
 {
 	GLenum err = 0;
 	setup();
@@ -78,7 +78,7 @@ void Skybox::draw(Scene & scene)
 	GLfloat ratio = (GLfloat)config::ViewportConfig::GetWidth() /
 		(GLfloat)config::ViewportConfig::GetHeight();
 	Angel::mat4 perspectiveMat = Angel::Perspective((GLfloat)45.0f, ratio, (
-		GLfloat)0.1, (GLfloat) 100.0);
+		GLfloat)0.1, (GLfloat)100.0);
 	auto perspectiveMatT = Angel::transpose(perspectiveMat);
 	std::vector<float> projMatrixf = utils::FlattenMat4(perspectiveMatT);
 
@@ -116,7 +116,7 @@ void Skybox::draw(Scene & scene)
 	glDrawElements(GL_QUADS, elementNum, GL_UNSIGNED_INT, 0);
 	glFlush();
 	glDepthFunc(GL_LESS);
-	
+
 	glBindVertexArray(0);
 	bindCubemap(false); // unbind
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -143,7 +143,7 @@ void Skybox::loadCubemap()
 	int bmpRet;
 	for (size_t i = 0; i < 6; ++i)
 	{
-		std::string & fileName = faceBmpFiles[i];
+		std::string& fileName = faceBmpFiles[i];
 		bmpread_t bitmap;
 		bmpRet = bmpread(fileName.c_str(), 0, &bitmap);
 		if (!bmpRet)
@@ -161,14 +161,14 @@ void Skybox::loadCubemap()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_REPEAT);
-	
+
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // unbind
 }
 
 void Skybox::genPlainCube()
 {
-	const std::vector<GLubyte> blue { 85, 85, 128 };
-	const std::vector<GLubyte> gray { 120, 120, 120 };
+	const std::vector<GLubyte> blue{ 85, 85, 128 };
+	const std::vector<GLubyte> gray{ 120, 120, 120 };
 
 	std::vector<std::vector<GLubyte>> faceColor
 	{
@@ -230,7 +230,7 @@ void Skybox::loadEnvMap()
 	int bmpRet;
 	for (size_t i = 0; i < 6; ++i)
 	{
-		std::string & fileName = envFaces[i];
+		std::string& fileName = envFaces[i];
 		bmpread_t bitmap;
 		bmpRet = bmpread(fileName.c_str(), 0, &bitmap);
 		if (!bmpRet)

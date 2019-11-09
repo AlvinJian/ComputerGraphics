@@ -16,7 +16,7 @@ namespace common
 		~Gallery();
 
 	private:
-		static std::vector<std::string> LoadFilesWin32(const std::string &);
+		static std::vector<std::string> LoadFilesWin32(const std::string&);
 
 		void load();
 		std::vector<PlyEntity> allPlys;

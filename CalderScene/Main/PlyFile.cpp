@@ -7,10 +7,10 @@
 
 using namespace common;
 
-Ply::Ply():
+Ply::Ply() :
 	vertexNum(0), faceNum(0),
-	width(0.0f), height(0.0f), 
-	depth(0.0f), center(0.0f, 0.0f,0.0f)
+	width(0.0f), height(0.0f),
+	depth(0.0f), center(0.0f, 0.0f, 0.0f)
 {
 }
 
@@ -18,7 +18,7 @@ void Ply::calcVertexNormal()
 {
 	normals = std::vector<Angel::vec3>(vertexNum, Angel::vec3());
 
-	std::function<Angel::vec3(std::vector<Angel::vec3>&)> newellNormal = 
+	std::function<Angel::vec3(std::vector<Angel::vec3>&)> newellNormal =
 		[](std::vector<Angel::vec3>& vs) {
 		Angel::vec3 normal;
 		size_t num = vs.size();
@@ -35,7 +35,7 @@ void Ply::calcVertexNormal()
 #if 1
 	std::vector<std::vector<size_t>> idFaces(vertexNum);
 	fnorm = std::vector<Angel::vec3>(faceNum, Angel::vec3());
-	for (size_t f=0; f<faces.size(); ++f)
+	for (size_t f = 0; f < faces.size(); ++f)
 	{
 		std::vector<Angel::vec3> vs;
 		for (auto id : faces[f])
@@ -50,7 +50,7 @@ void Ply::calcVertexNormal()
 		fnorm[f].y = nn.y;
 		fnorm[f].z = nn.z;
 	}
-	
+
 	for (size_t i = 0; i < idFaces.size(); ++i)
 	{
 		std::vector<size_t>& fidsPerVert = idFaces[i];
@@ -94,16 +94,16 @@ Ply::~Ply()
 {
 }
 
-std::unique_ptr<Ply> Ply::Load(const std::string & path)
+std::unique_ptr<Ply> Ply::Load(const std::string& path)
 {
 
-  const std::string PLY_HEADER = "ply";
-  const std::string HEADER_END = "end_header";
-  const std::string ELEMENT_STR = "element";
-  const std::string VERTEX_STR = "vertex";
-  const std::string FACE_STR = "face";
+	const std::string PLY_HEADER = "ply";
+	const std::string HEADER_END = "end_header";
+	const std::string ELEMENT_STR = "element";
+	const std::string VERTEX_STR = "vertex";
+	const std::string FACE_STR = "face";
 
-  std::unique_ptr<Ply> data; 
+	std::unique_ptr<Ply> data;
 	std::ifstream f(path);
 	std::string buffer;
 	const char HEADER = 0;
@@ -161,7 +161,8 @@ std::unique_ptr<Ply> Ply::Load(const std::string & path)
 			else if (tmp == end_header)
 			{
 				state = VERTEX_SEC;
-			} else
+			}
+			else
 			{
 				// skip line
 			}
@@ -293,7 +294,7 @@ const point3& Ply::getCenter() const
 	return center;
 }
 
-void Ply::AdjustGeoCenterToOrigin(Ply & ply)
+void Ply::AdjustGeoCenterToOrigin(Ply& ply)
 {
 	point3 gc;
 	for (int i = 0; i < ply.vertexNum; ++i)
@@ -309,7 +310,7 @@ void Ply::AdjustGeoCenterToOrigin(Ply & ply)
 	}
 }
 
-void Ply::AdjustCenterToOrigin(Ply & ply)
+void Ply::AdjustCenterToOrigin(Ply& ply)
 {
 	point4 center4(ply.center, 0.0f);
 	for (int i = 0; i < ply.vertexNum; ++i)

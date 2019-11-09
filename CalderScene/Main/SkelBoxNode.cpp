@@ -7,7 +7,7 @@ using namespace common;
 std::string SkelBoxNode::CubePlyPath = "cube2.ply";
 bool SkelBoxNode::Switch = false;
 
-SkelBoxNode::SkelBoxNode(const Angel::vec4 & color):
+SkelBoxNode::SkelBoxNode(const Angel::vec4& color) :
 	color(color), vao(0),
 	vbo(0), ebo(0),
 	program(0), cubePly(Ply::Load(CubePlyPath))
@@ -19,7 +19,7 @@ SkelBoxNode::~SkelBoxNode()
 {
 }
 
-void SkelBoxNode::action(Scene & scene)
+void SkelBoxNode::action(Scene& scene)
 {
 	if (!Switch) return;
 	setupBox();
@@ -29,11 +29,11 @@ void SkelBoxNode::action(Scene & scene)
 	GLfloat ratio = (GLfloat)config::ViewportConfig::GetWidth() /
 		(GLfloat)config::ViewportConfig::GetHeight();
 	Angel::mat4 perspectiveMat = Angel::Perspective((GLfloat)45.0f, ratio, (
-		GLfloat)0.1, (GLfloat) 100.0);
+		GLfloat)0.1, (GLfloat)100.0);
 	auto perspectiveMatT = Angel::transpose(perspectiveMat);
 	std::vector<float> projMatrixf = utils::FlattenMat4(perspectiveMatT);
 
-		// view matrix
+	// view matrix
 	Angel::mat4 viewMatrix = scene.camera.createViewMat();
 	auto viewMatrixT = Angel::transpose(viewMatrix);
 	std::vector<float> viewMatrixf = utils::FlattenMat4(viewMatrixT);
@@ -78,17 +78,17 @@ void SkelBoxNode::action(Scene & scene)
 
 void SkelBoxNode::setupBox()
 {
-	const std::vector<point4> & vertices = cubePly->getVertices();
-	const std::vector<GLuint> & elements = cubePly->getFlattenIndexesOfFaces();
+	const std::vector<point4>& vertices = cubePly->getVertices();
+	const std::vector<GLuint>& elements = cubePly->getFlattenIndexesOfFaces();
 	std::vector<Angel::vec4> colors(vertices.size(), this->color);
-	
+
 	// Create a vertex array object
 	if (vao == 0)
 	{
 		glGenVertexArrays(1, &vao);
 	}
 	glBindVertexArray(vao);
-	
+
 	// create buffer
 	size_t vertBufSize = vertices.size() * sizeof(point4);
 	size_t colorsBufSize = colors.size() * sizeof(point4);

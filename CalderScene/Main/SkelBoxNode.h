@@ -6,15 +6,15 @@
 
 namespace scn
 {
-	class SkelBoxNode: public Node
+	class SkelBoxNode : public Node
 	{
 	public:
 		static bool Switch;
 
-		SkelBoxNode(const Angel::vec4 & color);
+		SkelBoxNode(const Angel::vec4& color);
 		virtual ~SkelBoxNode();
 
-		void action(Scene & scene) override;
+		void action(Scene& scene) override;
 
 	private:
 		static std::string CubePlyPath;
